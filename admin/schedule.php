@@ -1,6 +1,17 @@
-[file name]: schedule.php
-[file content begin]
 <?php
+ob_start(); // Start output buffering at the VERY TOP
+session_start();
+// Check for success message from URL parameters
+if (isset($_GET['success']) && $_GET['success'] == 1) {
+    if (isset($_GET['message'])) {
+        $_SESSION['success_message'] = urldecode($_GET['message']);
+    } else {
+        $_SESSION['success_message'] = "Operation completed successfully!";
+    }
+    // Redirect to clear URL parameters
+    header("Location: schedule.php");
+    exit();
+}
 $pageTitle = 'Schedule & Events - Orphanfare';
 require_once 'includes/header.php';
 require_once 'includes/email-gateway.php';
@@ -29,7 +40,23 @@ try {
         // Super admin can see all event types
         if ($_SESSION['role'] === 'super_admin' || in_array($_SESSION['role'], $visibleTo)) {
             $availableEventTypes[$eventType['type_key']] = $eventType['type_name'];
-            $eventTypeIcons[$eventType['type_key']] = $eventType['icon'];
+            
+            // Use the SVG icon from database, or fallback to default SVG
+            if (!empty($eventType['icon'])) {
+                $eventTypeIcons[$eventType['type_key']] = $eventType['icon'];
+            } else {
+                // Fallback to default SVG icons
+                $defaultIcons = [
+                    'home_visit' => '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-house-door" viewBox="0 0 16 16"><path d="M8.354 1.146a.5.5 0 0 0-.708 0l-6 6A.5.5 0 0 0 1.5 7.5v7a.5.5 0 0 0 .5.5h4.5a.5.5 0 0 0 .5-.5v-4h2v4a.5.5 0 0 0 .5.5H14a.5.5 0 0 0 .5-.5v-7a.5.5 0 0 0-.146-.354L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293zM2.5 14V7.707l5.5-5.5 5.5 5.5V14H10v-4a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5v4z"/></svg>',
+                    'meeting' => '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-people" viewBox="0 0 16 16"><path d="M15 14s1 0 1-1-1-4-5-4-5 3-5 4 1 1 1 1zm-7.978-1A.5.5 0 0 1 7 12.5c0-1.665.5-2.986 1-3.74.478-.768 1.048-1.227 1.5-1.227s1.022.459 1.5 1.227c.5.754 1 2.075 1 3.74a.5.5 0 0 1-.5.5zM6 12a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1h-3A.5.5 0 0 1 6 12m-1-1.5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 0 1h-4a.5.5 0 0 1-.5-.5"/></svg>',
+                    'team_building' => '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-arms-up" viewBox="0 0 16 16"><path d="M8 3a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3"/><path d="m5.93 6.704-.846 8.451a.768.768 0 0 0 1.523.203l.81-4.865a.59.59 0 0 1 1.165 0l.81 4.865a.768.768 0 0 0 1.523-.203l-.845-8.451A1.5 1.5 0 0 1 10.5 5.5L13 2.284a.796.796 0 0 0-1.239-.998L9.634 3.84a.7.7 0 0 1-.33.235c-.23.074-.665.176-1.304.176-.64 0-1.074-.102-1.305-.176a.7.7 0 0 1-.329-.235L4.239 1.286a.796.796 0 0 0-1.24.998l2.5 3.216c.317.316.475.758.43 1.204Z"/></svg>',
+                    'staff_training' => '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-book" viewBox="0 0 16 16"><path d="M1 2.828c.885-.37 2.154-.769 3.388-.893 1.33-.134 2.458.063 3.112.752v9.746c-.935-.53-2.12-.603-3.213-.493-1.18.12-2.37.461-3.287.811zm7.5-.141c.654-.689 1.782-.886 3.112-.752 1.234.124 2.503.523 3.388.893v9.923c-.918-.35-2.107-.692-3.287-.81-1.094-.111-2.278-.039-3.213.492zM8 1.783C7.015.936 5.587.81 4.287.94c-1.514.153-3.042.672-3.994 1.105A.5.5 0 0 0 0 2.5v11a.5.5 0 0 0 .707.455c.882-.4 2.303-.881 3.68-1.02 1.409-.142 2.59.087 3.223.877a.5.5 0 0 0 .78 0c.633-.79 1.814-1.019 3.222-.877 1.378.139 2.8.62 3.681 1.02A.5.5 0 0 0 16 13.5v-11a.5.5 0 0 0-.293-.455c-.952-.433-2.48-.952-3.994-1.105C10.413.809 8.985.936 8 1.783"/></svg>',
+                    'financial' => '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cash-coin" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M11 15a4 4 0 1 0 0-8 4 4 0 0 0 0 8m5-4a5 5 0 1 1-10 0 5 5 0 0 1 10 0"/><path d="M9.438 11.944c.047.596.518 1.06 1.363 1.116v.44h.375v-.443c.875-.061 1.386-.529 1.386-1.207 0-.618-.39-.936-1.09-1.1l-.296-.07v-1.2c.376.043.614.248.671.532h.658c-.047-.575-.54-1.024-1.329-1.073V8.5h-.375v.45c-.747.073-1.255.522-1.255 1.158 0 .562.378.92 1.007 1.066l.248.061v1.272c-.384-.058-.639-.27-.696-.563h-.668zm1.36-1.354c-.369-.085-.569-.26-.569-.522 0-.294.216-.514.572-.578v1.1zm.432.746c.449.104.655.272.655.569 0 .339-.257.571-.709.614v-1.195z"/><path d="M1 0a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h4.083q.088-.517.258-1H3a2 2 0 0 0-2-2V3a2 2 0 0 0 2-2h10a2 2 0 0 0 2 2v3.528c.38.34.717.728 1 1.154V1a1 1 0 0 0-1-1z"/><path d="M9.998 5.083 10 5a2 2 0 1 0-3.132 1.65 6 6 0 0 1 3.13-1.567"/></svg>',
+                    'orientation' => '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-compass" viewBox="0 0 16 16"><path d="M8 16.016a7.5 7.5 0 0 0 1.962-14.74A1 1 0 0 0 9 0H7a1 1 0 0 0-.962 1.276A7.5 7.5 0 0 0 8 16.016m6.5-7.5a6.5 6.5 0 1 1-13 0 6.5 6.5 0 0 1 13 0"/><path d="m6.94 7.44 4.95-2.83-2.83 4.95-4.949 2.83 2.828-4.95z"/></svg>',
+                    'calamity_duty' => '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-exclamation-triangle" viewBox="0 0 16 16"><path d="M7.938 2.016A.13.13 0 0 1 8.002 2a.13.13 0 0 1 .063.016.15.15 0 0 1 .054.057l6.857 11.667c.036.06.035.124.002.183a.2.2 0 0 1-.054.06.1.1 0 0 1-.066.017H1.146a.1.1 0 0 1-.066-.017.2.2 0 0 1-.054-.06.18.18 0 0 1 .002-.183L7.884 2.073a.15.15 0 0 1 .054-.057m1.044-.45a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767z"/><path d="M7.002 12a1 1 0 1 1 2 0 1 1 0 0 1-2 0M7.1 5.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0z"/></svg>'
+                ];
+                $eventTypeIcons[$eventType['type_key']] = $defaultIcons[$eventType['type_key']] ?? '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-calendar-event" viewBox="0 0 16 16"><path d="M11 6.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5z"/><path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5M1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4z"/></svg>';
+            }
         }
     }
     
@@ -46,13 +73,13 @@ try {
         'calamity_duty' => 'Calamity Duty'
     ];
     $eventTypeIcons = [
-        'home_visit' => '🏠',
-        'meeting' => '📊',
-        'team_building' => '🤝',
-        'staff_training' => '📚',
-        'financial' => '💰',
-        'orientation' => '🎯',
-        'calamity_duty' => '🚨'
+        'home_visit' => '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-house-door" viewBox="0 0 16 16"><path d="M8.354 1.146a.5.5 0 0 0-.708 0l-6 6A.5.5 0 0 0 1.5 7.5v7a.5.5 0 0 0 .5.5h4.5a.5.5 0 0 0 .5-.5v-4h2v4a.5.5 0 0 0 .5.5H14a.5.5 0 0 0 .5-.5v-7a.5.5 0 0 0-.146-.354L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293zM2.5 14V7.707l5.5-5.5 5.5 5.5V14H10v-4a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5v4z"/></svg>',
+        'meeting' => '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-people" viewBox="0 0 16 16"><path d="M15 14s1 0 1-1-1-4-5-4-5 3-5 4 1 1 1 1zm-7.978-1A.5.5 0 0 1 7 12.5c0-1.665.5-2.986 1-3.74.478-.768 1.048-1.227 1.5-1.227s1.022.459 1.5 1.227c.5.754 1 2.075 1 3.74a.5.5 0 0 1-.5.5zM6 12a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1h-3A.5.5 0 0 1 6 12m-1-1.5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 0 1h-4a.5.5 0 0 1-.5-.5"/></svg>',
+        'team_building' => '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-arms-up" viewBox="0 0 16 16"><path d="M8 3a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3"/><path d="m5.93 6.704-.846 8.451a.768.768 0 0 0 1.523.203l.81-4.865a.59.59 0 0 1 1.165 0l.81 4.865a.768.768 0 0 0 1.523-.203l-.845-8.451A1.5 1.5 0 0 1 10.5 5.5L13 2.284a.796.796 0 0 0-1.239-.998L9.634 3.84a.7.7 0 0 1-.33.235c-.23.074-.665.176-1.304.176-.64 0-1.074-.102-1.305-.176a.7.7 0 0 1-.329-.235L4.239 1.286a.796.796 0 0 0-1.24.998l2.5 3.216c.317.316.475.758.43 1.204Z"/></svg>',
+        'staff_training' => '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-book" viewBox="0 0 16 16"><path d="M1 2.828c.885-.37 2.154-.769 3.388-.893 1.33-.134 2.458.063 3.112.752v9.746c-.935-.53-2.12-.603-3.213-.493-1.18.12-2.37.461-3.287.811zm7.5-.141c.654-.689 1.782-.886 3.112-.752 1.234.124 2.503.523 3.388.893v9.923c-.918-.35-2.107-.692-3.287-.81-1.094-.111-2.278-.039-3.213.492zM8 1.783C7.015.936 5.587.81 4.287.94c-1.514.153-3.042.672-3.994 1.105A.5.5 0 0 0 0 2.5v11a.5.5 0 0 0 .707.455c.882-.4 2.303-.881 3.68-1.02 1.409-.142 2.59.087 3.223.877a.5.5 0 0 0 .78 0c.633-.79 1.814-1.019 3.222-.877 1.378.139 2.8.62 3.681 1.02A.5.5 0 0 0 16 13.5v-11a.5.5 0 0 0-.293-.455c-.952-.433-2.48-.952-3.994-1.105C10.413.809 8.985.936 8 1.783"/></svg>',
+        'financial' => '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cash-coin" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M11 15a4 4 0 1 0 0-8 4 4 0 0 0 0 8m5-4a5 5 0 1 1-10 0 5 5 0 0 1 10 0"/><path d="M9.438 11.944c.047.596.518 1.06 1.363 1.116v.44h.375v-.443c.875-.061 1.386-.529 1.386-1.207 0-.618-.39-.936-1.09-1.1l-.296-.07v-1.2c.376.043.614.248.671.532h.658c-.047-.575-.54-1.024-1.329-1.073V8.5h-.375v.45c-.747.073-1.255.522-1.255 1.158 0 .562.378.92 1.007 1.066l.248.061v1.272c-.384-.058-.639-.27-.696-.563h-.668zm1.36-1.354c-.369-.085-.569-.26-.569-.522 0-.294.216-.514.572-.578v1.1zm.432.746c.449.104.655.272.655.569 0 .339-.257.571-.709.614v-1.195z"/><path d="M1 0a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h4.083q.088-.517.258-1H3a2 2 0 0 0-2-2V3a2 2 0 0 0 2-2h10a2 2 0 0 0 2 2v3.528c.38.34.717.728 1 1.154V1a1 1 0 0 0-1-1z"/><path d="M9.998 5.083 10 5a2 2 0 1 0-3.132 1.65 6 6 0 0 1 3.13-1.567"/></svg>',
+        'orientation' => '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-compass" viewBox="0 0 16 16"><path d="M8 16.016a7.5 7.5 0 0 0 1.962-14.74A1 1 0 0 0 9 0H7a1 1 0 0 0-.962 1.276A7.5 7.5 0 0 0 8 16.016m6.5-7.5a6.5 6.5 0 1 1-13 0 6.5 6.5 0 0 1 13 0"/><path d="m6.94 7.44 4.95-2.83-2.83 4.95-4.949 2.83 2.828-4.95z"/></svg>',
+        'calamity_duty' => '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-exclamation-triangle" viewBox="0 0 16 16"><path d="M7.938 2.016A.13.13 0 0 1 8.002 2a.13.13 0 0 1 .063.016.15.15 0 0 1 .054.057l6.857 11.667c.036.06.035.124.002.183a.2.2 0 0 1-.054.06.1.1 0 0 1-.066.017H1.146a.1.1 0 0 1-.066-.017.2.2 0 0 1-.054-.06.18.18 0 0 1 .002-.183L7.884 2.073a.15.15 0 0 1 .054-.057m1.044-.45a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767z"/><path d="M7.002 12a1 1 0 1 1 2 0 1 1 0 0 1-2 0M7.1 5.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0z"/></svg>'
     ];
 }
 
@@ -256,11 +283,12 @@ try {
 
     // Get all events for calendar highlighting (for entire current year)
     $current_year = date('Y');
-    $year_start = $current_year . '-01-01';
-    $year_end = $current_year . '-12-31';
+    $year_start = ($current_year - 1) . '-01-01'; // Include previous year
+    $year_end = ($current_year + 3) . '-12-31';   // Extend to 3 years in future
+
     $calendar_events_query = "SELECT event_date, status FROM events 
-                             WHERE event_date BETWEEN ? AND ?
-                             AND is_active = 1";
+                            WHERE event_date BETWEEN ? AND ?
+                            AND is_active = 1";
     $stmt = $pdo->prepare($calendar_events_query);
     $stmt->execute([$year_start, $year_end]);
     $calendar_events = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -272,39 +300,50 @@ try {
     $stmt->execute([$year_start, $year_end]);
     $unavailable_dates = $stmt->fetchAll(PDO::FETCH_ASSOC);
     
-    // Extract event days for JavaScript (organized by month)
+    // Extract event days for JavaScript (organized by year and month)
     $scheduled_days = [];
     $completed_days = [];
     $unavailable_days = [];
     
     foreach ($calendar_events as $event) {
         $event_date = new DateTime($event['event_date']);
+        $year = $event_date->format('Y');
         $month = $event_date->format('n');
         $day = (int)$event_date->format('j');
         
         if ($event['status'] === 'Completed') {
-            if (!isset($completed_days[$month])) {
-                $completed_days[$month] = [];
+            if (!isset($completed_days[$year])) {
+                $completed_days[$year] = [];
             }
-            $completed_days[$month][] = $day;
+            if (!isset($completed_days[$year][$month])) {
+                $completed_days[$year][$month] = [];
+            }
+            $completed_days[$year][$month][] = $day;
         } else {
-            if (!isset($scheduled_days[$month])) {
-                $scheduled_days[$month] = [];
+            if (!isset($scheduled_days[$year])) {
+                $scheduled_days[$year] = [];
             }
-            $scheduled_days[$month][] = $day;
+            if (!isset($scheduled_days[$year][$month])) {
+                $scheduled_days[$year][$month] = [];
+            }
+            $scheduled_days[$year][$month][] = $day;
         }
     }
     
     // Extract unavailable days
     foreach ($unavailable_dates as $unavailable) {
         $unavailable_date = new DateTime($unavailable['unavailable_date']);
+        $year = $unavailable_date->format('Y');
         $month = $unavailable_date->format('n');
         $day = (int)$unavailable_date->format('j');
         
-        if (!isset($unavailable_days[$month])) {
-            $unavailable_days[$month] = [];
+        if (!isset($unavailable_days[$year])) {
+            $unavailable_days[$year] = [];
         }
-        $unavailable_days[$month][] = [
+        if (!isset($unavailable_days[$year][$month])) {
+            $unavailable_days[$year][$month] = [];
+        }
+        $unavailable_days[$year][$month][] = [
             'day' => $day,
             'start_time' => $unavailable['start_time'],
             'end_time' => $unavailable['end_time'],
@@ -313,11 +352,15 @@ try {
     }
 
     // Remove duplicates and reindex arrays
-    foreach ($scheduled_days as $month => $days) {
-        $scheduled_days[$month] = array_values(array_unique($days));
+    foreach ($scheduled_days as $year => $months) {
+        foreach ($months as $month => $days) {
+            $scheduled_days[$year][$month] = array_values(array_unique($days));
+        }
     }
-    foreach ($completed_days as $month => $days) {
-        $completed_days[$month] = array_values(array_unique($days));
+    foreach ($completed_days as $year => $months) {
+        foreach ($months as $month => $days) {
+            $completed_days[$year][$month] = array_values(array_unique($days));
+        }
     }
 
 } catch (PDOException $e) {
@@ -332,7 +375,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         try {
             $event_id = generateId('EVT', 'events', 'event_id');
             error_log("Generated Event ID: " . $event_id);
-            // ADD DATE AVAILABILITY CHECK RIGHT HERE - Add this block:
+            
+            // DATE AVAILABILITY CHECK
             $event_date = $_POST['event_date'];
             
             // Check if date is marked as unavailable
@@ -375,7 +419,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     $processedValue = implode(',', array_filter($value));
                 }
 
-                // Always add the column, even if empty (to ensure proper database structure)
+                // Always add the column, even if empty
                 $eventColumns[] = $dbColumn;
                 $eventPlaceholders[] = '?';
                 $eventValues[] = trim($processedValue);
@@ -423,8 +467,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             trackScheduleActivity($currentUser['id'], 'event_created', $event_id, 
                 "Event: " . $_POST['title'] . " | Type: " . $_POST['event_type']);
             
-            $_SESSION['success_message'] = "Event added successfully!";
-            header("Location: schedule.php");
+            // FIXED: Use JavaScript redirect instead of header redirect
+            echo "<script>window.location.href = 'schedule.php?success=1';</script>";
             exit();
             
         } catch (Exception $e) {
@@ -480,13 +524,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     trackScheduleActivity($currentUser['id'], 'photos_uploaded', $event_id, 
                         "Photos: " . $uploadedCount . " | Event: " . $event_id);
                     
-                    $_SESSION['success_message'] = "Successfully uploaded $uploadedCount photo(s)!";
+                    // FIXED: Use JavaScript redirect
+                    echo "<script>window.location.href = 'schedule.php?success=1&message=" . urlencode("Successfully uploaded $uploadedCount photo(s)!") . "';</script>";
+                    exit();
                 } else {
                     throw new Exception('No valid images were uploaded.');
                 }
                 
             } elseif (isset($_FILES['event_image']) && $_FILES['event_image']['error'] === UPLOAD_ERR_OK) {
-                // Single file uploaded (backward compatibility)
+                // Single file uploaded
                 $uploadDir = 'uploads/schedule/gallery/';
                 if (!is_dir($uploadDir)) {
                     mkdir($uploadDir, 0777, true);
@@ -518,16 +564,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     trackScheduleActivity($currentUser['id'], 'photo_uploaded', $event_id, 
                         "Photo: " . $caption . " | Event: " . $event_id);
                     
-                    $_SESSION['success_message'] = "Image uploaded successfully!";
+                    // FIXED: Use JavaScript redirect
+                    echo "<script>window.location.href = 'schedule.php?success=1&message=" . urlencode('Image uploaded successfully!') . "';</script>";
+                    exit();
                 } else {
                     throw new Exception('Failed to move uploaded file.');
                 }
             } else {
                 throw new Exception('Please select at least one valid image file.');
             }
-            
-            header("Location: schedule.php");
-            exit();
             
         } catch (Exception $e) {
             $error_message = "Failed to upload image: " . $e->getMessage();
@@ -550,8 +595,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $stmt = $pdo->prepare($query);
             $stmt->execute([$unavailable_date, $start_time, $end_time, $reason, $currentUser['id']]);
             
-            $_SESSION['success_message'] = "Date marked as unavailable!";
-            header("Location: schedule.php");
+            // FIXED: Use JavaScript redirect
+            echo "<script>window.location.href = 'schedule.php?success=1&message=" . urlencode('Date marked as unavailable!') . "';</script>";
             exit();
             
         } catch (Exception $e) {
@@ -567,8 +612,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $stmt = $pdo->prepare($query);
             $stmt->execute([$unavailable_date]);
             
-            $_SESSION['success_message'] = "Date availability restored!";
-            header("Location: schedule.php");
+            // FIXED: Use JavaScript redirect
+            echo "<script>window.location.href = 'schedule.php?success=1&message=" . urlencode('Date availability restored!') . "';</script>";
             exit();
             
         } catch (Exception $e) {
@@ -587,8 +632,8 @@ if (isset($_POST['delete_event']) && $canDelete) {
         logActivity($currentUser['id'], 'Event Deleted', 'events', $_POST['event_id']);
         trackScheduleActivity($currentUser['id'], 'event_deleted', $_POST['event_id']);
         
-        $_SESSION['success_message'] = "Event deleted successfully!";
-        header("Location: schedule.php");
+        // FIXED: Use JavaScript redirect
+        echo "<script>window.location.href = 'schedule.php?success=1&message=" . urlencode('Event deleted successfully!') . "';</script>";
         exit();
         
     } catch (Exception $e) {
@@ -609,8 +654,8 @@ if (isset($_POST['update_event_status']) && $canEdit) {
         trackScheduleActivity($currentUser['id'], 'status_changed', $_POST['event_id'], 
             "New status: " . $_POST['status']);
         
-        $_SESSION['success_message'] = "Event status updated successfully!";
-        header("Location: schedule.php");
+        // FIXED: Use JavaScript redirect
+        echo "<script>window.location.href = 'schedule.php?success=1&message=" . urlencode('Event status updated successfully!') . "';</script>";
         exit();
         
     } catch (Exception $e) {
@@ -621,37 +666,13 @@ if (isset($_POST['update_event_status']) && $canEdit) {
     $error_message = "Permission denied - You cannot update event status";
 }
 
-// Add this after the existing database queries in schedule.php
-try {
-    // Get recent schedule activities
-    $activity_query = "
-        SELECT sa.*, u.username 
-        FROM schedule_activities sa 
-        LEFT JOIN users u ON sa.user_id = u.id 
-        WHERE sa.event_id IN (SELECT event_id FROM events WHERE is_active = 1)
-        ORDER BY sa.created_at DESC 
-        LIMIT 10
-    ";
-    $stmt = $pdo->prepare($activity_query);
-    $stmt->execute();
-    $recentActivities = $stmt->fetchAll();
-    
-    // Ensure it's always an array, even if empty or false
-    if ($recentActivities === false || $recentActivities === null) {
-        $recentActivities = [];
-    }
-} catch (Exception $e) {
-    error_log("Error fetching schedule activities: " . $e->getMessage());
-    $recentActivities = [];
-}
-
 // Handle email reminder sending
 if (isset($_POST['send_email_reminder']) && $canEdit) {
     try {
         $event_id = $_POST['event_id'];
         $email_recipients = $_POST['email_recipients'];
         
-        // Parse email addresses (comma or newline separated)
+        // Parse email addresses
         $emails = preg_split('/[\s,;]+/', $email_recipients);
         $valid_emails = [];
         $invalid_emails = [];
@@ -701,8 +722,8 @@ if (isset($_POST['send_email_reminder']) && $canEdit) {
             $message .= " Invalid emails skipped: " . implode(', ', $invalid_emails);
         }
         
-        $_SESSION['success_message'] = $message;
-        header("Location: schedule.php");
+        // FIXED: Use JavaScript redirect
+        echo "<script>window.location.href = 'schedule.php?success=1&message=" . urlencode($message) . "';</script>";
         exit();
         
     } catch (Exception $e) {
@@ -718,7 +739,7 @@ if (isset($_SESSION['success_message'])) {
     $success_message = $_SESSION['success_message'];
     unset($_SESSION['success_message']);
 }
-
+ob_end_flush();
 ?>
 
 <main class="main-content">
@@ -767,30 +788,37 @@ if (isset($_SESSION['success_message'])) {
 <!-- Show read-only banner if no edit permission -->
     <?php if (!$canEdit && !$canCreate && !$canDelete): ?>
     <div class="read-only-banner" style="background-color: #fff3cd; border: 1px solid #ffeaa7; color: #856404; padding: 12px 15px; border-radius: 6px; margin-bottom: 20px; font-size: 14px;">
-        <strong>🔒 Read-Only Mode:</strong> You have view-only access to schedule management. You cannot make any changes.
+        <strong><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-lock" viewBox="0 0 16 16" style="display: inline; margin-right: 5px;">
+            <path d="M8 1a2 2 0 0 1 2 2v4H6V3a2 2 0 0 1 2-2m3 6V3a3 3 0 0 0-6 0v4a2 2 0 0 0-2 2v5a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2M5 8h6a1 1 0 0 1 1 1v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1"/>
+        </svg> Read-Only Mode:</strong> You have view-only access to schedule management. You cannot make any changes.
     </div>
     <?php endif; ?>
 
     <!-- Success/Error Notifications -->
     <?php if (isset($success_message)): ?>
         <div class="notification success show">
-            <div class="notification-icon">✓</div>
+            <div class="notification-icon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-circle" viewBox="0 0 16 16">
+                <path d="m10.97 4.97-.02.022-3.473 4.425-2.093-2.094a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-1.071-1.05"/>
+            </svg></div>
             <div class="notification-content">
                 <div class="notification-title">Success!</div>
                 <div class="notification-message"><?php echo htmlspecialchars($success_message); ?></div>
             </div>
-            <button class="notification-close" onclick="this.parentElement.classList.remove('show')">×</button>
+            <button class="notification-close" onclick="this.parentElement.classList.remove('show')">&times;</button>
         </div>
     <?php endif; ?>
 
     <?php if (isset($error_message)): ?>
         <div class="notification error show">
-            <div class="notification-icon">⚠</div>
+            <div class="notification-icon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-exclamation-triangle" viewBox="0 0 16 16">
+                <path d="M7.938 2.016A.13.13 0 0 1 8.002 2a.13.13 0 0 1 .063.016.15.15 0 0 1 .054.057l6.857 11.667c.036.06.035.124.002.183a.2.2 0 0 1-.054.06.1.1 0 0 1-.066.017H1.146a.1.1 0 0 1-.066-.017.2.2 0 0 1-.054-.06.18.18 0 0 1 .002-.183L7.884 2.073a.15.15 0 0 1 .054-.057m1.044-.45a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767z"/>
+                <path d="M7.002 12a1 1 0 1 1 2 0 1 1 0 0 1-2 0M7.1 5.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0z"/>
+            </svg></div>
             <div class="notification-content">
                 <div class="notification-title">Error!</div>
                 <div class="notification-message"><?php echo htmlspecialchars($error_message); ?></div>
             </div>
-            <button class="notification-close" onclick="this.parentElement.classList.remove('show')">×</button>
+            <button class="notification-close" onclick="this.parentElement.classList.remove('show')">&times;</button>
         </div>
     <?php endif; ?>
 
@@ -829,10 +857,13 @@ if (isset($_SESSION['success_message'])) {
             <h3 class="section-title" id="currentMonth"><?php echo date('F Y'); ?></h3>
             <div class="calendar-header">
                 <div class="calendar-nav">
-                    <select id="yearSelect" onchange="changeCalendarYear()">
+                   <select id="yearSelect" onchange="changeCalendarYear()">
                         <?php
                         $current_year = date('Y');
-                        for ($year = $current_year - 1; $year <= $current_year + 1; $year++) {
+                        $start_year = $current_year - 1;
+                        $end_year = $current_year + 5; // Show 5 years into future
+                        
+                        for ($year = $start_year; $year <= $end_year; $year++) {
                             $selected = $year == $current_year ? 'selected' : '';
                             echo "<option value='$year' $selected>$year</option>";
                         }
@@ -887,8 +918,8 @@ if (isset($_SESSION['success_message'])) {
             </div>
         </div>
 
-                <!-- Events Section with Tabs -->
-                <div class="events-card">
+        <!-- Events Section with Tabs -->
+        <div class="events-card">
             <div class="events-tabs">
                 <button class="tab-btn active" onclick="switchEventsTab('upcoming', this)">Upcoming Events</button>
                 <button class="tab-btn" onclick="switchEventsTab('completed', this)">Completed Events</button>
@@ -905,7 +936,9 @@ if (isset($_SESSION['success_message'])) {
                 
                 <?php if (empty($upcoming_events)): ?>
                     <div class="no-events">
-                        <div class="no-events-icon">📅</div>
+                        <div class="no-events-icon"><svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="currentColor" class="bi bi-calendar" viewBox="0 0 16 16">
+                            <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5M1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4z"/>
+                        </svg></div>
                         <p>No upcoming events scheduled</p>
                         <?php if ($canCreate): ?>
                             <button class="btn btn-primary" onclick="openModal()">Schedule Your First Event</button>
@@ -931,7 +964,7 @@ if (isset($_SESSION['success_message'])) {
                                  data-event-status="<?php echo $event['status']; ?>">
                                 <div class="event-icon">
                                     <?php 
-                                    echo $icons[$event['event_type']] ?? '';
+                                    echo $eventTypeIcons[$event['event_type']] ?? '';
                                     ?>
                                 </div>
                                 <div class="event-content">
@@ -943,15 +976,28 @@ if (isset($_SESSION['success_message'])) {
                                                 $tomorrow = new DateTime('tomorrow');
                                                 
                                                 if ($event_date->format('Y-m-d') == $today->format('Y-m-d')) {
-                                                    echo "🎯 Today - ";
+                                                    echo '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bullseye" viewBox="0 0 16 16" style="display: inline; margin-right: 5px;">
+                                                        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
+                                                        <path d="M8 13A5 5 0 1 1 8 3a5 5 0 0 1 0 10m0 1A6 6 0 1 0 8 2a6 6 0 0 0 0 12"/>
+                                                        <path d="M8 11a3 3 0 1 1 0-6 3 3 0 0 1 0 6m0 1a4 4 0 1 0 0-8 4 4 0 0 0 0 8"/>
+                                                        <path d="M9.5 8a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0"/>
+                                                    </svg> Today - ';
                                                 } elseif ($event_date->format('Y-m-d') == $tomorrow->format('Y-m-d')) {
-                                                    echo "⏰ Tomorrow - ";
+                                                    echo '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-alarm" viewBox="0 0 16 16" style="display: inline; margin-right: 5px;">
+                                                        <path d="M8.5 5.5a.5.5 0 0 0-1 0v3.362l-1.429 2.38a.5.5 0 1 0 .858.515l1.5-2.5A.5.5 0 0 0 8.5 9z"/>
+                                                        <path d="M6.5 0a.5.5 0 0 0 0 1H7v1.07a7.001 7.001 0 0 0-3.273 12.474l-.602.602a.5.5 0 0 0 .707.708l.746-.746A6.97 6.97 0 0 0 8 16a6.97 6.97 0 0 0 3.422-.892l.746.746a.5.5 0 0 0 .707-.708l-.601-.602A7.001 7.001 0 0 0 9 2.07V1h.5a.5.5 0 0 0 0-1zm1.038 3.018a6 6 0 0 1 .924 0 6 6 0 1 1-.924 0M0 3.5c0 .753.333 1.429.86 1.887A8.04 8.04 0 0 1 4.387 1.86 2.5 2.5 0 0 0 0 3.5M13.5 1c-.753 0-1.429.333-1.887.86a8.04 8.04 0 0 1 3.527 3.527A2.5 2.5 0 0 0 13.5 1"/>
+                                                    </svg> Tomorrow - ';
                                                 }
                                                 echo $event_date->format('M j, Y');
                                                 if ($is_completed) {
-                                                    echo " ✅";
+                                                    echo ' <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-circle" viewBox="0 0 16 16" style="display: inline;">
+                                                        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
+                                                        <path d="m10.97 4.97-.02.022-3.473 4.425-2.093-2.094a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-1.071-1.05"/>
+                                                    </svg>';
                                                 } elseif ($should_be_completed && !$is_completed) {
-                                                    echo " ⏳ (Auto-completing...)";
+                                                    echo ' <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-hourglass-split" viewBox="0 0 16 16" style="display: inline;">
+                                                        <path d="M2.5 15a.5.5 0 1 1 0-1h1v-1a4.5 4.5 0 0 1 2.557-4.06c.29-.139.443-.377.443-.59v-.7c0-.213-.154-.451-.443-.59A4.5 4.5 0 0 1 3.5 3V2h-1a.5.5 0 0 1 0-1h11a.5.5 0 0 1 0 1h-1v1a4.5 4.5 0 0 1-2.557 4.06c-.29.139-.443.377-.443.59v.7c0 .213.154.451.443.59A4.5 4.5 0 0 1 12.5 13v1h1a.5.5 0 0 1 0 1zm2-13v1c0 .537.12 1.045.337 1.5h6.326c.216-.455.337-.963.337-1.5V2zm3 6.35c0 .701-.478 1.236-1.011 1.492A3.5 3.5 0 0 0 4.5 13s.866-1.299 3-1.48zm1 0v3.17c2.134.181 3 1.48 3 1.48a3.5 3.5 0 0 0-1.989-3.158C8.978 9.586 8.5 9.052 8.5 8.351z"/>
+                                                    </svg> (Auto-completing...)';
                                                 }
                                                 ?>
                                             </div>
@@ -1018,7 +1064,9 @@ if (isset($_SESSION['success_message'])) {
                                     <?php endif; ?>
                                     <?php if ($should_be_completed && !$is_completed): ?>
                                         <div class="auto-complete-notice">
-                                            ⚡ This event will be automatically marked as completed on next page refresh
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-lightning" viewBox="0 0 16 16" style="display: inline; margin-right: 5px;">
+                                                <path d="M5.52.359A.5.5 0 0 1 6 0h4a.5.5 0 0 1 .474.658L8.694 6H12.5a.5.5 0 0 1 .395.807l-7 9a.5.5 0 0 1-.873-.454L6.823 9.5H3.5a.5.5 0 0 1-.48-.641zM6.374 1 4.168 8.5H7.5a.5.5 0 0 1 .478.647L6.78 13.04 11.478 7H8a.5.5 0 0 1-.474-.658L9.306 1z"/>
+                                            </svg> This event will be automatically marked as completed on next page refresh
                                         </div>
                                     <?php endif; ?>
                                 </div>
@@ -1038,7 +1086,10 @@ if (isset($_SESSION['success_message'])) {
                 
                 <?php if (empty($completed_events)): ?>
                     <div class="no-events">
-                        <div class="no-events-icon">✅</div>
+                        <div class="no-events-icon"><svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="currentColor" class="bi bi-check-circle" viewBox="0 0 16 16">
+                            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
+                            <path d="m10.97 4.97-.02.022-3.473 4.425-2.093-2.094a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-1.071-1.05"/>
+                        </svg></div>
                         <p>No completed events yet</p>
                         <small>Completed events will appear here automatically</small>
                     </div>
@@ -1051,7 +1102,7 @@ if (isset($_SESSION['success_message'])) {
                                  data-event-date="<?php echo $event['event_date']; ?>">
                                 <div class="event-icon">
                                     <?php 
-                                    echo $icons[$event['event_type']] ?? '';
+                                    echo $eventTypeIcons[$event['event_type']] ?? '';
                                     ?>
                                 </div>
                                 <div class="event-content">
@@ -1095,7 +1146,10 @@ if (isset($_SESSION['success_message'])) {
                                                     </button>
                                                 </form>
                                             <?php else: ?>
-                                                <button class="delete-btn" disabled style="opacity: 0.6; cursor: not-allowed;" title="No permission to delete">🗑️</button>
+                                                <button class="delete-btn" disabled style="opacity: 0.6; cursor: not-allowed;" title="No permission to delete"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                                                <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z"/>
+                                                <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z"/>
+                                                </svg></button>
                                             <?php endif; ?>
                                         </div>
                                     </div>
@@ -1190,7 +1244,10 @@ if (isset($_SESSION['success_message'])) {
                             <?php else: ?>
                                 <div class="no-photos">
                                     <div style="text-align: center; padding: 40px; color: #888; grid-column: 1 / -1;">
-                                        <div style="font-size: 64px; margin-bottom: 16px;">📸</div>
+                                        <div style="font-size: 64px; margin-bottom: 16px;"><svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" fill="currentColor" class="bi bi-calendar3-event" viewBox="0 0 16 16">
+                                <path d="M14 0H2a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2M1 3.857C1 3.384 1.448 3 2 3h12c.552 0 1 .384 1 .857v10.286c0 .473-.448.857-1 .857H2c-.552 0-1-.384-1-.857z"/>
+                                <path d="M12 7a1 1 0 1 0 0-2 1 1 0 0 0 0 2"/>
+                                </svg></div>
                                         <p>No photos found for this event</p>
                                         <small>Upload photos using the "Manage Photos" button above</small>
                                     </div>
@@ -1198,7 +1255,7 @@ if (isset($_SESSION['success_message'])) {
                             <?php endif; ?>
                         <?php else: ?>
                             <div class="no-events">
-                                <div class="no-events-icon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-calendar3-event" viewBox="0 0 16 16">
+                                <div class="no-events-icon"><svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="currentColor" class="bi bi-calendar3-event" viewBox="0 0 16 16">
                                 <path d="M14 0H2a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2M1 3.857C1 3.384 1.448 3 2 3h12c.552 0 1 .384 1 .857v10.286c0 .473-.448.857-1 .857H2c-.552 0-1-.384-1-.857z"/>
                                 <path d="M12 7a1 1 0 1 0 0-2 1 1 0 0 0 0 2"/>
                                 </svg></div>
@@ -1217,7 +1274,9 @@ if (isset($_SESSION['success_message'])) {
 <div id="eventModal" class="modal-overlay">
     <div class="modal-content">
         <div class="modal-header">
-            <h3>➕ Schedule New Event</h3>
+            <h3><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-plus-lg" viewBox="0 0 16 16" style="display: inline; margin-right: 8px;">
+                <path fill-rule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2"/>
+            </svg> Schedule New Event</h3>
             <button class="modal-close" onclick="closeModal()">&times;</button>
         </div>
         <div class="modal-body">
@@ -1237,7 +1296,7 @@ if (isset($_SESSION['success_message'])) {
                                 <option value="">Select Event Type</option>
                                 <?php foreach ($availableEventTypes as $key => $name): ?>
                                     <option value="<?php echo htmlspecialchars($key); ?>">
-                                        <?php echo $eventTypeIcons[$key] ?? '📅'; ?> <?php echo htmlspecialchars($name); ?>
+                                        <?php echo $eventTypeIcons[$key] ?? '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-calendar-event" viewBox="0 0 16 16"><path d="M11 6.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5z"/><path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5M1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4z"/></svg>'; ?> <?php echo htmlspecialchars($name); ?>
                                     </option>
                                 <?php endforeach; ?>
                             </select>
@@ -1300,7 +1359,9 @@ if (isset($_SESSION['success_message'])) {
                 </form>
             <?php else: ?>
                 <div style="text-align: center; padding: 40px 20px; color: #888;">
-                    <div style="font-size: 48px; margin-bottom: 16px;">🔒</div>
+                    <div style="font-size: 48px; margin-bottom: 16px;"><svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="currentColor" class="bi bi-lock" viewBox="0 0 16 16">
+                        <path d="M8 1a2 2 0 0 1 2 2v4H6V3a2 2 0 0 1 2-2m3 6V3a3 3 0 0 0-6 0v4a2 2 0 0 0-2 2v5a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2M5 8h6a1 1 0 0 1 1 1v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1"/>
+                    </svg></div>
                     <h3 style="color: #856404; margin-bottom: 10px;">Read-Only Access</h3>
                     <p>You do not have permission to create events.</p>
                     <button type="button" class="btn-cancel" onclick="closeModal()" style="margin-top: 20px;">Close</button>
@@ -1314,7 +1375,10 @@ if (isset($_SESSION['success_message'])) {
 <div id="galleryModal" class="modal-overlay">
     <div class="modal-content large-modal">
         <div class="modal-header">
-            <h3 id="galleryModalTitle"> Event Gallery</h3>
+            <h3 id="galleryModalTitle"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-images" viewBox="0 0 16 16" style="display: inline; margin-right: 8px;">
+                <path d="M4.502 9a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3"/>
+                <path d="M14.002 13a2 2 0 0 1-2 2h-10a2 2 0 0 1-2-2V5A2 2 0 0 1 2 3a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v8a2 2 0 0 1-1.998 2M14 2H4a1 1 0 0 0-1 1h9.002a2 2 0 0 1 2 2v7A1 1 0 0 0 15 11V3a1 1 0 0 0-1-1M2.002 4a1 1 0 0 0-1 1v8l2.646-2.354a.5.5 0 0 1 .63-.062l2.66 1.773 3.71-3.71a.5.5 0 0 1 .577-.094l1.777 1.947V5a1 1 0 0 0-1-1z"/>
+            </svg> Event Gallery</h3>
             <button class="modal-close" onclick="closeGalleryModal()">&times;</button>
         </div>
         <div class="modal-body">
@@ -1339,7 +1403,7 @@ if (isset($_SESSION['success_message'])) {
                         <div class="form-group">
                             <label class="form-label">Select Photos (Multiple files allowed)</label>
                             <div class="file-upload-area" onclick="document.getElementById('eventImagesInput').click()">
-                                <div class="upload-icon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-camera-fill" viewBox="0 0 16 16">
+                                <div class="upload-icon"><svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="currentColor" class="bi bi-camera-fill" viewBox="0 0 16 16">
                                     <path d="M10.5 8.5a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0"/>
                                     <path d="M2 4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2h-1.172a2 2 0 0 1-1.414-.586l-.828-.828A2 2 0 0 0 9.172 2H6.828a2 2 0 0 0-1.414.586l-.828.828A2 2 0 0 1 3.172 4zm.5 2a.5.5 0 1 1 0-1 .5.5 0 0 1 0 1m9 2.5a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0"/>
                                     </svg></div>
@@ -1375,7 +1439,10 @@ if (isset($_SESSION['success_message'])) {
 <div id="activitiesModal" class="modal-overlay">
     <div class="modal-content large-modal">
         <div class="modal-header">
-            <h3>📋 Recent Activities & Events</h3>
+            <h3><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-card-checklist" viewBox="0 0 16 16" style="display: inline; margin-right: 8px;">
+                <path d="M14.5 3a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-13a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5zm-13-1A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2z"/>
+                <path d="M7 5.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5m-1.496-.854a.5.5 0 0 1 0 .708l-1.5 1.5a.5.5 0 0 1-.708 0l-.5-.5a.5.5 0 1 1 .708-.708l.146.147 1.146-1.147a.5.5 0 0 1 .708 0M7 9.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5m-1.496-.854a.5.5 0 0 1 0 .708l-1.5 1.5a.5.5 0 0 1-.708 0l-.5-.5a.5.5 0 0 1 .708-.708l.146.147 1.146-1.147a.5.5 0 0 1 .708 0"/>
+            </svg> Recent Activities & Events</h3>
             <button class="modal-close" onclick="closeActivitiesModal()">&times;</button>
         </div>
         <div class="modal-body">
@@ -1386,14 +1453,14 @@ if (isset($_SESSION['success_message'])) {
                             <div class="activity-icon">
                                 <?php 
                                 $activityIcons = [
-                                    'event_created' => '➕',
-                                    'event_deleted' => '🗑️',
-                                    'status_changed' => '🔄',
-                                    'email_sent' => '📧',
-                                    'photo_uploaded' => '📸',
-                                    'article_added' => '📝'
+                                    'event_created' => '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-plus-circle" viewBox="0 0 16 16"><path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/><path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4"/></svg>',
+                                    'event_deleted' => '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16"><path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z"/><path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z"/></svg>',
+                                    'status_changed' => '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-arrow-repeat" viewBox="0 0 16 16"><path d="M11.534 7h3.932a.25.25 0 0 1 .192.41l-1.966 2.36a.25.25 0 0 1-.384 0l-1.966-2.36a.25.25 0 0 1 .192-.41m-11 2h3.932a.25.25 0 0 0 .192-.41L2.692 6.23a.25.25 0 0 0-.384 0L.342 8.59A.25.25 0 0 0 .534 9"/><path fill-rule="evenodd" d="M8 3c-1.552 0-2.94.707-3.857 1.818a.5.5 0 1 1-.771-.636A6.002 6.002 0 0 1 13.917 7H12.9A5 5 0 0 0 8 3M3.1 9a5.002 5.002 0 0 0 8.757 2.182.5.5 0 1 1 .771.636A6.002 6.002 0 0 1 2.083 9z"/></svg>',
+                                    'email_sent' => '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-envelope" viewBox="0 0 16 16"><path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1zm13 2.383-4.708 2.825L15 11.105zm-.034 6.876-5.64-3.471L8 9.583l-1.326-.795-5.64 3.47A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.741M1 11.105l4.708-2.897L1 5.383z"/></svg>',
+                                    'photo_uploaded' => '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-image" viewBox="0 0 16 16"><path d="M6.002 5.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0"/><path d="M2.002 1a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2zm12 1a1 1 0 0 1 1 1v6.5l-3.777-1.947a.5.5 0 0 0-.577.093l-3.71 3.71-2.66-1.772a.5.5 0 0 0-.63.062L1.002 12V3a1 1 0 0 1 1-1z"/></svg>',
+                                    'article_added' => '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-file-text" viewBox="0 0 16 16"><path d="M5 4a.5.5 0 0 0 0 1h6a.5.5 0 0 0 0-1zm0-2a.5.5 0 0 0 0 1h6a.5.5 0 0 0 0-1zM5 8a.5.5 0 0 0 0 1h6a.5.5 0 0 0 0-1zm0 2a.5.5 0 0 0 0 1h3a.5.5 0 0 0 0-1z"/><path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2zm10-1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1"/></svg>'
                                 ];
-                                echo $activityIcons[$activity['activity_type']] ?? '📝';
+                                echo $activityIcons[$activity['activity_type']] ?? '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-activity" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M6 2a.5.5 0 0 1 .47.33L10 12.036l1.53-4.208A.5.5 0 0 1 12 7.5h3.5a.5.5 0 0 1 0 1h-3.15l-1.88 5.17a.5.5 0 0 1-.94 0L6 3.964 4.47 8.171A.5.5 0 0 1 4 8.5H.5a.5.5 0 0 1 0-1h3.15l1.88-5.17A.5.5 0 0 1 6 2"/></svg>';
                                 ?>
                             </div>
                             <div class="activity-content">
@@ -1412,7 +1479,11 @@ if (isset($_SESSION['success_message'])) {
                     <?php endforeach; ?>
                 <?php else: ?>
                     <div class="no-activities">
-                        <div class="no-activities-icon">📝</div>
+                        <div class="no-activities-icon"><svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="currentColor" class="bi bi-journal-text" viewBox="0 0 16 16">
+                            <path d="M5 10.5a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5m0-2a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5m0-2a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5m0-2a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5"/>
+                            <path d="M3 0h10a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2v-1h1v1a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1v1H1V2a2 2 0 0 1 2-2"/>
+                            <path d="M1 5v-.5a.5.5 0 0 1 1 0V5h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1zm0 3v-.5a.5.5 0 0 1 1 0V8h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1zm0 3v-.5a.5.5 0 0 1 1 0v.5h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1z"/>
+                        </svg></div>
                         <p>No recent activities found</p>
                         <small>Activities will appear here as events are created and modified</small>
                     </div>
@@ -1426,13 +1497,21 @@ if (isset($_SESSION['success_message'])) {
 <div id="availabilityModal" class="modal-overlay">
     <div class="modal-content large-modal">
         <div class="modal-header">
-            <h3>📅 Manage Calendar Availability</h3>
+            <h3><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-calendar-x" viewBox="0 0 16 16" style="display: inline; margin-right: 8px;">
+                <path d="M6.146 7.146a.5.5 0 0 1 .708 0L8 8.293l1.146-1.147a.5.5 0 1 1 .708.708L8.707 9l1.147 1.146a.5.5 0 0 1-.708.708L8 9.707l-1.146 1.147a.5.5 0 0 1-.708-.708L7.293 9 6.146 7.854a.5.5 0 0 1 0-.708"/>
+                <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5M1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4z"/>
+            </svg> Manage Calendar Availability</h3>
             <button class="modal-close" onclick="closeAvailabilityModal()">&times;</button>
         </div>
         <div class="modal-body">
             <div class="availability-tabs">
-                <button class="availability-tab-btn active" onclick="switchAvailabilityTab('mark', this)">🚫 Mark Unavailable</button>
-                <button class="availability-tab-btn" onclick="switchAvailabilityTab('view', this)">📋 View Unavailable Dates</button>
+                <button class="availability-tab-btn active" onclick="switchAvailabilityTab('mark', this)"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-slash-circle" viewBox="0 0 16 16" style="display: inline; margin-right: 5px;">
+                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
+                    <path d="M11.354 4.646a.5.5 0 0 0-.708 0l-6 6a.5.5 0 0 0 .708.708l6-6a.5.5 0 0 0 0-.708"/>
+                </svg> Mark Unavailable</button>
+                <button class="availability-tab-btn" onclick="switchAvailabilityTab('view', this)"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-list-ul" viewBox="0 0 16 16" style="display: inline; margin-right: 5px;">
+                    <path fill-rule="evenodd" d="M5 11.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5m-3 1a1 1 0 1 0 0-2 1 1 0 0 0 0 2m0 4a1 1 0 1 0 0-2 1 1 0 0 0 0 2m0 4a1 1 0 1 0 0-2 1 1 0 0 0 0 2"/>
+                </svg> View Unavailable Dates</button>
             </div>
             
             <!-- Mark Unavailable Tab -->
@@ -1464,7 +1543,10 @@ if (isset($_SESSION['success_message'])) {
                     
                     <div class="form-actions">
                         <button type="button" class="btn-cancel" onclick="closeAvailabilityModal()">Cancel</button>
-                        <button type="submit" name="mark_unavailable" class="btn-submit">🚫 Mark as Unavailable</button>
+                        <button type="submit" name="mark_unavailable" class="btn-submit"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-slash-circle" viewBox="0 0 16 16" style="display: inline; margin-right: 5px;">
+                            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
+                            <path d="M11.354 4.646a.5.5 0 0 0-.708 0l-6 6a.5.5 0 0 0 .708.708l6-6a.5.5 0 0 0 0-.708"/>
+                        </svg> Mark as Unavailable</button>
                     </div>
                 </form>
             </div>
@@ -1493,6 +1575,44 @@ if (isset($_SESSION['success_message'])) {
 .icon {
     display: inline-block;
     
+}
+
+:root {
+    --svg-color: #1e293b;
+    --svg-accent-color: #3b82f6;
+    --svg-muted-color: #64748b;
+    }
+
+.dark-theme {
+    --svg-color: #e2e8f0;
+    --svg-accent-color: #60a5fa;
+    --svg-muted-color: #94a3b8;
+}
+
+/* Apply to ALL SVGs automatically */
+svg {
+    color: var(--svg-color) !important;
+    transition: color 0.3s ease, fill 0.3s ease;
+}
+
+/* Accent colored icons */
+.event-icon svg,
+.stat-card svg,
+.calendar-table td.has-event::after svg {
+    color: var(--svg-accent-color) !important;
+}
+
+/* Muted icons */
+.event-item.completed svg,
+.calendar-table td.other-month svg {
+    color: var(--svg-muted-color) !important;
+    fill: var(--svg-muted-color) !important;
+}
+
+/* Buttons inherit their colors */
+.btn svg {
+    color: inherit !important;
+    fill: inherit !important;
 }
 
 .notification {
@@ -2910,8 +3030,198 @@ ease;
 // Gallery Modal
 let currentGalleryEventId = null;
 
+// Calendar functionality with year-specific filtering
+let currentDate = new Date();
+const serverScheduledDays = <?php echo json_encode($scheduled_days ?? []); ?>;
+const serverCompletedDays = <?php echo json_encode($completed_days ?? []); ?>;
+const serverUnavailableDays = <?php echo json_encode($unavailable_days ?? []); ?>;
+
+function generateCalendar() {
+    const calendarBody = document.getElementById('calendarBody');
+    const monthNames = ["January", "February", "March", "April", "May", "June",
+        "July", "August", "September", "October", "November", "December"
+    ];
+    
+    const year = currentDate.getFullYear();
+    const month = currentDate.getMonth();
+    
+    // Update month title
+    document.getElementById('currentMonth').textContent = 
+        monthNames[month] + ' ' + year;
+    
+    const firstDay = new Date(year, month, 1).getDay();
+    const daysInMonth = new Date(year, month + 1, 0).getDate();
+    const today = new Date();
+    
+    let html = '';
+    let day = 1;
+    
+    // Get events for this specific month and year
+    const scheduledDays = getScheduledDaysForCurrentMonth();
+    const completedDays = getCompletedDaysForCurrentMonth();
+    const unavailableDays = getUnavailableDaysForCurrentMonth();
+    
+    for (let i = 0; i < 6; i++) {
+        html += '<tr>';
+        for (let j = 0; j < 7; j++) {
+            if (i === 0 && j < firstDay) {
+                const prevMonth = new Date(year, month, 0).getDate();
+                html += `<td class="other-month">${prevMonth - firstDay + j + 1}</td>`;
+            } else if (day > daysInMonth) {
+                html += `<td class="other-month">${day - daysInMonth}</td>`;
+                day++;
+            } else {
+                let classes = '';
+                const cellDate = new Date(year, month, day);
+                
+                // Check if this day is unavailable
+                const unavailableInfo = unavailableDays.find(d => d.day === day);
+                if (unavailableInfo) {
+                    classes += 'unavailable ';
+                }
+                
+                // Check if this day has scheduled events (blue highlight)
+                if (scheduledDays.includes(day)) {
+                    classes += 'has-event ';
+                }
+                
+                // Check if this day has completed events (green highlight)
+                if (completedDays.includes(day)) {
+                    classes += 'has-completed-event ';
+                }
+                
+                // Check if today
+                if (cellDate.toDateString() === today.toDateString()) {
+                    classes += 'today';
+                }
+                
+                let title = '';
+                if (unavailableInfo) {
+                    title = `Unavailable: ${unavailableInfo.reason || 'No reason specified'}`;
+                    if (unavailableInfo.start_time) {
+                        title += `\nTime: ${unavailableInfo.start_time}`;
+                        if (unavailableInfo.end_time) {
+                            title += ` - ${unavailableInfo.end_time}`;
+                        }
+                    }
+                }
+                
+                html += `<td class="${classes.trim()}" title="${title}" onclick="viewDayEvents(${day})" style="cursor: pointer; color:#2d5f8d">${day}</td>`;
+                day++;
+            }
+        }
+        html += '</tr>';
+        if (day > daysInMonth) break;
+    }
+    
+    calendarBody.innerHTML = html;
+    
+    // Update the calendar controls to reflect current view
+    updateCalendarControls();
+}
+
+function getUnavailableDaysForCurrentMonth() {
+    const currentYear = currentDate.getFullYear();
+    const currentMonth = currentDate.getMonth() + 1;
+    
+    try {
+        // Check if we have data for this specific year-month combination
+        if (serverUnavailableDays && serverUnavailableDays[currentYear] && 
+            serverUnavailableDays[currentYear][currentMonth] && 
+            Array.isArray(serverUnavailableDays[currentYear][currentMonth])) {
+            return serverUnavailableDays[currentYear][currentMonth];
+        }
+        // Fallback to old structure (just by month)
+        else if (serverUnavailableDays && serverUnavailableDays[currentMonth] && 
+                 Array.isArray(serverUnavailableDays[currentMonth])) {
+            return serverUnavailableDays[currentMonth];
+        }
+    } catch (e) {
+        console.error('Error getting unavailable days:', e);
+    }
+    return [];
+}
+
+function getScheduledDaysForCurrentMonth() {
+    const currentYear = currentDate.getFullYear();
+    const currentMonth = currentDate.getMonth() + 1;
+    
+    try {
+        // Check new structure first, then fallback
+        if (serverScheduledDays && serverScheduledDays[currentYear] && 
+            serverScheduledDays[currentYear][currentMonth] && 
+            Array.isArray(serverScheduledDays[currentYear][currentMonth])) {
+            return serverScheduledDays[currentYear][currentMonth];
+        }
+        // Fallback to old structure
+        else if (serverScheduledDays && serverScheduledDays[currentMonth] && 
+                 Array.isArray(serverScheduledDays[currentMonth])) {
+            return serverScheduledDays[currentMonth];
+        }
+    } catch (e) {
+        console.error('Error getting scheduled days:', e);
+    }
+    return [];
+}
+
+function getCompletedDaysForCurrentMonth() {
+    const currentYear = currentDate.getFullYear();
+    const currentMonth = currentDate.getMonth() + 1;
+    
+    try {
+        // Check new structure first, then fallback
+        if (serverCompletedDays && serverCompletedDays[currentYear] && 
+            serverCompletedDays[currentYear][currentMonth] && 
+            Array.isArray(serverCompletedDays[currentYear][currentMonth])) {
+            return serverCompletedDays[currentYear][currentMonth];
+        }
+        // Fallback to old structure
+        else if (serverCompletedDays && serverCompletedDays[currentMonth] && 
+                 Array.isArray(serverCompletedDays[currentMonth])) {
+            return serverCompletedDays[currentMonth];
+        }
+    } catch (e) {
+        console.error('Error getting completed days:', e);
+    }
+    return [];
+}
+
+// Calendar Navigation Functions
+function changeCalendarYear() {
+    const yearSelect = document.getElementById('yearSelect');
+    const monthSelect = document.getElementById('monthSelect');
+    const selectedYear = parseInt(yearSelect.value);
+    const selectedMonth = parseInt(monthSelect.value);
+    
+    currentDate = new Date(selectedYear, selectedMonth - 1, 1);
+    generateCalendar();
+}
+
+function changeCalendar() {
+    const yearSelect = document.getElementById('yearSelect');
+    const monthSelect = document.getElementById('monthSelect');
+    const selectedYear = parseInt(yearSelect.value);
+    const selectedMonth = parseInt(monthSelect.value);
+    
+    currentDate = new Date(selectedYear, selectedMonth - 1, 1);
+    generateCalendar();
+}
+
+function updateCalendarControls() {
+    const yearSelect = document.getElementById('yearSelect');
+    const monthSelect = document.getElementById('monthSelect');
+    
+    if (yearSelect && monthSelect) {
+        const currentYear = currentDate.getFullYear();
+        const currentMonth = currentDate.getMonth() + 1;
+        
+        // Update selects to match current view
+        yearSelect.value = currentYear;
+        monthSelect.value = currentMonth;
+    }
+}
+
 // Gallery Functions
-// Gallery Functions with better error handling
 function loadGalleryPhotos() {
     console.log('loadGalleryPhotos called');
     const eventId = document.getElementById('galleryEventFilter').value;
@@ -2990,7 +3300,10 @@ function showNoPhotosMessage(container, message) {
     container.innerHTML = `
         <div class="no-photos">
             <div style="text-align: center; padding: 40px; color: #888; grid-column: 1 / -1;">
-                <div style="font-size: 64px; margin-bottom: 16px;">📸</div>
+                <div style="font-size: 64px; margin-bottom: 16px;"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-calendar3-event" viewBox="0 0 16 16">
+                                <path d="M14 0H2a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2M1 3.857C1 3.384 1.448 3 2 3h12c.552 0 1 .384 1 .857v10.286c0 .473-.448.857-1 .857H2c-.552 0-1-.384-1-.857z"/>
+                                <path d="M12 7a1 1 0 1 0 0-2 1 1 0 0 0 0 2"/>
+                                </svg></div>
                 <p>${message}</p>
                 <small>Upload photos using the "Manage Photos" button</small>
             </div>
@@ -3002,44 +3315,14 @@ function showErrorMessage(container, message) {
     container.innerHTML = `
         <div class="error-message">
             <div style="text-align: center; padding: 40px; color: #dc3545; grid-column: 1 / -1;">
-                <div style="font-size: 48px; margin-bottom: 16px;">⚠️</div>
+                <div style="font-size: 48px; margin-bottom: 16px;"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-exclamation-triangle" viewBox="0 0 16 16">
+                <path d="M7.938 2.016A.13.13 0 0 1 8.002 2a.13.13 0 0 1 .063.016.15.15 0 0 1 .054.057l6.857 11.667c.036.06.035.124.002.183a.2.2 0 0 1-.054.06.1.1 0 0 1-.066.017H1.146a.1.1 0 0 1-.066-.017.2.2 0 0 1-.054-.06.18.18 0 0 1 .002-.183L7.884 2.073a.15.15 0 0 1 .054-.057m1.044-.45a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767z"/>
+                <path d="M7.002 12a1 1 0 1 1 2 0 1 1 0 0 1-2 0M7.1 5.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0z"/>
+                </svg></div>
                 <p>${message}</p>
                 <button class="btn btn-primary" onclick="loadGalleryPhotos()" style="margin-top: 10px;">
                     Try Again
                 </button>
-            </div>
-        </div>
-    `;
-}
-
-function displayPhotos(photos, container) {
-    let html = '';
-    photos.forEach(photo => {
-        html += `
-            <div class="photo-item">
-                <img src="${photo.image_path}" alt="${photo.caption || 'Event photo'}" class="photo-image" 
-                     onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjUwIiBoZWlnaHQ9IjIwMCIgdmlld0JveD0iMCAwIDI1MCAyMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3Qgd2lkdGg9IjI1MCIgaGVpZ2h0PSIyMDAiIGZpbGw9IiMzYTNhM2EiLz48c3ZnIHg9Ijc1IiB5PSI1NSIgd2lkdGg9IjUwIiBoZWlnaHQ9IjQwIiB2aWV3Qm94PSIwIDAgMjQgMjQiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2I4YzVmZiIgc3Ryb2tlLXdpZHRoPSIyIj48cGF0aCBkPSJNMjAgMjFVMTlBMiAyIDAgMCAxIDIyIDE3SDI4QTIgMiAwIDAgMSAzMCAxOVYyMU0xNiA1QTcgNyAwIDEgMSAyIDVBMTYgMTYgMCAwIDEgMTYgNVoiLz48L3N2Zz48L3N2Zz4='">
-                <div class="photo-info">
-                    <div class="photo-caption">${photo.caption || 'No caption'}</div>
-                    <div class="photo-description">${photo.description || 'No description'}</div>
-                    <div class="photo-meta">
-                        <span class="photo-date">${new Date(photo.created_at).toLocaleDateString()}</span>
-                        <span class="photo-uploader">By: ${photo.uploaded_by_name || 'Unknown'}</span>
-                    </div>
-                </div>
-            </div>
-        `;
-    });
-    container.innerHTML = html;
-}
-
-function showNoPhotosMessage(container, message) {
-    container.innerHTML = `
-        <div class="no-photos">
-            <div style="text-align: center; padding: 40px; color: #888; grid-column: 1 / -1;">
-                <div style="font-size: 64px; margin-bottom: 16px;">📸</div>
-                <p>${message}</p>
-                <small>Upload photos using the "Manage Photos" button</small>
             </div>
         </div>
     `;
@@ -3211,7 +3494,10 @@ function loadEventPhotos(eventId) {
             photosGrid.innerHTML = `
                 <div class="no-photos">
                     <div style="text-align: center; padding: 40px; color: #888; grid-column: 1 / -1;">
-                        <div style="font-size: 64px; margin-bottom: 16px;">📸</div>
+                        <div style="font-size: 64px; margin-bottom: 16px;"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-calendar3-event" viewBox="0 0 16 16">
+                                <path d="M14 0H2a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2M1 3.857C1 3.384 1.448 3 2 3h12c.552 0 1 .384 1 .857v10.286c0 .473-.448.857-1 .857H2c-.552 0-1-.384-1-.857z"/>
+                                <path d="M12 7a1 1 0 1 0 0-2 1 1 0 0 0 0 2"/>
+                                </svg></div>
                         <p>No photos uploaded yet</p>
                         <small>Switch to the Upload tab to add photos</small>
                     </div>
@@ -3251,41 +3537,6 @@ function clearEventImageUpload() {
 function removeEventFile(button) {
     button.parentElement.remove();
 }
-
-// Add this temporary debug function to your JavaScript
-function debugGallery() {
-    console.log('Debugging gallery...');
-    
-    // Check if the AJAX endpoint is accessible
-    fetch('ajax-get-event-gallery.php', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
-        },
-        body: 'event_id=test'
-    })
-    .then(response => {
-        console.log('AJAX endpoint status:', response.status);
-        console.log('AJAX endpoint URL:', response.url);
-        return response.text();
-    })
-    .then(text => {
-        console.log('AJAX endpoint response:', text);
-    })
-    .catch(error => {
-        console.error('AJAX endpoint error:', error);
-    });
-    
-    // Check if there are any events in the dropdown
-    const eventFilter = document.getElementById('galleryEventFilter');
-    console.log('Event filter options:', eventFilter ? eventFilter.options.length : 'No filter found');
-    
-    // Check if photos exist in database
-    console.log('Checking for photos in events_gallery table...');
-}
-
-// Call this function temporarily to debug
-setTimeout(debugGallery, 1000);
 
 // Activities Modal
 function openActivitiesModal() {
@@ -3404,7 +3655,10 @@ function loadUnavailableDates() {
                 datesList.innerHTML = `
                     <div class="no-unavailable-dates">
                         <div style="text-align: center; padding: 40px; color: #888;">
-                            <div style="font-size: 48px; margin-bottom: 16px;">📅</div>
+                            <div style="font-size: 48px; margin-bottom: 16px;"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-calendar-x" viewBox="0 0 16 16">
+                                <path d="M6.146 7.146a.5.5 0 0 1 .708 0L8 8.293l1.146-1.147a.5.5 0 1 1 .708.708L8.707 9l1.147 1.146a.5.5 0 0 1-.708.708L8 9.707l-1.146 1.147a.5.5 0 0 1-.708-.708L7.293 9 6.146 7.854a.5.5 0 0 1 0-.708"/>
+                                <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5M1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4z"/>
+                                </svg></div>
                             <p>No unavailable dates scheduled</p>
                             <small>All dates are currently available for scheduling</small>
                         </div>
@@ -3532,130 +3786,6 @@ function openEmailModal(eventId) {
     }
 }
 
-// Calendar functionality with unavailable days
-let currentDate = new Date();
-const serverScheduledDays = <?php echo json_encode($scheduled_days ?? []); ?>;
-const serverCompletedDays = <?php echo json_encode($completed_days ?? []); ?>;
-const serverUnavailableDays = <?php echo json_encode($unavailable_days ?? []); ?>;
-
-function generateCalendar() {
-    const calendarBody = document.getElementById('calendarBody');
-    const monthNames = ["January", "February", "March", "April", "May", "June",
-        "July", "August", "September", "October", "November", "December"
-    ];
-    
-    const year = currentDate.getFullYear();
-    const month = currentDate.getMonth();
-    
-    // Update month title
-    document.getElementById('currentMonth').textContent = 
-        monthNames[month] + ' ' + year;
-    
-    const firstDay = new Date(year, month, 1).getDay();
-    const daysInMonth = new Date(year, month + 1, 0).getDate();
-    const today = new Date();
-    
-    let html = '';
-    let day = 1;
-    
-    // Get events for this specific month and year
-    const scheduledDays = getScheduledDaysForCurrentMonth();
-    const completedDays = getCompletedDaysForCurrentMonth();
-    const unavailableDays = getUnavailableDaysForCurrentMonth();
-    
-    for (let i = 0; i < 6; i++) {
-        html += '<tr>';
-        for (let j = 0; j < 7; j++) {
-            if (i === 0 && j < firstDay) {
-                const prevMonth = new Date(year, month, 0).getDate();
-                html += `<td class="other-month">${prevMonth - firstDay + j + 1}</td>`;
-            } else if (day > daysInMonth) {
-                html += `<td class="other-month">${day - daysInMonth}</td>`;
-                day++;
-            } else {
-                let classes = '';
-                const cellDate = new Date(year, month, day);
-                
-                // Check if this day is unavailable
-                const unavailableInfo = unavailableDays.find(d => d.day === day);
-                if (unavailableInfo) {
-                    classes += 'unavailable ';
-                }
-                
-                // Check if this day has scheduled events (blue highlight)
-                if (scheduledDays.includes(day)) {
-                    classes += 'has-event ';
-                }
-                
-                // Check if this day has completed events (green highlight)
-                if (completedDays.includes(day)) {
-                    classes += 'has-completed-event ';
-                }
-                
-                // Check if today
-                if (cellDate.toDateString() === today.toDateString()) {
-                    classes += 'today';
-                }
-                
-                let title = '';
-                if (unavailableInfo) {
-                    title = `Unavailable: ${unavailableInfo.reason || 'No reason specified'}`;
-                    if (unavailableInfo.start_time) {
-                        title += `\nTime: ${unavailableInfo.start_time}`;
-                        if (unavailableInfo.end_time) {
-                            title += ` - ${unavailableInfo.end_time}`;
-                        }
-                    }
-                }
-                
-                // FIXED: Added cursor pointer and proper onclick
-                html += `<td class="${classes.trim()}" title="${title}" onclick="viewDayEvents(${day})" style="cursor: pointer; color:#2d5f8d">${day}</td>`;
-                day++;
-            }
-        }
-        html += '</tr>';
-        if (day > daysInMonth) break;
-    }
-    
-    calendarBody.innerHTML = html;
-}
-
-function getUnavailableDaysForCurrentMonth() {
-    const currentMonth = currentDate.getMonth() + 1;
-    try {
-        if (serverUnavailableDays && serverUnavailableDays[currentMonth] && Array.isArray(serverUnavailableDays[currentMonth])) {
-            return serverUnavailableDays[currentMonth];
-        }
-    } catch (e) {
-        console.error('Error getting unavailable days:', e);
-    }
-    return [];
-}
-
-function getScheduledDaysForCurrentMonth() {
-    const currentMonth = currentDate.getMonth() + 1;
-    try {
-        if (serverScheduledDays && serverScheduledDays[currentMonth] && Array.isArray(serverScheduledDays[currentMonth])) {
-            return serverScheduledDays[currentMonth];
-        }
-    } catch (e) {
-        console.error('Error getting scheduled days:', e);
-    }
-    return [];
-}
-
-function getCompletedDaysForCurrentMonth() {
-    const currentMonth = currentDate.getMonth() + 1;
-    try {
-        if (serverCompletedDays && serverCompletedDays[currentMonth] && Array.isArray(serverCompletedDays[currentMonth])) {
-            return serverCompletedDays[currentMonth];
-        }
-    } catch (e) {
-        console.error('Error getting completed days:', e);
-    }
-    return [];
-}
-
 // Initialize calendar and set original values
 document.addEventListener('DOMContentLoaded', function() {
     console.log('DOM loaded, initializing calendar...');
@@ -3713,7 +3843,84 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 });
+
+// Better error handling for AJAX calls
+function handleAjaxError(error, context) {
+    console.error('AJAX Error in ' + context + ':', error);
+    return {
+        success: false,
+        error: 'Network error: ' + error.message,
+        photos: [],
+        dates: []
+    };
+}
+
+// Modified loadEventPhotos with better error handling
+function loadEventPhotos(eventId) {
+    const photosGrid = document.getElementById('photosGrid');
+    photosGrid.innerHTML = '<div class="loading">Loading photos...</div>';
+    
+    fetch('ajax-get-event-gallery.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: 'event_id=' + encodeURIComponent(eventId)
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Server error: ' + response.status);
+        }
+        return response.json();
+    })
+    .then(data => {
+        if (data.success && data.photos && data.photos.length > 0) {
+            let html = '';
+            data.photos.forEach(photo => {
+                html += `
+                    <div class="photo-item">
+                        <img src="${photo.image_path}" alt="${photo.caption || 'Event photo'}" class="photo-image" 
+                             onerror="this.onerror=null; this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjUwIiBoZWlnaHQ9IjIwMCIgdmlld0JveD0iMCAwIDI1MCAyMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3Qgd2lkdGg9IjI1MCIgaGVpZ2h0PSIyMDAiIGZpbGw9IiMzYTNhM2EiLz48c3ZnIHg9Ijc1IiB5PSI1NSIgd2lkdGg9IjUwIiBoZWlnaHQ9IjQwIiB2aWV3Qm94PSIwIDAgMjQgMjQiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2I4YzVmZiIgc3Ryb2tlLXdpZHRoPSIyIj48cGF0aCBkPSJNMjAgMjFVMTlBMiAyIDAgMCAxIDIyIDE3SDI4QTIgMiAwIDAgMSAzMCAxOVYyMU0xNiA1QTcgNyAwIDEgMSAyIDVBMTYgMTYgMCAwIDEgMTYgNVoiLz48L3N2Zz48L3N2Zz4='">
+                        <div class="photo-info">
+                            <div class="photo-caption">${photo.caption || 'No caption'}</div>
+                            <div class="photo-description">${photo.description || 'No description'}</div>
+                            <div class="photo-date">${new Date(photo.created_at).toLocaleDateString()}</div>
+                        </div>
+                    </div>
+                `;
+            });
+            photosGrid.innerHTML = html;
+        } else {
+            photosGrid.innerHTML = `
+                <div class="no-photos">
+                    <div style="text-align: center; padding: 40px; color: #888; grid-column: 1 / -1;">
+                        <div style="font-size: 64px; margin-bottom: 16px;"><svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="currentColor" class="bi bi-camera-fill" viewBox="0 0 16 16">
+                                    <path d="M10.5 8.5a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0"/>
+                                    <path d="M2 4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2h-1.172a2 2 0 0 1-1.414-.586l-.828-.828A2 2 0 0 0 9.172 2H6.828a2 2 0 0 0-1.414.586l-.828.828A2 2 0 0 1 3.172 4zm.5 2a.5.5 0 1 1 0-1 .5.5 0 0 1 0 1m9 2.5a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0"/>
+                                    </svg></div>
+                        <p>${data.message || data.error || 'No photos uploaded yet'}</p>
+                        <small>Switch to the Upload tab to add photos</small>
+                    </div>
+                </div>
+            `;
+        }
+    })
+    .catch(error => {
+        console.error('Error loading photos:', error);
+        photosGrid.innerHTML = `
+            <div class="no-photos">
+                <div style="text-align: center; padding: 40px; color: #888; grid-column: 1 / -1;">
+                    <div style="font-size: 64px; margin-bottom: 16px;"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-exclamation-triangle" viewBox="0 0 16 16">
+                    <path d="M7.938 2.016A.13.13 0 0 1 8.002 2a.13.13 0 0 1 .063.016.15.15 0 0 1 .054.057l6.857 11.667c.036.06.035.124.002.183a.2.2 0 0 1-.054.06.1.1 0 0 1-.066.017H1.146a.1.1 0 0 1-.066-.017.2.2 0 0 1-.054-.06.18.18 0 0 1 .002-.183L7.884 2.073a.15.15 0 0 1 .054-.057m1.044-.45a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767z"/>
+                    <path d="M7.002 12a1 1 0 1 1 2 0 1 1 0 0 1-2 0M7.1 5.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0z"/>
+                    </svg></div>
+                    <p>Gallery temporarily unavailable</p>
+                    <small>Photo gallery will be available soon</small>
+                </div>
+            </div>
+        `;
+    });
+}
 </script>
 
 <?php require_once 'includes/footer.php'; ?>
-[file content end]

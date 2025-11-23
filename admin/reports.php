@@ -1661,13 +1661,7 @@ $whereClause = $whereConditions ? "WHERE " . implode(" AND ", $whereConditions) 
     <!-- Schedule & Events Report Content -->
 <div id="scheduleReport" class="report-content">
     <!-- Debug Info -->
-    <div class="debug-info">
-        <strong>🔧 Schedule Report Debug:</strong><br>
-        Total Events: <?php echo $totalEvents; ?><br>
-        Event Types: <?php echo count($eventTypes); ?><br>
-        Event Status: <?php echo count($eventStatus); ?><br>
-        Recent Events: <?php echo count($recentEvents); ?>
-    </div>
+    
 
     <!-- Schedule Dashboard Grid -->
     <div class="dashboard-grid">

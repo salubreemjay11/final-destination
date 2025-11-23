@@ -1,8 +1,14 @@
 <?php
+if (ob_get_level()) {
+    ob_end_clean();
+}
+ob_start();
+
 // Enable error logging at the VERY TOP
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
+
 
 $pageTitle = 'Unified Child & Case Registration - Orphanfare';
 require_once 'includes/header.php';

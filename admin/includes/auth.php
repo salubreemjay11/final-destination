@@ -1,12 +1,35 @@
 <?php
 // admin/includes/auth.php
+
+// Set session timeout to 30 minutes (1800 seconds) - MUST BE BEFORE session_start()
+ini_set('session.gc_maxlifetime', 1800);
+ini_set('session.cookie_lifetime', 1800);
+
 session_start();
 
+// Manual session timeout check (30 minutes)
+function checkSessionTimeout() {
+    if (isset($_SESSION['login_time'])) {
+        $session_duration = 30 * 60; // 30 minutes in seconds
+        if (time() - $_SESSION['login_time'] > $session_duration) {
+            // Session expired
+            session_unset();
+            session_destroy();
+            header("Location: ../login.php?error=session_expired");
+            exit();
+        }
+    }
+}
+
 function requireLogin() {
+    // Check if user is logged in
     if (!isset($_SESSION['user_id']) || !isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
         header('Location: ../login.php');
         exit();
     }
+    
+    // Check session timeout on every page load
+    checkSessionTimeout();
 }
 
 function getCurrentUser() {
@@ -91,7 +114,6 @@ function logActivity($user_id, $action, $table_affected, $record_id) {
     }
 }
 
-
 function trackScheduleActivity($user_id, $action_type, $event_id, $details = '') {
     global $pdo;
     try {
@@ -159,8 +181,6 @@ if (!function_exists('getStatusBadgeClass')) {
         return $classMap[$status] ?? 'status-pending';
     }
 }
-
-// Add to auth.php after the existing functions
 
 // Helper function to get initials from name
 function getInitials($name) {
