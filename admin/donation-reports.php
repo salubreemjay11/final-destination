@@ -608,12 +608,13 @@ body.light-theme .chart-container canvas {
 }
 
 .custom-field-badge {
-    background: #333;
-    color: #b8c5ff;
+    background: #2a2a2a;
+    color: #ffffff;
     padding: 2px 6px;
     border-radius: 10px;
-    font-size: 10px;
+    font-size: 12px;
     white-space: nowrap;
+
 }
 
 .more-fields {

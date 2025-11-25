@@ -32,6 +32,10 @@
     border-radius: 8px;
     overflow: hidden;
   }
+
+  .text {
+    color: #ffffff;
+  }
   
   .foster-table th {
     background: #404040;

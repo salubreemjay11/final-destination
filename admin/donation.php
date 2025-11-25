@@ -861,7 +861,6 @@ $canDelete = $permissionManager->hasPermission('donation', 'delete');
     color: #ffffff;
     font-size: 12px;
     cursor: pointer;
-    margin-right: 8px;
 }
 
 .light-theme .status-select {
@@ -871,7 +870,6 @@ $canDelete = $permissionManager->hasPermission('donation', 'delete');
     color: black;
     font-size: 12px;
     cursor: pointer;
-    margin-right: 8px;
 }
 
 .status-select:focus {

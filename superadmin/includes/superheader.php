@@ -86,7 +86,15 @@ function getTotalActiveUsers($conn) {
         return 0;
     }
     
-    $sql = "SELECT COUNT(*) as total FROM users WHERE status = 'active'";
+    // Check if status column exists in users table
+    $column_check = $conn->query("SHOW COLUMNS FROM users LIKE 'status'");
+    if ($column_check->num_rows == 0) {
+        // If no status column, count all users
+        $sql = "SELECT COUNT(*) as total FROM users";
+    } else {
+        $sql = "SELECT COUNT(*) as total FROM users WHERE status = 'active'";
+    }
+    
     $result = $conn->query($sql);
     if ($result && $result->num_rows > 0) {
         $row = $result->fetch_assoc();
@@ -102,8 +110,14 @@ function getNewUsersThisMonth($conn) {
         return 0;
     }
     
-    $sql = "SELECT COUNT(*) as total FROM users WHERE status = 'active' 
-            AND MONTH(created_at) = MONTH(CURRENT_DATE()) 
+    // Check if created_at column exists
+    $column_check = $conn->query("SHOW COLUMNS FROM users LIKE 'created_at'");
+    if ($column_check->num_rows == 0) {
+        return 0; // Can't determine new users without created_at
+    }
+    
+    $sql = "SELECT COUNT(*) as total FROM users 
+            WHERE MONTH(created_at) = MONTH(CURRENT_DATE()) 
             AND YEAR(created_at) = YEAR(CURRENT_DATE())";
     $result = $conn->query($sql);
     if ($result && $result->num_rows > 0) {
@@ -120,7 +134,20 @@ function getPendingRoleRequests($conn) {
         return 0;
     }
     
-    $sql = "SELECT COUNT(*) as total FROM role_change_requests WHERE status = 'pending'";
+    // Check what status column name exists
+    $column_check = $conn->query("SHOW COLUMNS FROM role_change_requests LIKE 'status'");
+    if ($column_check->num_rows > 0) {
+        $sql = "SELECT COUNT(*) as total FROM role_change_requests WHERE status = 'pending'";
+    } else {
+        // Try request_status column (from your request-role.php)
+        $column_check = $conn->query("SHOW COLUMNS FROM role_change_requests LIKE 'request_status'");
+        if ($column_check->num_rows > 0) {
+            $sql = "SELECT COUNT(*) as total FROM role_change_requests WHERE request_status = 'pending'";
+        } else {
+            return 0;
+        }
+    }
+    
     $result = $conn->query($sql);
     if ($result && $result->num_rows > 0) {
         $row = $result->fetch_assoc();

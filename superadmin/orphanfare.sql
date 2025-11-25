@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 22, 2025 at 12:58 PM
+-- Generation Time: Nov 25, 2025 at 09:19 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -119,7 +119,12 @@ INSERT INTO `admin_notifications` (`id`, `admin_id`, `user_id`, `notification_ty
 (41, 1, 14, 'account_lockout', 'Account Lockout Alert', 'User com@gmail.com has been locked out after 5 failed login attempts. Immediate attention required.', 0, '2025-11-18 15:51:10'),
 (42, 7, 14, 'account_lockout', 'Account Lockout Alert', 'User com@gmail.com has been locked out after 5 failed login attempts. Immediate attention required.', 0, '2025-11-18 15:51:10'),
 (43, 8, 14, 'account_lockout', 'Account Lockout Alert', 'User com@gmail.com has been locked out after 5 failed login attempts. Immediate attention required.', 0, '2025-11-18 15:51:10'),
-(44, 9, 14, 'account_lockout', 'Account Lockout Alert', 'User com@gmail.com has been locked out after 5 failed login attempts. Immediate attention required.', 0, '2025-11-18 15:51:10');
+(44, 9, 14, 'account_lockout', 'Account Lockout Alert', 'User com@gmail.com has been locked out after 5 failed login attempts. Immediate attention required.', 0, '2025-11-18 15:51:10'),
+(45, 1, 14, 'account_lockout', 'Account Lockout Alert', 'User com@gmail.com has been locked out after 6 failed login attempts. Immediate attention required.', 0, '2025-11-23 09:20:58'),
+(46, 7, 14, 'account_lockout', 'Account Lockout Alert', 'User com@gmail.com has been locked out after 6 failed login attempts. Immediate attention required.', 0, '2025-11-23 09:20:58'),
+(47, 8, 14, 'account_lockout', 'Account Lockout Alert', 'User com@gmail.com has been locked out after 6 failed login attempts. Immediate attention required.', 0, '2025-11-23 09:20:58'),
+(48, 9, 14, 'account_lockout', 'Account Lockout Alert', 'User com@gmail.com has been locked out after 6 failed login attempts. Immediate attention required.', 0, '2025-11-23 09:20:58'),
+(49, 15, 14, 'account_lockout', 'Account Lockout Alert', 'User com@gmail.com has been locked out after 6 failed login attempts. Immediate attention required.', 0, '2025-11-23 09:20:58');
 
 -- --------------------------------------------------------
 
@@ -653,7 +658,97 @@ INSERT INTO `audit_logs` (`id`, `user_id`, `action`, `description`, `ip_address`
 (508, 8, 'logout', 'User logged out of the system', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-22 11:50:15'),
 (509, 1, 'login', 'User logged into the system', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-22 11:50:24');
 INSERT INTO `audit_logs` (`id`, `user_id`, `action`, `description`, `ip_address`, `user_agent`, `created_at`) VALUES
-(510, 8, 'login', 'User logged into the system', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-22 11:51:16');
+(510, 8, 'login', 'User logged into the system', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-22 11:51:16'),
+(511, 8, 'login', 'User logged into the system', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-23 01:44:47'),
+(512, 8, 'logout', 'User logged out of the system', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-23 02:51:06'),
+(513, 1, 'login', 'User logged into the system', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-23 02:51:13'),
+(514, 8, 'login', 'User logged into the system', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-23 02:51:45'),
+(515, 8, 'logout', 'User logged out of the system', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-23 02:51:55'),
+(516, 1, 'login', 'User logged into the system', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-23 02:52:02'),
+(517, 1, 'logout', 'User logged out of the system', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-23 02:52:31'),
+(518, 1, 'login', 'User logged into the system', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-23 02:52:37'),
+(519, 8, 'login', 'User logged into the system', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-23 02:59:21'),
+(520, 8, 'logout', 'User logged out of the system', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-23 04:18:13'),
+(521, 1, 'login', 'User logged into the system', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-23 04:18:20'),
+(522, 8, 'logout', 'User logged out of the system', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-23 04:39:20'),
+(523, 1, 'login', 'User logged into the system', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-23 04:39:25'),
+(524, 8, 'login', 'User logged into the system', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-23 04:52:38'),
+(525, 8, 'logout', 'User logged out of the system', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-23 04:53:48'),
+(526, 1, 'login', 'User logged into the system', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-23 04:53:52'),
+(527, 1, 'login', 'User logged into the system', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-23 04:56:39'),
+(528, 8, 'login', 'User logged into the system', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-23 05:04:50'),
+(529, 8, 'logout', 'User logged out of the system', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-23 05:05:55'),
+(530, 8, 'login', 'User logged into the system', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-23 05:06:02'),
+(531, 8, 'logout', 'User logged out of the system', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-23 05:06:41'),
+(532, 8, 'login', 'User logged into the system', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-23 05:06:51'),
+(533, 8, 'logout', 'User logged out of the system', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-23 05:37:05'),
+(534, 8, 'login', 'User logged into the system', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-23 08:57:04'),
+(535, 8, 'logout', 'User logged out of the system', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-23 08:58:15'),
+(536, 8, 'login', 'User logged into the system', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-23 08:58:22'),
+(537, 8, 'logout', 'User logged out of the system', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-23 09:05:39'),
+(538, 8, 'login', 'User logged into the system', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-23 09:05:49'),
+(539, 8, 'logout', 'User logged out of the system', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-23 09:09:55'),
+(540, 8, 'login', 'User logged into the system', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-23 09:10:09'),
+(541, 8, 'logout', 'User logged out of the system', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-23 09:18:12'),
+(542, 8, 'login', 'User logged into the system', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-23 09:19:14'),
+(543, 8, 'logout', 'User logged out of the system', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-23 09:20:55'),
+(544, 14, 'security_alert', 'Multiple failed login attempts: 6', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-23 09:20:58'),
+(545, 8, 'login', 'User logged into the system', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-23 09:22:53'),
+(546, 8, 'logout', 'User logged out of the system', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-23 09:24:53'),
+(547, 1, 'login', 'User logged into the system', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-23 09:25:06'),
+(548, 8, 'login', 'User logged into the system', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-23 09:47:33'),
+(549, 8, 'logout', 'User logged out of the system', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-23 09:50:51'),
+(550, 8, 'login', 'User logged into the system', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-23 09:50:59'),
+(551, 8, 'logout', 'User logged out of the system', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-23 09:54:13'),
+(552, 8, 'login', 'User logged into the system', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-23 09:55:04'),
+(553, 8, 'logout', 'User logged out of the system', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-23 10:32:36'),
+(554, 8, 'login', 'User logged into the system', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-23 10:32:42'),
+(555, 8, 'logout', 'User logged out of the system', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-23 11:07:17'),
+(556, 1, 'login', 'User logged into the system', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-23 11:07:21'),
+(557, 1, 'login', 'User logged into the system', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-23 11:10:36'),
+(558, 1, 'login', 'User logged into the system', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-23 11:29:27'),
+(559, 8, 'login', 'User logged into the system', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-23 11:29:41'),
+(560, 8, 'login', 'User logged into the system', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-23 13:12:13'),
+(561, 8, 'login', 'User logged into the system', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-23 14:09:21'),
+(562, 8, 'login', 'User logged into the system', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-25 02:06:42'),
+(563, 8, 'logout', 'User logged out of the system', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-25 02:06:48'),
+(564, 15, 'login', 'User logged into the system', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-25 02:06:58'),
+(565, 15, 'logout', 'User logged out of the system', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-25 02:07:06'),
+(566, 1, 'login', 'User logged into the system', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-25 02:07:17'),
+(567, 1, 'update', 'Updated user: emjay11 (Role: admin -> Social Welfare Assistant, Status: active -> active)', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-25 02:07:31'),
+(568, 15, 'login', 'User logged into the system', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-25 02:07:45'),
+(569, 15, 'logout', 'User logged out of the system', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-25 02:08:50'),
+(570, 1, 'login', 'User logged into the system', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-25 02:08:54'),
+(571, 15, 'login', 'User logged into the system', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-25 02:15:04'),
+(572, 15, 'login', 'User logged into the system', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-25 02:50:03'),
+(573, 15, 'login', 'User logged into the system', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-25 03:21:52'),
+(574, 15, 'login', 'User logged into the system', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-25 03:52:22'),
+(575, 15, 'logout', 'User logged out of the system', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-25 03:52:43'),
+(576, 1, 'login', 'User logged into the system', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-25 03:52:49'),
+(577, 15, 'login', 'User logged into the system', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-25 03:59:13'),
+(578, 15, 'login', 'User logged into the system', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-25 04:32:17'),
+(579, 15, 'logout', 'User logged out of the system', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-25 04:42:36'),
+(580, 1, 'login', 'User logged into the system', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-25 04:42:40'),
+(581, 15, 'login', 'User logged into the system', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-25 04:46:50'),
+(582, 15, 'logout', 'User logged out of the system', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-25 04:46:59'),
+(583, 1, 'login', 'User logged into the system', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-25 04:47:04'),
+(584, 8, 'login', 'User logged into the system', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-25 05:00:13'),
+(585, 8, 'logout', 'User logged out of the system', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-25 05:01:14'),
+(586, 1, 'login', 'User logged into the system', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-25 05:01:20'),
+(587, 8, 'login', 'User logged into the system', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-25 05:21:46'),
+(588, 8, 'logout', 'User logged out of the system', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-25 05:31:57'),
+(589, 1, 'login', 'User logged into the system', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-25 05:32:11'),
+(590, 8, 'login', 'User logged into the system', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-25 05:32:30'),
+(591, 8, 'login', 'User logged into the system', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-25 06:08:32'),
+(592, 8, 'login', 'User logged into the system', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-25 06:44:13'),
+(593, 8, 'logout', 'User logged out of the system', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-25 06:49:37'),
+(594, 1, 'login', 'User logged into the system', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-25 06:49:41'),
+(595, 8, 'login', 'User logged into the system', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-25 06:50:45'),
+(596, 8, 'login', 'User logged into the system', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-25 07:24:32'),
+(597, 8, 'logout', 'User logged out of the system', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-25 07:25:41'),
+(598, 1, 'login', 'User logged into the system', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-25 07:25:53'),
+(599, 8, 'login', 'User logged into the system', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-25 07:26:16'),
+(600, 8, 'login', 'User logged into the system', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-25 08:11:07');
 
 -- --------------------------------------------------------
 
@@ -999,7 +1094,50 @@ INSERT INTO `audit_log_admin` (`id`, `user_id`, `action`, `description`, `ip_add
 (320, 8, 'Event Photo Uploaded', 'Event Photo Uploaded on events_gallery (ID: EVT-2025-010)', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-22 10:36:39'),
 (321, 8, 'Event Photo Uploaded', 'Event Photo Uploaded on events_gallery (ID: EVT-2025-010)', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-22 10:36:54'),
 (322, 8, 'Event Created', 'Event Created on events (ID: EVT-2025-011)', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-22 11:22:00'),
-(323, 8, 'Event Created', 'Event Created on events (ID: EVT-2025-012)', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-22 11:52:00');
+(323, 8, 'Event Created', 'Event Created on events (ID: EVT-2025-012)', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-22 11:52:00'),
+(324, 8, 'Event Photo Uploaded', 'Event Photo Uploaded on events_gallery (ID: EVT-2025-011)', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-23 01:45:23'),
+(325, 8, 'Child Record Created', 'Child Record Created on children_cases (ID: UC-2025-006)', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-23 01:46:58'),
+(326, 8, 'Child Record Created', 'Child Record Created on children_cases (ID: UC-2025-007)', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-23 01:49:28'),
+(327, 8, 'Foster Parent Added', 'Foster Parent Added on foster_parents (ID: FT-2025-002)', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-23 03:13:39'),
+(328, 8, 'Foster Parent Updated', 'Foster Parent Updated on foster_parents (ID: FT-2025-001)', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-23 03:14:32'),
+(329, 8, 'Foster Parent Updated', 'Foster Parent Updated on foster_parents (ID: FT-2025-001)', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-23 03:15:05'),
+(330, 8, 'Event Photo Uploaded', 'Event Photo Uploaded on events_gallery (ID: EVT-2025-011)', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-23 03:15:38'),
+(331, 8, 'Foster Parent Added', 'Foster Parent Added on foster_parents (ID: FT-2025-002)', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-23 03:27:09'),
+(332, 8, 'Child Record Created', 'Child Record Created on children_cases (ID: UC-2025-008)', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-23 04:34:33'),
+(333, 8, 'Child Record Created', 'Child Record Created on children_cases (ID: UC-2025-009)', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-23 04:37:41'),
+(334, 8, 'Case Added to Child', 'Case Added to Child on cases (ID: CASE-2025-002)', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-23 04:37:54'),
+(335, 8, 'Case Updated', 'Case Updated on cases (ID: CASE-2025-002)', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-23 05:05:12'),
+(336, 8, 'Child Record Created', 'Child Record Created on children_cases (ID: UC-2025-010)', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-23 11:30:09'),
+(337, 8, 'Case Added to Child', 'Case Added to Child on cases (ID: CASE-2025-003)', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-23 11:30:24'),
+(338, 8, 'Event Created', 'Event Created on events (ID: EVT-2025-013)', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-23 14:09:56'),
+(339, 8, 'Event Photo Uploaded', 'Event Photo Uploaded on events_gallery (ID: EVT-2025-013)', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-23 14:10:44'),
+(340, 8, 'Unified Record Updated', 'Unified Record Updated on children_cases (ID: CASE-2025-003)', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-25 05:33:37'),
+(341, 8, 'Unified Record Updated', 'Unified Record Updated on children_cases (ID: CASE-2025-003)', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-25 05:34:00'),
+(342, 8, 'Unified Record Updated', 'Unified Record Updated on children_cases (ID: CASE-2025-003)', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-25 05:35:04'),
+(343, 8, 'Child Record Created', 'Child Record Created on children_cases (ID: UC-2025-011)', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-25 05:37:03'),
+(344, 8, 'Unified Record Updated', 'Unified Record Updated on children_cases (ID: CASE-2025-003)', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-25 05:46:25'),
+(345, 8, 'Unified Record Updated', 'Unified Record Updated on children_cases (ID: CASE-2025-003)', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-25 05:47:00'),
+(346, 8, 'Legal Action Added', 'Legal Action Added on legal_actions (ID: CASE-2025-003)', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-25 05:57:14'),
+(347, 8, 'Evidence Photos Uploaded', 'Evidence Photos Uploaded on evidence_photos (ID: CASE-2025-003)', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-25 05:58:16'),
+(348, 8, 'Event Created', 'Event Created on events (ID: EVT-2025-014)', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-25 05:59:06'),
+(349, 8, 'Event Deleted', 'Event Deleted on events (ID: EVT-2025-014)', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-25 05:59:32'),
+(350, 8, 'Event Created', 'Event Created on events (ID: EVT-2025-015)', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-25 05:59:48'),
+(351, 8, 'Email Reminder Sent', 'Email Reminder Sent on events (ID: EVT-2025-015)', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-25 06:00:54'),
+(352, 8, 'Event Deleted', 'Event Deleted on events (ID: EVT-2025-015)', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-25 06:01:13'),
+(353, 8, 'Event Created', 'Event Created on events (ID: EVT-2025-016)', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-25 06:01:31'),
+(354, 8, 'Email Reminder Sent', 'Email Reminder Sent on events (ID: EVT-2025-016)', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-25 06:01:59'),
+(355, 8, 'Unified Record Updated', 'Unified Record Updated on children_cases (ID: CASE-2025-003)', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-25 06:08:55'),
+(356, 8, 'Unified Record Updated', 'Unified Record Updated on children_cases (ID: CASE-2025-003)', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-25 06:44:51'),
+(357, 8, 'Unified Record Updated', 'Unified Record Updated on children_cases (ID: CASE-2025-003)', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-25 06:45:15'),
+(358, 8, 'Unified Record Updated', 'Unified Record Updated on children_cases (ID: CASE-2025-003)', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-25 06:49:29'),
+(359, 8, 'Unified Record Updated', 'Unified Record Updated on children_cases (ID: CASE-2025-003)', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-25 06:50:56'),
+(360, 8, 'Unified Record Updated', 'Unified Record Updated on children_cases (ID: CASE-2025-003)', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-25 07:24:43'),
+(361, 8, 'Unified Record Updated', 'Unified Record Updated on children_cases (ID: CASE-2025-003)', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-25 07:26:25'),
+(362, 8, 'Unified Record Updated', 'Unified Record Updated on children_cases (ID: UC-2025-003)', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-25 07:27:07'),
+(363, 8, 'Case Added to Child', 'Case Added to Child on cases (ID: CASE-2025-004)', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-25 07:52:14'),
+(364, 8, 'Unified Record Updated', 'Unified Record Updated on children_cases (ID: CASE-2025-003)', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-25 08:11:19'),
+(365, 8, 'Unified Record Updated', 'Unified Record Updated on children_cases (ID: CASE-2025-003)', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-25 08:11:49'),
+(366, 8, 'Unified Record Updated', 'Unified Record Updated on children_cases (ID: CASE-2025-003)', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-25 08:13:49');
 
 -- --------------------------------------------------------
 
@@ -1067,18 +1205,22 @@ CREATE TABLE `cases` (
   `cf_evidence_notes` text DEFAULT NULL,
   `cf_risk_level` varchar(50) DEFAULT NULL,
   `cf_case_priority` varchar(50) DEFAULT NULL,
-  `cf_investigation_status` varchar(100) DEFAULT NULL
+  `cf_investigation_status` varchar(100) DEFAULT NULL,
+  `cf_favorite_color` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `cases`
 --
 
-INSERT INTO `cases` (`id`, `case_id`, `case_type`, `child_name`, `child_age`, `child_gender`, `current_location`, `birth_date`, `birth_place`, `educational_attention`, `contact_number`, `reported_by`, `reporter_relation`, `reporter_phone`, `reporter_email`, `expected_date`, `description`, `priority`, `social_worker`, `current_status`, `status`, `created_date`, `created_by`, `created_at`, `updated_at`, `linked_child_id`, `cf_incident_date`, `cf_incident_location`, `cf_perpetrator_name`, `cf_perpetrator_relation`, `cf_evidence_notes`, `cf_risk_level`, `cf_case_priority`, `cf_investigation_status`) VALUES
-(4, 'UC-2025-002', 'Physical Abuse', 'emjay', 15, 'Male', '442', '2025-10-24', NULL, NULL, 'sdasdasd', 'sdadasd', 'sdasdas', 'dasdasda', 'emjay@gamil.com', '2025-10-24', 'dasdasd', 'urgent', 'juan-cruz', NULL, 'Open', '2025-10-24 00:00:00', 8, '2025-10-24 12:13:52', '2025-11-08 13:29:55', 'UC-2025-002', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-(5, 'UC-2025-003', 'Physical Abuse', '', 0, 'Male', '442', '2025-11-02', NULL, NULL, 'dasds', 'dsadasd', '', '', '', '2025-11-02', 'dasdasd', 'urgent', '', NULL, 'Open', '2025-11-02 00:00:00', 8, '2025-11-02 10:31:19', '2025-11-21 02:30:00', 'UC-2025-003', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-(6, 'UC-2025-004', 'Physical Abuse', '', 5, 'Female', '44', '2025-11-09', NULL, NULL, 'dasds', 'dsadasd', 'dasd', 'dsadasdas', 'emjay@gamil.com', '2025-11-09', 'hi', 'urgent', '', NULL, 'Open', '2025-11-09 00:00:00', 1, '2025-11-09 08:43:58', '2025-11-21 02:30:22', 'UC-2025-004', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-(7, 'CASE-2025-001', 'Sexual Abuse', '', 12, 'Male', '44', '2025-11-29', NULL, NULL, 'sdasdasd', 'dsadasd', 'dasdasd', 'dsadasdas', 'emjay@gamil.com', '2025-11-21', 'dasdasdasdasdd', 'urgent', 'juan-cruz', NULL, 'Open', '2025-11-21 00:00:00', 8, '2025-11-21 03:04:06', '2025-11-21 03:06:04', 'UC-2025-005', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `cases` (`id`, `case_id`, `case_type`, `child_name`, `child_age`, `child_gender`, `current_location`, `birth_date`, `birth_place`, `educational_attention`, `contact_number`, `reported_by`, `reporter_relation`, `reporter_phone`, `reporter_email`, `expected_date`, `description`, `priority`, `social_worker`, `current_status`, `status`, `created_date`, `created_by`, `created_at`, `updated_at`, `linked_child_id`, `cf_incident_date`, `cf_incident_location`, `cf_perpetrator_name`, `cf_perpetrator_relation`, `cf_evidence_notes`, `cf_risk_level`, `cf_case_priority`, `cf_investigation_status`, `cf_favorite_color`) VALUES
+(4, 'UC-2025-002', 'Physical Abuse', 'emjay', 15, 'Male', '442', '2025-10-24', NULL, NULL, 'sdasdasd', 'sdadasd', 'sdasdas', 'dasdasda', 'emjay@gamil.com', '2025-10-24', 'dasdasd', 'urgent', 'juan-cruz', NULL, 'Open', '2025-10-24 00:00:00', 8, '2025-10-24 12:13:52', '2025-11-08 13:29:55', 'UC-2025-002', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(5, 'UC-2025-003', 'Physical Abuse', '', 0, 'Male', '442', '2025-11-02', NULL, NULL, 'dasds', 'dsadasd', '', '', '', '2025-11-02', 'dasdasd', 'urgent', '', NULL, 'Open', '2025-11-02 00:00:00', 8, '2025-11-02 10:31:19', '2025-11-25 07:27:07', 'UC-2025-003', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(6, 'UC-2025-004', 'Physical Abuse', '', 5, 'Female', '44', '2025-11-09', NULL, NULL, 'dasds', 'dsadasd', 'dasd', 'dsadasdas', 'emjay@gamil.com', '2025-11-09', 'hi', 'urgent', '', NULL, 'Open', '2025-11-09 00:00:00', 1, '2025-11-09 08:43:58', '2025-11-21 02:30:22', 'UC-2025-004', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(7, 'CASE-2025-001', 'Sexual Abuse', '', 12, 'Male', '44', '2025-11-29', NULL, NULL, 'sdasdasd', 'dsadasd', 'dasdasd', 'dsadasdas', 'emjay@gamil.com', '2025-11-21', 'dasdasdasdasdd', 'urgent', 'juan-cruz', NULL, 'Open', '2025-11-21 00:00:00', 8, '2025-11-21 03:04:06', '2025-11-21 03:06:04', 'UC-2025-005', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(8, 'CASE-2025-002', 'Sexual Abuse', '', 12, 'Male', 'DASDASDASD', '2025-11-23', NULL, NULL, 'dasdasd', '', '', '', '', '2025-11-23', 'sdasdasd', 'urgent', '', NULL, 'Open', '2025-11-23 12:37:54', 8, '2025-11-23 04:37:54', '2025-11-23 05:05:12', 'UC-2025-009', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(9, 'CASE-2025-003', '', '', 0, '', '', NULL, NULL, NULL, '', '', '', '', '', '2025-11-25', '', '', '', NULL, 'Open', '2025-11-23 19:30:24', 8, '2025-11-23 11:30:24', '2025-11-25 08:13:49', 'UC-2025-010', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(10, 'CASE-2025-004', '', '', 0, 'Male', 'dasdsasdas', '2025-11-25', NULL, NULL, 'dasdas', '', '', '', '', '2025-11-25', '', '', '', NULL, 'Open', '2025-11-25 15:52:14', 8, '2025-11-25 07:52:14', '2025-11-25 07:52:14', 'UC-2025-011', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -1122,22 +1264,23 @@ CREATE TABLE `children` (
   `cf_hobbies` text DEFAULT NULL,
   `cf_school_name` varchar(255) DEFAULT NULL,
   `cf_grade_level` varchar(50) DEFAULT NULL,
-  `cf_favorite_color` varchar(255) DEFAULT NULL,
-  `cf_medical_history` varchar(255) DEFAULT NULL,
-  `cf_time_gold` date DEFAULT NULL,
-  `cf_radio_buttons` varchar(255) DEFAULT NULL,
-  `cf_favorite_anime` varchar(255) DEFAULT NULL,
-  `cf_favorite_hobbies` varchar(255) DEFAULT NULL
+  `cf_favorite_color` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `children`
 --
 
-INSERT INTO `children` (`id`, `child_id`, `name`, `age`, `gender`, `date_of_birth`, `entry_date`, `status`, `address`, `civil_status`, `birth_place`, `educational_attainment`, `occupation`, `monthly_income`, `religion`, `family_composition`, `problem_presented`, `assessment_recommendation`, `health_status`, `allergies`, `emergency_contact`, `contact_phone`, `problem_description`, `notes`, `photo_path`, `created_at`, `updated_at`, `linked_case_id`, `created_by`, `cf_educational_level`, `cf_religion`, `cf_special_needs`, `cf_hobbies`, `cf_school_name`, `cf_grade_level`, `cf_favorite_color`, `cf_medical_history`, `cf_time_gold`, `cf_radio_buttons`, `cf_favorite_anime`, `cf_favorite_hobbies`) VALUES
-(6, 'UC-2025-003', '', 0, 'Male', '2025-11-02', '2025-11-02', 'In Care', '442', '', '', '', '', '', '', NULL, '', '', 'Good', 'asdasd', 'asdasd', 'dasds', 'asdasd', 'dsadasd', 'uploads/children/UC-2025-003.jpg', '2025-11-02 10:31:19', '2025-11-15 10:30:02', 'UC-2025-003', 8, NULL, NULL, NULL, NULL, NULL, NULL, '', '', '0000-00-00', NULL, NULL, NULL),
-(7, 'UC-2025-004', '', 5, 'Female', '2025-11-09', '2025-11-11', 'Adopted', '44', 'Married', 'pasig city', 'College Level', 'Professional', '26516', 'catholic', '[{\"name\":\"gio\",\"relationship\":\"brother\",\"age\":\"19\",\"sex\":\"male\",\"civil_status\":\"single\",\"educational_attainment\":\"college level\",\"occupation_income\":\"15611\"}]', 'hello', 'asdasdasdsad', 'Good', 'water', 'dasdas', 'dasds', 'dasdas', 'dasdads', 'uploads/children/UC-2025-004_1763203607.jpg', '2025-11-09 08:43:58', '2025-11-21 02:19:05', 'UC-2025-004', 1, NULL, NULL, NULL, NULL, NULL, NULL, 'blue', 'KIT', '2025-11-11', 'Kingdom', 'RED', ''),
-(38, 'UC-2025-005', '', 12, 'Male', '2025-11-29', '2025-11-21', 'In Care', '44', 'Single', 'pasig city', 'College Level', 'Professional', '26516', 'catholic', NULL, 'fasddsfsadffd', 'faddfdaddfdad', 'Good', 'sdfd', 'dasdasd', 'sdasdasd', 'adfafasddsdfdsasfd', 'fadsdfdasdffasdsfd', 'public/placeholder.jpg', '2025-11-21 03:03:46', '2025-11-21 03:04:06', 'CASE-2025-001', 8, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `children` (`id`, `child_id`, `name`, `age`, `gender`, `date_of_birth`, `entry_date`, `status`, `address`, `civil_status`, `birth_place`, `educational_attainment`, `occupation`, `monthly_income`, `religion`, `family_composition`, `problem_presented`, `assessment_recommendation`, `health_status`, `allergies`, `emergency_contact`, `contact_phone`, `problem_description`, `notes`, `photo_path`, `created_at`, `updated_at`, `linked_case_id`, `created_by`, `cf_educational_level`, `cf_religion`, `cf_special_needs`, `cf_hobbies`, `cf_school_name`, `cf_grade_level`, `cf_favorite_color`) VALUES
+(6, 'UC-2025-003', '', 0, 'Male', '2025-11-02', '2025-11-02', 'In Care', '442', '', '', '', '', '', '', NULL, '', '', 'Good', 'asdasd', 'asdasd', 'dasds', 'asdasd', 'dsadasd', 'uploads/children/UC-2025-003.jpg', '2025-11-02 10:31:19', '2025-11-25 08:14:06', 'UC-2025-003', 8, NULL, NULL, NULL, NULL, NULL, NULL, 'red'),
+(7, 'UC-2025-004', '', 5, 'Female', '2025-11-09', '2025-11-11', 'Adopted', '44', 'Married', 'pasig city', 'College Level', 'Professional', '26516', 'catholic', '[{\"name\":\"gio\",\"relationship\":\"brother\",\"age\":\"19\",\"sex\":\"male\",\"civil_status\":\"single\",\"educational_attainment\":\"college level\",\"occupation_income\":\"15611\"}]', 'hello', 'asdasdasdsad', 'Good', 'water', 'dasdas', 'dasds', 'dasdas', 'dasdads', 'uploads/children/UC-2025-004_1763203607.jpg', '2025-11-09 08:43:58', '2025-11-21 02:19:05', 'UC-2025-004', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(38, 'UC-2025-005', '', 12, 'Male', '2025-11-29', '2025-11-21', 'In Care', '44', 'Single', 'pasig city', 'College Level', 'Professional', '26516', 'catholic', NULL, 'fasddsfsadffd', 'faddfdaddfdad', 'Good', 'sdfd', 'dasdasd', 'sdasdasd', 'adfafasddsdfdsasfd', 'fadsdfdasdffasdsfd', 'public/placeholder.jpg', '2025-11-21 03:03:46', '2025-11-21 03:04:06', 'CASE-2025-001', 8, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(39, 'UC-2025-006', '', 12, 'Male', NULL, '2025-11-23', 'In Care', '4442', 'Married', 'dsaddasd', 'College Level', 'none', '4342', 'cayholic', NULL, 'asdasdas', 'dsadasdasd', 'Good', 'xsxSDSD', 'dsadasddsdasdasdasdasd', '09564456', 'dasdasdasdasd', 'sadasdasdasdas', 'uploads/children/UC-2025-006_1763862418.png', '2025-11-23 01:46:58', '2025-11-23 01:46:58', NULL, 8, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(40, 'UC-2025-007', '', 1, 'Male', '2025-11-23', '2025-11-23', 'In Care', '4442', 'Married', 'pasig', 'College Level', 'none', '4342', 'cayholic', NULL, 'asdasdasds', 'sadasdasd', 'Good', 'dsdasdassdsa', 'sdasdasd', '09564456', 'dsadasdasdasd', 'dsadasdasdas', 'public/placeholder.jpg', '2025-11-23 01:49:28', '2025-11-23 01:49:28', NULL, 8, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(41, 'UC-2025-008', '', 12, 'Male', '2025-11-23', '2025-11-23', 'Adopted', 'DASDASDASD', '', 'dasdasdasd', '', 'dasdasd', 'asdas', 'dasdasdas', NULL, 'dsad', 'asdasd', 'Good', 'dasdasdasd', 'asdasd', 'dasdasd', 'dasdasdasd', 'sdasdasdas', 'public/placeholder.jpg', '2025-11-23 04:34:33', '2025-11-23 04:34:33', NULL, 8, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(42, 'UC-2025-009', '', 12, 'Male', '2025-11-23', '2025-11-23', 'Adopted', 'DASDASDASD', '', 'dasdasdasd', '', 'dasdasd', 'asdas', 'dasdasdas', NULL, 'dsad', 'asdasd', 'Good', 'dasdasdasd', 'asdasd', 'dasdasd', 'dasdasdasd', 'sdasdasdas', 'public/placeholder.jpg', '2025-11-23 04:37:41', '2025-11-23 04:37:54', 'CASE-2025-002', 8, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(43, 'UC-2025-010', '', 12, 'Female', '2025-11-23', '2025-11-23', 'In Care', 'dasadasds', 'Divorced', 'dasdsdasdds', 'No Formal Education', 'dsasdasdsad', 'sadasdasdsad', 'sadasdasds', NULL, 'das', 'asdasdssads', 'Good', 'dsasdasdd', 'dasdasdds', 'dadsdasd', 'asdasdsasd', 'dasdsasds', 'public/placeholder.jpg', '2025-11-23 11:30:09', '2025-11-25 05:30:02', 'CASE-2025-003', 8, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(44, 'UC-2025-011', '', 0, 'Male', '2025-11-25', '2025-11-25', 'In Care', 'dasdsasdas', 'Single', 'dasdasd', 'College Level', 'dasdasdas', 'sadas', 'asdasdsas', NULL, 'dasdasd', 'dassdasdasd', 'Good', 'dasdasdasd', 'sadsadsdasd', 'dasdas', 'asdasdsads', '', 'public/placeholder.jpg', '2025-11-25 05:37:03', '2025-11-25 05:52:58', NULL, 8, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -1169,14 +1312,8 @@ CREATE TABLE `custom_fields` (
 --
 
 INSERT INTO `custom_fields` (`id`, `field_name`, `field_label`, `field_type`, `field_options`, `module`, `placeholder_text`, `default_value`, `help_text`, `is_required`, `field_order`, `display_order`, `is_active`, `created_by`, `created_at`, `updated_at`) VALUES
-(1, 'favorite_color', 'Favorite Color ', 'text', '[]', 'children', 'Enter child\'s favorite color', '@', '', 0, 0, 0, 1, 1, '2025-11-10 14:35:43', '2025-11-10 15:37:17'),
-(3, 'medical_history', 'medical_history', 'select', '{\"KIT\":\"KIT\",\"TAPE\":\"TAPE\"}', 'children', '', '', '', 0, 0, 0, 1, 1, '2025-11-10 15:18:30', '2025-11-10 15:18:30'),
-(6, 'time_gold', 'time', 'date', '[]', 'children', '', '', '', 0, 0, 0, 1, 1, '2025-11-10 15:22:30', '2025-11-10 15:22:30'),
-(7, 'radio_buttons', 'radio', 'radio', '{\"RED\":\"RED\",\"Kingdom\":\"Kindom\"}', 'children', '', '', '', 0, 0, 0, 1, 1, '2025-11-10 15:23:41', '2025-11-10 15:23:41'),
-(15, 'favorite_anime', 'anime', 'checkbox', '{\"RED\":\"RED\",\"Kingdom\":\"Kindom\"}', 'children', '', '', '', 0, 0, 0, 1, 1, '2025-11-10 17:00:17', '2025-11-10 17:00:17'),
-(19, 'favorite_place', 'place', 'text', '[]', 'foster', '', '', '', 0, 0, 0, 1, 1, '2025-11-11 02:36:34', '2025-11-11 02:36:34'),
-(20, 'time_management', 'time', 'text', '[]', 'schedule', '', '', '', 0, 0, 0, 1, 1, '2025-11-11 03:53:34', '2025-11-11 03:53:34'),
-(21, 'favorite_hobbies', 'hobbies', 'select', '{\"green\":\"green\",\"one\":\"one\"}', 'children', 'Enter child\'s favorite anime', '', '', 0, 0, 0, 1, 1, '2025-11-15 11:00:33', '2025-11-15 11:00:33');
+(23, 'favorite_color', 'Favorite Color ', 'textarea', '[]', 'children', '', '', '', 0, 0, 0, 1, 1, '2025-11-25 06:50:33', '2025-11-25 06:50:33'),
+(24, 'favorite_color', 'Favorite Color ', 'textarea', '[]', 'cases', '', '', '', 0, 0, 0, 1, 1, '2025-11-25 07:26:07', '2025-11-25 07:26:07');
 
 -- --------------------------------------------------------
 
@@ -1286,7 +1423,9 @@ INSERT INTO `donations` (`id`, `donation_id`, `donor_name`, `donor_contact`, `do
 (10, 'DON-20251111-030911-', 'gio', '021614', 'salubreemjay@gmail.com', 'Goods', 'sadsasds', '2025-11-11', 'Received', 'dsadassd', '2025-11-11 02:09:11', '2025-11-18 16:45:22', NULL, NULL, NULL, 0),
 (13, 'DON-20251111-121332-', 'emjay', '021614', 'salubreemjay@gmail.com', 'Goods', 'dsadasdasdasd', '2025-11-11', 'Received', 'dasdasdas', '2025-11-11 11:13:32', '2025-11-18 16:50:55', NULL, NULL, NULL, 0),
 (14, 'DON-20251115-101953-', 'Anonymous Donor', '', '', 'Goods', 'sdasdasdasd', '2025-11-15', 'Completed', 'dsadasdas', '2025-11-15 09:19:53', '2025-11-18 16:49:51', NULL, NULL, NULL, 0),
-(15, 'DON-20251119-024108-', 'Anonymous Donor', '021614', 'salubre@gmail.con', 'Goods', 'sdadad', '2025-11-19', 'Received', '', '2025-11-19 01:41:08', '2025-11-19 01:41:08', NULL, NULL, NULL, 0);
+(15, 'DON-20251119-024108-', 'Anonymous Donor', '021614', 'salubre@gmail.con', 'Goods', 'sdadad', '2025-11-19', 'Received', '', '2025-11-19 01:41:08', '2025-11-19 01:41:08', NULL, NULL, NULL, 0),
+(16, 'DON-20251123-040617-', 'tacs', '4323423423', '', 'Goods', 'asfsdfsf', '2025-11-23', 'Received', '', '2025-11-23 03:06:17', '2025-11-23 03:06:17', NULL, NULL, NULL, 0),
+(17, 'DON-20251125-065839-', 'Anonymous Donor', '', '', 'Goods', 'sadasdasddsasd', '2025-11-25', 'Received', 'dsasdasdadsdsd', '2025-11-25 05:58:39', '2025-11-25 05:58:39', NULL, NULL, NULL, 0);
 
 -- --------------------------------------------------------
 
@@ -1316,7 +1455,9 @@ INSERT INTO `email_logs` (`id`, `email_address`, `event_id`, `subject`, `sent_at
 (6, 'salubreemjay@gmail.com', 'TEST-001', '? Orphanfare Meeting: Test Meeting - System Check - Oct 25, 2025 at 6:39 AM', '2025-10-25 12:39:15', 'sent'),
 (7, 'salubreemjay@gmail.com', 'EVT-2025-004', '? Orphanfare Meeting: wow - Oct 25, 2025 at 2:30 PM', '2025-10-25 12:43:36', 'sent'),
 (8, 'salubreemjay11@gmail.com', 'EVT-2025-004', '? Orphanfare Meeting: wow - Oct 25, 2025 at 2:30 PM', '2025-10-25 12:44:10', 'sent'),
-(9, 'salubreemjay@gmail.com', 'EVT-2025-013', '? Orphanfare Meeting: emjay - Nov 15, 2025 at 10:00 PM', '2025-11-15 03:08:47', 'sent');
+(9, 'salubreemjay@gmail.com', 'EVT-2025-013', '? Orphanfare Meeting: emjay - Nov 15, 2025 at 10:00 PM', '2025-11-15 03:08:47', 'sent'),
+(10, 'salubreemjay@gmail.com', 'EVT-2025-015', '? Orphanfare Meeting: lah - Dec 5, 2025 at 1:59 PM', '2025-11-25 14:00:54', 'sent'),
+(11, 'salubreemjay@gmail.com', 'EVT-2025-016', '? Orphanfare Meeting: lah - Dec 5, 2025 at 2:01 PM', '2025-11-25 14:01:59', 'sent');
 
 -- --------------------------------------------------------
 
@@ -1340,7 +1481,6 @@ CREATE TABLE `events` (
   `created_by` int(11) DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  `cf_time_management` varchar(255) DEFAULT NULL,
   `cf_time_gold` date DEFAULT NULL,
   `cf_radio_buttons` varchar(255) DEFAULT NULL,
   `cf_phone_number` varchar(20) DEFAULT NULL,
@@ -1353,19 +1493,23 @@ CREATE TABLE `events` (
 -- Dumping data for table `events`
 --
 
-INSERT INTO `events` (`id`, `event_id`, `title`, `description`, `event_type`, `event_date`, `event_time`, `location`, `assigned_to`, `notes`, `status`, `is_active`, `created_by`, `created_at`, `updated_at`, `cf_time_management`, `cf_time_gold`, `cf_radio_buttons`, `cf_phone_number`, `cf_u_rl`, `cf_email_mail`, `cf_favorite_anime`) VALUES
-(37, 'EVT-2025-001', 'nyek', '', 'home_visit', '2025-11-19', '10:24:00', 'storage room', 'dsasdas', '', 'Completed', 0, 8, '2025-11-19 02:24:01', '2025-11-19 04:01:24', '', NULL, NULL, NULL, NULL, NULL, NULL),
-(54, 'EVT-2025-002', 'home', '', 'home_visit', '2025-11-21', '12:12:00', 'storage room', '', '', 'Scheduled', 0, 8, '2025-11-19 04:08:50', '2025-11-19 04:09:19', '', NULL, NULL, NULL, NULL, NULL, NULL),
-(55, 'EVT-2025-003', 'home', '', 'home_visit', '2025-11-28', '12:13:00', 'storage room', 'dsasdas', '', 'Scheduled', 1, 8, '2025-11-19 04:09:38', '2025-11-19 04:09:38', '', NULL, NULL, NULL, NULL, NULL, NULL),
-(56, 'EVT-2025-004', 'nyek ', '', 'home_visit', '2025-11-29', '12:25:00', '', '', '', 'Scheduled', 0, 8, '2025-11-19 04:22:42', '2025-11-19 04:25:07', '', NULL, NULL, NULL, NULL, NULL, NULL),
-(57, 'EVT-2025-005', 'nyek ', '', 'home_visit', '2025-11-29', '12:25:00', '', '', '', 'Scheduled', 0, 8, '2025-11-19 04:24:44', '2025-11-19 04:31:38', '', NULL, NULL, NULL, NULL, NULL, NULL),
-(58, 'EVT-2025-006', 'nyek ', '', 'home_visit', '2025-11-29', '12:25:00', '', '', '', 'Scheduled', 0, 8, '2025-11-19 04:24:49', '2025-11-19 05:21:02', '', NULL, NULL, NULL, NULL, NULL, NULL),
-(59, 'EVT-2025-007', 'yey', '', 'home_visit', '2025-11-19', '12:43:00', 'storage room', '', '', 'Completed', 1, 8, '2025-11-19 04:40:41', '2025-11-19 04:46:21', '', NULL, NULL, NULL, NULL, NULL, NULL),
-(60, 'EVT-2025-008', 'yet', '', 'home_visit', '2025-11-29', '17:00:00', '', '', '', 'Scheduled', 1, 8, '2025-11-19 04:57:00', '2025-11-19 04:57:00', '', NULL, NULL, NULL, NULL, NULL, NULL),
-(61, 'EVT-2025-009', 'hello', '', 'home_visit', '2025-11-22', '16:20:00', '', '', '', 'Completed', 1, 8, '2025-11-22 08:16:10', '2025-11-22 08:32:50', '', NULL, NULL, NULL, NULL, NULL, NULL),
-(62, 'EVT-2025-010', 'yes', '', 'home_visit', '2025-12-04', '17:40:00', '', '', '', 'Scheduled', 1, 8, '2025-11-22 09:40:24', '2025-11-22 09:40:24', '', NULL, NULL, NULL, NULL, NULL, NULL),
-(63, 'EVT-2025-011', 'dance', '', 'home_visit', '2025-12-05', '19:25:00', 'storage room', '', '', 'Scheduled', 1, 8, '2025-11-22 11:22:00', '2025-11-22 11:22:00', '', NULL, NULL, NULL, NULL, NULL, NULL),
-(64, 'EVT-2025-012', 'home', '', 'going_home', '2025-11-22', '19:55:00', '', '', '', 'Completed', 1, 8, '2025-11-22 11:52:00', '2025-11-22 11:56:06', '', NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `events` (`id`, `event_id`, `title`, `description`, `event_type`, `event_date`, `event_time`, `location`, `assigned_to`, `notes`, `status`, `is_active`, `created_by`, `created_at`, `updated_at`, `cf_time_gold`, `cf_radio_buttons`, `cf_phone_number`, `cf_u_rl`, `cf_email_mail`, `cf_favorite_anime`) VALUES
+(37, 'EVT-2025-001', 'nyek', '', 'home_visit', '2025-11-19', '10:24:00', 'storage room', 'dsasdas', '', 'Completed', 0, 8, '2025-11-19 02:24:01', '2025-11-19 04:01:24', NULL, NULL, NULL, NULL, NULL, NULL),
+(54, 'EVT-2025-002', 'home', '', 'home_visit', '2025-11-21', '12:12:00', 'storage room', '', '', 'Scheduled', 0, 8, '2025-11-19 04:08:50', '2025-11-19 04:09:19', NULL, NULL, NULL, NULL, NULL, NULL),
+(55, 'EVT-2025-003', 'home', '', 'home_visit', '2025-11-28', '12:13:00', 'storage room', 'dsasdas', '', 'Scheduled', 1, 8, '2025-11-19 04:09:38', '2025-11-19 04:09:38', NULL, NULL, NULL, NULL, NULL, NULL),
+(56, 'EVT-2025-004', 'nyek ', '', 'home_visit', '2025-11-29', '12:25:00', '', '', '', 'Scheduled', 0, 8, '2025-11-19 04:22:42', '2025-11-19 04:25:07', NULL, NULL, NULL, NULL, NULL, NULL),
+(57, 'EVT-2025-005', 'nyek ', '', 'home_visit', '2025-11-29', '12:25:00', '', '', '', 'Scheduled', 0, 8, '2025-11-19 04:24:44', '2025-11-19 04:31:38', NULL, NULL, NULL, NULL, NULL, NULL),
+(58, 'EVT-2025-006', 'nyek ', '', 'home_visit', '2025-11-29', '12:25:00', '', '', '', 'Scheduled', 0, 8, '2025-11-19 04:24:49', '2025-11-19 05:21:02', NULL, NULL, NULL, NULL, NULL, NULL),
+(59, 'EVT-2025-007', 'yey', '', 'home_visit', '2025-11-19', '12:43:00', 'storage room', '', '', 'Completed', 1, 8, '2025-11-19 04:40:41', '2025-11-19 04:46:21', NULL, NULL, NULL, NULL, NULL, NULL),
+(60, 'EVT-2025-008', 'yet', '', 'home_visit', '2025-11-29', '17:00:00', '', '', '', 'Scheduled', 1, 8, '2025-11-19 04:57:00', '2025-11-19 04:57:00', NULL, NULL, NULL, NULL, NULL, NULL),
+(61, 'EVT-2025-009', 'hello', '', 'home_visit', '2025-11-22', '16:20:00', '', '', '', 'Completed', 1, 8, '2025-11-22 08:16:10', '2025-11-22 08:32:50', NULL, NULL, NULL, NULL, NULL, NULL),
+(62, 'EVT-2025-010', 'yes', '', 'home_visit', '2025-12-04', '17:40:00', '', '', '', 'Scheduled', 1, 8, '2025-11-22 09:40:24', '2025-11-22 09:40:24', NULL, NULL, NULL, NULL, NULL, NULL),
+(63, 'EVT-2025-011', 'dance', '', 'home_visit', '2025-12-05', '19:25:00', 'storage room', '', '', 'Scheduled', 1, 8, '2025-11-22 11:22:00', '2025-11-22 11:22:00', NULL, NULL, NULL, NULL, NULL, NULL),
+(64, 'EVT-2025-012', 'home', '', 'going_home', '2025-11-22', '19:55:00', '', '', '', 'Completed', 1, 8, '2025-11-22 11:52:00', '2025-11-22 11:56:06', NULL, NULL, NULL, NULL, NULL, NULL),
+(65, 'EVT-2025-013', 'hello', '', 'home_visit', '2025-11-23', '13:09:00', 'storage room', '', '', 'Completed', 1, 8, '2025-11-23 14:09:56', '2025-11-23 14:09:56', NULL, NULL, NULL, NULL, NULL, NULL),
+(66, 'EVT-2025-014', 'lah', '', 'home_visit', '2025-12-05', '13:03:00', '', '', '', 'Scheduled', 0, 8, '2025-11-25 05:59:06', '2025-11-25 05:59:32', NULL, NULL, NULL, NULL, NULL, NULL),
+(67, 'EVT-2025-015', 'lah', '', 'home_visit', '2025-12-05', '13:59:00', '', '', '', 'Scheduled', 0, 8, '2025-11-25 05:59:48', '2025-11-25 06:01:13', NULL, NULL, NULL, NULL, NULL, NULL),
+(68, 'EVT-2025-016', 'lah', 'asddasdasd', 'home_visit', '2025-12-05', '14:01:00', 'storage room', 'dsasdas', 'dasdasdasd', 'Scheduled', 1, 8, '2025-11-25 06:01:31', '2025-11-25 06:01:31', NULL, NULL, NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -1401,7 +1545,10 @@ INSERT INTO `events_gallery` (`id`, `event_id`, `image_path`, `caption`, `descri
 (38, 'EVT-2025-010', 'uploads/schedule/gallery/event_EVT-2025-010_1763807093.jpeg', '', '', 8, '2025-11-22 10:24:53'),
 (39, 'EVT-2025-010', 'uploads/schedule/gallery/event_EVT-2025-010_1763807434.jpg', '', '', 8, '2025-11-22 10:30:34'),
 (40, 'EVT-2025-010', 'uploads/schedule/gallery/event_EVT-2025-010_1763807799.jpeg', '', '', 8, '2025-11-22 10:36:39'),
-(41, 'EVT-2025-010', 'uploads/schedule/gallery/event_EVT-2025-010_1763807814.jpg', 'this is meeting picture', 'dsadasdasd', 8, '2025-11-22 10:36:54');
+(41, 'EVT-2025-010', 'uploads/schedule/gallery/event_EVT-2025-010_1763807814.jpg', 'this is meeting picture', 'dsadasdasd', 8, '2025-11-22 10:36:54'),
+(42, 'EVT-2025-011', 'uploads/schedule/gallery/event_EVT-2025-011_1763862323.png', '', '', 8, '2025-11-23 01:45:23'),
+(43, 'EVT-2025-011', 'uploads/schedule/gallery/event_EVT-2025-011_1763867738.png', '', '', 8, '2025-11-23 03:15:38'),
+(44, 'EVT-2025-013', 'uploads/schedule/gallery/event_EVT-2025-013_1763907044.jpeg', '', '', 8, '2025-11-23 14:10:44');
 
 -- --------------------------------------------------------
 
@@ -1446,8 +1593,7 @@ INSERT INTO `event_types` (`id`, `type_key`, `type_name`, `icon`, `is_active`, `
 (4, 'staff_training', 'Staff Training', '<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\" fill=\"currentColor\" class=\"bi bi-person-arms-up\" viewBox=\"0 0 16 16\">   <path d=\"M8 3a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3\"/>   <path d=\"m5.93 6.704-.846 8.451a.768.768 0 0 0 1.523.203l.81-4.865a.59.59 0 0 1 1.165 0l.81 4.865a.768.768 0 0 0 1.523-.203l-.845-8.451A1.5 1.5 0 0 1 10.5 5.5L13 2.284a.796.796 0 0 0-1.239-.998L9.634 3.84a.7.7 0 0 1-.33.235c-.23.074-.665.176-1.304.176-.64 0-1.074-.102-1.305-.176a.7.7 0 0 1-.329-.235L4.239 1.286a.796.796 0 0 0-1.24.998l2.5 3.216c.317.316.475.758.43 1.204Z\"/> </svg>', 1, '2025-11-18 12:14:26', '[\"super_admin\"]'),
 (5, 'financial', 'Financial Review', '<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\" fill=\"currentColor\" class=\"bi bi-bank\" viewBox=\"0 0 16 16\">   <path d=\"m8 0 6.61 3h.89a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.5.5H15v7a.5.5 0 0 1 .485.38l.5 2a.498.498 0 0 1-.485.62H.5a.498.498 0 0 1-.485-.62l.5-2A.5.5 0 0 1 1 13V6H.5a.5.5 0 0 1-.5-.5v-2A.5.5 0 0 1 .5 3h.89zM3.777 3h8.447L8 1zM2 6v7h1V6zm2 0v7h2.5V6zm3.5 0v7h1V6zm2 0v7H12V6zM13 6v7h1V6zm2-1V4H1v1zm-.39 9H1.39l-.25 1h13.72z\"/> </svg>', 1, '2025-11-18 12:14:26', '[\"super_admin\"]'),
 (6, 'orientation', 'Orientation', '<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\" fill=\"currentColor\" class=\"bi bi-megaphone\" viewBox=\"0 0 16 16\">   <path d=\"M13 2.5a1.5 1.5 0 0 1 3 0v11a1.5 1.5 0 0 1-3 0v-.214c-2.162-1.241-4.49-1.843-6.912-2.083l.405 2.712A1 1 0 0 1 5.51 15.1h-.548a1 1 0 0 1-.916-.599l-1.85-3.49-.202-.003A2.014 2.014 0 0 1 0 9V7a2.02 2.02 0 0 1 1.992-2.013 75 75 0 0 0 2.483-.075c3.043-.154 6.148-.849 8.525-2.199zm1 0v11a.5.5 0 0 0 1 0v-11a.5.5 0 0 0-1 0m-1 1.35c-2.344 1.205-5.209 1.842-8 2.033v4.233q.27.015.537.036c2.568.189 5.093.744 7.463 1.993zm-9 6.215v-4.13a95 95 0 0 1-1.992.052A1.02 1.02 0 0 0 1 7v2c0 .55.448 1.002 1.006 1.009A61 61 0 0 1 4 10.065m-.657.975 1.609 3.037.01.024h.548l-.002-.014-.443-2.966a68 68 0 0 0-1.722-.082z\"/> </svg>', 1, '2025-11-18 12:14:26', '[\"super_admin\"]'),
-(7, 'calamity_duty', 'Calamity Duty', '<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\" fill=\"currentColor\" class=\"bi bi-tsunami\" viewBox=\"0 0 16 16\">\n  <path d=\"M.036 12.314a.5.5 0 0 1 .65-.278l1.757.703a1.5 1.5 0 0 0 1.114 0l1.014-.406a2.5 2.5 0 0 1 1.857 0l1.015.406a1.5 1.5 0 0 0 1.114 0l1.014-.406a2.5 2.5 0 0 1 1.857 0l1.015.406a1.5 1.5 0 0 0 1.114 0l1.757-.703a.5.5 0 1 1 .372.928l-1.758.703a2.5 2.5 0 0 1-1.857 0l-1.014-.406a1.5 1.5 0 0 0-1.114 0l-1.015.406a2.5 2.5 0 0 1-1.857 0l-1.014-.406a1.5 1.5 0 0 0-1.114 0l-1.015.406a2.5 2.5 0 0 1-1.857 0l-1.757-.703a.5.5 0 0 1-.278-.65m0 2a.5.5 0 0 1 .65-.278l1.757.703a1.5 1.5 0 0 0 1.114 0l1.014-.406a2.5 2.5 0 0 1 1.857 0l1.015.406a1.5 1.5 0 0 0 1.114 0l1.014-.406a2.5 2.5 0 0 1 1.857 0l1.015.406a1.5 1.5 0 0 0 1.114 0l1.757-.703a.5.5 0 1 1 .372.928l-1.758.703a2.5 2.5 0 0 1-1.857 0l-1.014-.406a1.5 1.5 0 0 0-1.114 0l-1.015.406a2.5 2.5 0 0 1-1.857 0l-1.014-.406a1.5 1.5 0 0 0-1.114 0l-1.015.406a2.5 2.5 0 0 1-1.857 0l-1.757-.703a.5.5 0 0 1-.278-.65M2.662 8.08c-.456 1.063-.994 2.098-1.842 2.804a.5.5 0 0 1-.64-.768c.652-.544 1.114-1.384 1.564-2.43.14-.328.281-.68.427-1.044.302-.754.624-1.559 1.01-2.308C3.763 3.2 4.528 2.105 5.7 1.299 6.877.49 8.418 0 10.5 0c1.463 0 2.511.4 3.179 1.058.67.66.893 1.518.819 2.302-.074.771-.441 1.516-1.02 1.965a1.88 1.88 0 0 1-1.904.27c-.65.642-.907 1.679-.71 2.614C11.076 9.215 11.784 10 13 10h2.5a.5.5 0 0 1 0 1H13c-1.784 0-2.826-1.215-3.114-2.585-.232-1.1.005-2.373.758-3.284L10.5 5.06l-.777.388a.5.5 0 0 1-.447 0l-1-.5a.5.5 0 0 1 .447-.894l.777.388.776-.388a.5.5 0 0 1 .447 0l1 .5.034.018c.44.264.81.195 1.108-.036.328-.255.586-.729.637-1.27.05-.529-.1-1.076-.525-1.495s-1.19-.77-2.477-.77c-1.918 0-3.252.448-4.232 1.123C5.283 2.8 4.61 3.738 4.07 4.79c-.365.71-.655 1.433-.945 2.16-.15.376-.301.753-.463 1.13\"/>\n</svg>', 1, '2025-11-18 12:14:26', '[\"super_admin\"]'),
-(9, 'going_home', 'Home', '<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\" fill=\"currentColor\" class=\"bi bi-123\" viewBox=\"0 0 16 16\">\n  <path d=\"M2.873 11.297V4.142H1.699L0 5.379v1.137l1.64-1.18h.06v5.961zm3.213-5.09v-.063c0-.618.44-1.169 1.196-1.169.676 0 1.174.44 1.174 1.106 0 .624-.42 1.101-.807 1.526L4.99 10.553v.744h4.78v-.99H6.643v-.069L8.41 8.252c.65-.724 1.237-1.332 1.237-2.27C9.646 4.849 8.723 4 7.308 4c-1.573 0-2.36 1.064-2.36 2.15v.057zm6.559 1.883h.786c.823 0 1.374.481 1.379 1.179.01.707-.55 1.216-1.421 1.21-.77-.005-1.326-.419-1.379-.953h-1.095c.042 1.053.938 1.918 2.464 1.918 1.478 0 2.642-.839 2.62-2.144-.02-1.143-.922-1.651-1.551-1.714v-.063c.535-.09 1.347-.66 1.326-1.678-.026-1.053-.933-1.855-2.359-1.845-1.5.005-2.317.88-2.348 1.898h1.116c.032-.498.498-.944 1.206-.944.703 0 1.206.435 1.206 1.07.005.64-.504 1.106-1.2 1.106h-.75z\"/>\n</svg>', 1, '2025-11-22 11:50:59', '[\"super_admin\",\"admin\",\"Social Worker\",\"Social Welfare Assistant\",\"user\"]');
+(7, 'calamity_duty', 'Calamity Duty', '<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\" fill=\"currentColor\" class=\"bi bi-tsunami\" viewBox=\"0 0 16 16\">\n  <path d=\"M.036 12.314a.5.5 0 0 1 .65-.278l1.757.703a1.5 1.5 0 0 0 1.114 0l1.014-.406a2.5 2.5 0 0 1 1.857 0l1.015.406a1.5 1.5 0 0 0 1.114 0l1.014-.406a2.5 2.5 0 0 1 1.857 0l1.015.406a1.5 1.5 0 0 0 1.114 0l1.757-.703a.5.5 0 1 1 .372.928l-1.758.703a2.5 2.5 0 0 1-1.857 0l-1.014-.406a1.5 1.5 0 0 0-1.114 0l-1.015.406a2.5 2.5 0 0 1-1.857 0l-1.014-.406a1.5 1.5 0 0 0-1.114 0l-1.015.406a2.5 2.5 0 0 1-1.857 0l-1.757-.703a.5.5 0 0 1-.278-.65m0 2a.5.5 0 0 1 .65-.278l1.757.703a1.5 1.5 0 0 0 1.114 0l1.014-.406a2.5 2.5 0 0 1 1.857 0l1.015.406a1.5 1.5 0 0 0 1.114 0l1.014-.406a2.5 2.5 0 0 1 1.857 0l1.015.406a1.5 1.5 0 0 0 1.114 0l1.757-.703a.5.5 0 1 1 .372.928l-1.758.703a2.5 2.5 0 0 1-1.857 0l-1.014-.406a1.5 1.5 0 0 0-1.114 0l-1.015.406a2.5 2.5 0 0 1-1.857 0l-1.014-.406a1.5 1.5 0 0 0-1.114 0l-1.015.406a2.5 2.5 0 0 1-1.857 0l-1.757-.703a.5.5 0 0 1-.278-.65M2.662 8.08c-.456 1.063-.994 2.098-1.842 2.804a.5.5 0 0 1-.64-.768c.652-.544 1.114-1.384 1.564-2.43.14-.328.281-.68.427-1.044.302-.754.624-1.559 1.01-2.308C3.763 3.2 4.528 2.105 5.7 1.299 6.877.49 8.418 0 10.5 0c1.463 0 2.511.4 3.179 1.058.67.66.893 1.518.819 2.302-.074.771-.441 1.516-1.02 1.965a1.88 1.88 0 0 1-1.904.27c-.65.642-.907 1.679-.71 2.614C11.076 9.215 11.784 10 13 10h2.5a.5.5 0 0 1 0 1H13c-1.784 0-2.826-1.215-3.114-2.585-.232-1.1.005-2.373.758-3.284L10.5 5.06l-.777.388a.5.5 0 0 1-.447 0l-1-.5a.5.5 0 0 1 .447-.894l.777.388.776-.388a.5.5 0 0 1 .447 0l1 .5.034.018c.44.264.81.195 1.108-.036.328-.255.586-.729.637-1.27.05-.529-.1-1.076-.525-1.495s-1.19-.77-2.477-.77c-1.918 0-3.252.448-4.232 1.123C5.283 2.8 4.61 3.738 4.07 4.79c-.365.71-.655 1.433-.945 2.16-.15.376-.301.753-.463 1.13\"/>\n</svg>', 1, '2025-11-18 12:14:26', '[\"super_admin\"]');
 
 -- --------------------------------------------------------
 
@@ -1505,7 +1651,8 @@ CREATE TABLE `evidence_photos` (
 --
 
 INSERT INTO `evidence_photos` (`id`, `case_id`, `name`, `file_path`, `uploaded_date`, `uploaded_by`, `created_at`) VALUES
-(0, 'UC-2025-002', '01f7cef8-1c1a-4f53-9e6b-3c0372103228.jpg', 'uploads/cases/UC-2025-002/evidence/69046c54a13ed_01f7cef8-1c1a-4f53-9e6b-3c0372103228.jpg', '2025-10-31', 'admin', '2025-10-31 07:59:16');
+(0, 'UC-2025-002', '01f7cef8-1c1a-4f53-9e6b-3c0372103228.jpg', 'uploads/cases/UC-2025-002/evidence/69046c54a13ed_01f7cef8-1c1a-4f53-9e6b-3c0372103228.jpg', '2025-10-31', 'admin', '2025-10-31 07:59:16'),
+(0, 'CASE-2025-003', 'IMG_20250505_104601_508.jpg', 'uploads/cases/CASE-2025-003/evidence/69254578c52f1_IMG_20250505_104601_508.jpg', '2025-11-25', 'admin', '2025-11-25 05:58:16');
 
 -- --------------------------------------------------------
 
@@ -1634,16 +1781,17 @@ CREATE TABLE `foster_parents` (
   `cf_years_at_address` int(11) DEFAULT NULL,
   `cf_previous_experience` text DEFAULT NULL,
   `cf_references` text DEFAULT NULL,
-  `cf_emergency_contact` varchar(100) DEFAULT NULL,
-  `cf_favorite_place` varchar(255) DEFAULT NULL
+  `cf_emergency_contact` varchar(100) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `foster_parents`
 --
 
-INSERT INTO `foster_parents` (`id`, `foster_id`, `name`, `age`, `birth_date`, `birth_place`, `educational_attainment`, `religion`, `gender`, `civil_status`, `contact_number`, `email`, `address`, `occupation`, `salary_multiplier`, `monthly_income`, `income_source`, `status`, `family_planning`, `adoption_awareness`, `parenting_approach`, `age_preference`, `gender_preference`, `interests`, `personality_traits`, `experience_level`, `problem_presented`, `assessment_recommendation`, `family_composition`, `assessment_date`, `social_worker_name`, `psychological_evaluation`, `psychologist_notes`, `overall_assessment`, `dswd_referral_date`, `capacity`, `current_children`, `notes`, `photo_path`, `created_at`, `updated_at`, `cf_home_ownership`, `cf_years_at_address`, `cf_previous_experience`, `cf_references`, `cf_emergency_contact`, `cf_favorite_place`) VALUES
-(0, 'FT-2025-001', 'justine', 15, '2025-10-24', 'pasig city', 'college', 'catholic', 'Male', 'Single', '215616', 'superadmin@orphanfare.com', 'sadassdasd', 'Professional', '15615', '26516', 'ghost project', 'Pending', 'dasda', 'dasdasdasd', 'asdasdas', '0-10 years', 'Male', 'music', NULL, 'First-time', 'dasdasdas', 'dasdasdsad', NULL, '2025-10-24', 'System Administrator', 'Completed', 'dasdadas', 'Recommended', '2025-10-24', 1, 0, 'asdasdas', NULL, '2025-10-24 12:57:00', '2025-11-18 09:02:18', NULL, NULL, NULL, NULL, NULL, 'tanza');
+INSERT INTO `foster_parents` (`id`, `foster_id`, `name`, `age`, `birth_date`, `birth_place`, `educational_attainment`, `religion`, `gender`, `civil_status`, `contact_number`, `email`, `address`, `occupation`, `salary_multiplier`, `monthly_income`, `income_source`, `status`, `family_planning`, `adoption_awareness`, `parenting_approach`, `age_preference`, `gender_preference`, `interests`, `personality_traits`, `experience_level`, `problem_presented`, `assessment_recommendation`, `family_composition`, `assessment_date`, `social_worker_name`, `psychological_evaluation`, `psychologist_notes`, `overall_assessment`, `dswd_referral_date`, `capacity`, `current_children`, `notes`, `photo_path`, `created_at`, `updated_at`, `cf_home_ownership`, `cf_years_at_address`, `cf_previous_experience`, `cf_references`, `cf_emergency_contact`) VALUES
+(0, 'FT-2025-001', 'justines', 15, '2025-10-24', 'pasig city', 'college', 'catholic', 'Male', 'Single', '215616', 'superadmin@orphanfare.com', 'sadassdasd', 'Professional', '15615', '26516', 'ghost project', 'Pending', 'dasda', 'dasdasdasd', 'asdasdas', '0-10 years', 'Male', 'music', NULL, 'First-time', 'dasdasdas', 'dasdasdsad', NULL, '2025-10-24', 'System Administrator', 'Completed', 'dasdadas', 'Recommended', '2025-10-24', 1, 0, 'asdasdas', NULL, '2025-10-24 12:57:00', '2025-11-23 03:15:05', NULL, NULL, NULL, NULL, NULL),
+(0, 'FT-2025-002', 'emjay', 54, '2025-11-23', 'pasig', 'college', 'catholic', 'Male', 'Single', '23432435', 'admin@orphanfare.com', '442', 'none', '4324', '4342', 'it', 'Pending', 'asddasd', 'dsadasdasdasd', 'dsadasdasdasd', NULL, 'No Preference', NULL, NULL, 'First-time', 'dsadasdasdsadasdas', 'dasdasdasdas', NULL, '2025-11-23', 'sdadasdasdasdas', 'Pending', 'dsadasda', 'Recommended', '2025-11-23', 1, 0, 'dasdasdas', NULL, '2025-11-23 03:13:39', '2025-11-23 03:27:09', NULL, NULL, NULL, NULL, NULL),
+(0, 'FT-2025-002', 'emjay', 19, '2025-11-23', 'pasig', 'college', 'catholic', 'Male', 'Single', '215616', 'admin@orphanfare.com', '442', 'none', '4324', '4342', 'it', 'Pending', 'asddasd', NULL, NULL, NULL, 'No Preference', NULL, NULL, 'First-time', 'dsadasdasdsadasdas', 'dasdasdasdas', NULL, '2025-11-23', 'sdadasdasdasdas', 'Pending', 'dsadasda', 'Recommended', '2025-11-23', 1, 0, 'dasdasdas', NULL, '2025-11-23 03:27:09', '2025-11-23 03:27:09', NULL, NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -1703,7 +1851,8 @@ INSERT INTO `legal_actions` (`id`, `case_id`, `type`, `date`, `status`, `notes`,
 (1, 'UC-2025-004', 'trial court', '2025-11-11', 'Scheduled', 'this is it', '2025-11-11 10:15:45', '2025-11-11 10:15:45'),
 (2, 'UC-2025-004', 'Court Proceedings & Hearings', '2025-11-18', 'Scheduled', 'adasdasd', '2025-11-18 09:45:58', '2025-11-18 09:45:58'),
 (3, 'UC-2025-004', 'Court Proceedings & Hearings', '2025-11-18', 'Scheduled', 'adasdasd', '2025-11-18 09:59:41', '2025-11-18 09:59:41'),
-(4, 'UC-2025-003', 'Quasi-Judicial & Administrative Proceedings', '2025-11-21', 'Scheduled', 'dasdasdasdasd', '2025-11-18 10:22:03', '2025-11-18 10:22:03');
+(4, 'UC-2025-003', 'Quasi-Judicial & Administrative Proceedings', '2025-11-21', 'Scheduled', 'dasdasdasdasd', '2025-11-18 10:22:03', '2025-11-18 10:22:03'),
+(5, 'CASE-2025-003', 'Court Proceedings & Hearings', '2025-11-28', 'Scheduled', 'fdfsd', '2025-11-25 05:57:14', '2025-11-25 05:57:14');
 
 -- --------------------------------------------------------
 
@@ -1798,7 +1947,7 @@ INSERT INTO `permissions` (`id`, `role`, `module`, `can_view`, `can_edit`, `can_
 (200, 'Social Worker', 'schedule', 1, 1, 1, 1),
 (201, 'Social Worker', 'reports', 1, 1, 1, 1),
 (202, 'Social Worker', 'settings', 0, 0, 0, 0),
-(203, 'Social Welfare Assistant', 'dashboard', 1, 0, 0, 0),
+(203, 'Social Welfare Assistant', 'dashboard', 1, 0, 0, 1),
 (204, 'Social Welfare Assistant', 'child_management', 1, 0, 0, 0),
 (205, 'Social Welfare Assistant', 'case_management', 1, 0, 0, 0),
 (206, 'Social Welfare Assistant', 'donation', 1, 0, 0, 0),
@@ -1807,7 +1956,7 @@ INSERT INTO `permissions` (`id`, `role`, `module`, `can_view`, `can_edit`, `can_
 (209, 'Social Welfare Assistant', 'schedule', 1, 1, 1, 1),
 (210, 'Social Welfare Assistant', 'reports', 1, 0, 0, 0),
 (211, 'Social Welfare Assistant', 'settings', 0, 0, 0, 0),
-(212, 'user', 'dashboard', 1, 0, 0, 0),
+(212, 'user', 'dashboard', 1, 1, 1, 1),
 (213, 'user', 'schedule', 1, 1, 1, 1),
 (220, 'super_admin', 'custom_fields', 1, 1, 1, 1),
 (226, 'super_admin', 'user_management', 1, 1, 1, 1),
@@ -1856,12 +2005,12 @@ INSERT INTO `protective_actions` (`id`, `action_id`, `case_id`, `case_type`, `ac
 CREATE TABLE `role_change_requests` (
   `id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
-  `existing_role` varchar(50) DEFAULT NULL,
-  `requested_role` varchar(50) DEFAULT NULL,
-  `reason` text DEFAULT NULL,
-  `status` enum('pending','approved','rejected') DEFAULT 'pending',
-  `reviewed_by` int(11) DEFAULT NULL,
-  `reviewed_at` timestamp NULL DEFAULT NULL,
+  `current_role_value` varchar(50) NOT NULL,
+  `requested_role_value` varchar(50) NOT NULL,
+  `request_reason` text DEFAULT NULL,
+  `request_status` enum('pending','approved','rejected') DEFAULT 'pending',
+  `reviewed_by_user` int(11) DEFAULT NULL,
+  `reviewed_at_time` timestamp NULL DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
@@ -1870,9 +2019,28 @@ CREATE TABLE `role_change_requests` (
 -- Dumping data for table `role_change_requests`
 --
 
-INSERT INTO `role_change_requests` (`id`, `user_id`, `existing_role`, `requested_role`, `reason`, `status`, `reviewed_by`, `reviewed_at`, `created_at`, `updated_at`) VALUES
-(1, 8, 'admin', 'Social Worker', 'asdas', 'approved', 1, '2025-10-25 10:12:37', '2025-10-25 09:49:29', '2025-10-25 10:12:37'),
-(2, 11, 'user', 'Social Welfare Assistant', 'plssss\r\n', 'pending', NULL, NULL, '2025-10-25 11:41:44', '2025-10-25 11:41:44');
+INSERT INTO `role_change_requests` (`id`, `user_id`, `current_role_value`, `requested_role_value`, `request_reason`, `request_status`, `reviewed_by_user`, `reviewed_at_time`, `created_at`, `updated_at`) VALUES
+(1, 15, 'Social Welfare Assistant', 'admin', '', 'pending', NULL, NULL, '2025-11-25 04:42:31', '2025-11-25 04:42:31'),
+(2, 15, 'Social Welfare Assistant', 'Social Worker', '', 'pending', NULL, NULL, '2025-11-25 04:46:56', '2025-11-25 04:46:56');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `role_change_requests_new`
+--
+
+CREATE TABLE `role_change_requests_new` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `current_user_role` varchar(50) NOT NULL,
+  `requested_role` varchar(50) NOT NULL,
+  `reason` text DEFAULT NULL,
+  `status` enum('pending','approved','rejected') DEFAULT 'pending',
+  `reviewed_by` int(11) DEFAULT NULL,
+  `reviewed_at` timestamp NULL DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 -- --------------------------------------------------------
 
@@ -2064,7 +2232,18 @@ INSERT INTO `schedule_activities` (`id`, `user_id`, `action_type`, `event_id`, `
 (138, 8, '', 'EVT-2025-010', 'Photo:  | Event: EVT-2025-010', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-22 10:36:39'),
 (139, 8, '', 'EVT-2025-010', 'Photo: this is meeting picture | Event: EVT-2025-010', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-22 10:36:54'),
 (140, 8, 'event_created', 'EVT-2025-011', 'Event: dance | Type: home_visit', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-22 11:22:00'),
-(141, 8, 'event_created', 'EVT-2025-012', 'Event: home | Type: going_home', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-22 11:52:00');
+(141, 8, 'event_created', 'EVT-2025-012', 'Event: home | Type: going_home', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-22 11:52:00'),
+(142, 8, '', 'EVT-2025-011', 'Photo:  | Event: EVT-2025-011', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-23 01:45:23'),
+(143, 8, '', 'EVT-2025-011', 'Photo:  | Event: EVT-2025-011', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-23 03:15:38'),
+(144, 8, 'event_created', 'EVT-2025-013', 'Event: hello | Type: home_visit', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-23 14:09:56'),
+(145, 8, '', 'EVT-2025-013', 'Photo:  | Event: EVT-2025-013', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-23 14:10:44'),
+(146, 8, 'event_created', 'EVT-2025-014', 'Event: lah | Type: home_visit', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-25 05:59:06'),
+(147, 8, 'event_deleted', 'EVT-2025-014', '', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-25 05:59:32'),
+(148, 8, 'event_created', 'EVT-2025-015', 'Event: lah | Type: home_visit', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-25 05:59:48'),
+(149, 8, 'email_sent', 'EVT-2025-015', 'Recipients: 1', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-25 06:00:54'),
+(150, 8, 'event_deleted', 'EVT-2025-015', '', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-25 06:01:13'),
+(151, 8, 'event_created', 'EVT-2025-016', 'Event: lah | Type: home_visit', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-25 06:01:32'),
+(152, 8, 'email_sent', 'EVT-2025-016', 'Recipients: 1', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-25 06:01:59');
 
 -- --------------------------------------------------------
 
@@ -2191,16 +2370,16 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `username`, `email`, `password`, `role`, `status`, `created_at`, `updated_at`, `two_factor_secret`, `two_factor_enabled`, `two_factor_verified`, `two_factor_backup_codes`, `last_login`, `last_password_change`, `failed_attempts`, `account_locked`, `is_active`) VALUES
-(1, 'superadmin', 'superadmin@orphanfare.com', '$2y$10$1ta75myHWaNw9yPDdZUcR.s6bqyJsW1dUcIabdVoT5NV4za/SIC9C', 'super_admin', 'active', '2025-10-20 15:59:41', '2025-11-22 11:50:24', NULL, 0, 0, NULL, '2025-11-22 11:50:24', '2025-11-11 08:48:40', 0, 0, 1),
+(1, 'superadmin', 'superadmin@orphanfare.com', '$2y$10$1ta75myHWaNw9yPDdZUcR.s6bqyJsW1dUcIabdVoT5NV4za/SIC9C', 'super_admin', 'active', '2025-10-20 15:59:41', '2025-11-25 07:25:53', NULL, 0, 0, NULL, '2025-11-25 07:25:53', '2025-11-11 08:48:40', 0, 0, 1),
 (7, 'superuser', 'superuser@orphanfare.com', '$2y$10$Nn5wIMgk6XVC0HVVG.TMCebPweQFrlp8zgfYqZlQ3BPMhY1Qr.jmu', 'super_admin', 'active', '2025-10-21 10:30:53', '2025-10-21 10:30:53', NULL, 0, 0, NULL, NULL, '2025-11-11 08:48:40', 0, 0, 1),
-(8, 'admin', 'admin@orphanfare.com', '$2y$10$td0sFX/r2hB8z/Z09C1ht.iea67Mylk1j5raSykVDpbCG9A1OnkJa', 'admin', 'active', '2025-10-21 10:36:58', '2025-11-22 11:51:16', NULL, 0, 0, NULL, '2025-11-22 11:51:16', '2025-11-11 08:48:40', 0, 0, 1),
+(8, 'admin', 'admin@orphanfare.com', '$2y$10$td0sFX/r2hB8z/Z09C1ht.iea67Mylk1j5raSykVDpbCG9A1OnkJa', 'admin', 'active', '2025-10-21 10:36:58', '2025-11-25 08:11:07', NULL, 0, 0, NULL, '2025-11-25 08:11:07', '2025-11-11 08:48:40', 0, 0, 1),
 (9, 'emjay', 'salubreemjay@gmail.com', '$2y$10$sab1GE8wxIkXiyUNK53t3egcnqPVQycNWAFnV207hWkkImzp49.1e', 'admin', 'active', '2025-10-21 11:57:40', '2025-11-17 14:14:15', NULL, 0, 0, NULL, '2025-11-17 14:14:15', '2025-11-11 08:48:40', 0, 0, 1),
 (10, 'tacs', 'admin@carwash.com', '$2y$10$yexoDibRd3rDYlucYBXdDuxZUwMXaRx6VhysyfRf0v1zDNbbwjp1m', 'user', 'active', '2025-10-21 12:02:19', '2025-10-21 12:02:19', NULL, 0, 0, NULL, NULL, '2025-11-11 08:48:40', 0, 0, 1),
 (11, 'luh', 'akawa@gmail.com', '$2y$10$K09DGa8DkQmH57baJrNOreddh3/vpjgOyKPNjqcLTKG2LQBTvYFOG', 'user', 'active', '2025-10-25 10:24:18', '2025-11-18 15:47:23', NULL, 0, 0, NULL, '2025-11-18 15:47:23', '2025-11-11 08:48:40', 6, 1, 1),
 (12, 'yey', 'emjaysalubre11@yahoo.com.ph', '$2y$10$Lpeb0tsdEnANk79KeOe3V.0DSx0l74Rt.bnoWahxfEly6geLZu9/m', 'user', 'active', '2025-10-25 11:01:50', '2025-11-17 14:11:25', NULL, 0, 0, NULL, '2025-11-17 14:11:25', '2025-11-11 08:48:40', 2, 0, 1),
 (13, 'socialworker', 'socialworker@orphanfare.com', '$2y$10$examplepasswordhash', 'Social Worker', 'active', '2025-10-25 11:04:28', '2025-10-25 11:28:34', NULL, 0, 0, NULL, NULL, '2025-11-11 08:48:40', 0, 0, 1),
-(14, 'com', 'com@gmail.com', '$2y$10$zRP/jofiYKXNjpNtOMDab.p8Eb3bnG4Qc5Ozl4O7AmqUZ5OmFGchy', 'user', 'active', '2025-10-25 11:23:40', '2025-11-18 15:51:10', NULL, 0, 0, NULL, '2025-11-18 15:51:10', '2025-11-15 10:13:48', 5, 1, 1),
-(15, 'emjay11', 'emjay@email.com', '$2y$10$8iAtDcppg/gSFw8f1hE1befT7eGafiRDdkGh7MZbZir1wALw72WVm', 'admin', 'active', '2025-11-18 15:54:27', '2025-11-18 17:37:14', NULL, 0, 0, NULL, '2025-11-18 17:37:14', '2025-11-18 15:54:27', 0, 0, 1);
+(14, 'com', 'com@gmail.com', '$2y$10$zRP/jofiYKXNjpNtOMDab.p8Eb3bnG4Qc5Ozl4O7AmqUZ5OmFGchy', 'user', 'active', '2025-10-25 11:23:40', '2025-11-23 09:20:58', NULL, 0, 0, NULL, '2025-11-23 09:20:58', '2025-11-15 10:13:48', 6, 1, 1),
+(15, 'emjay11', 'emjay@email.com', '$2y$10$8iAtDcppg/gSFw8f1hE1befT7eGafiRDdkGh7MZbZir1wALw72WVm', 'Social Welfare Assistant', 'active', '2025-11-18 15:54:27', '2025-11-25 04:46:50', NULL, 0, 0, NULL, '2025-11-25 04:46:50', '2025-11-18 15:54:27', 0, 0, 1);
 
 -- --------------------------------------------------------
 
@@ -2218,6 +2397,25 @@ CREATE TABLE `user_notifications` (
   `related_url` varchar(500) DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `user_role_requests`
+--
+
+CREATE TABLE `user_role_requests` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `from_role` varchar(50) NOT NULL,
+  `to_role` varchar(50) NOT NULL,
+  `request_reason` text DEFAULT NULL,
+  `request_status` enum('pending','approved','rejected') DEFAULT 'pending',
+  `reviewed_by` int(11) DEFAULT NULL,
+  `reviewed_at` timestamp NULL DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 -- --------------------------------------------------------
 
@@ -2470,6 +2668,12 @@ ALTER TABLE `role_change_requests`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `role_change_requests_new`
+--
+ALTER TABLE `role_change_requests_new`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `role_permissions`
 --
 ALTER TABLE `role_permissions`
@@ -2527,6 +2731,12 @@ ALTER TABLE `user_notifications`
   ADD KEY `user_id` (`user_id`);
 
 --
+-- Indexes for table `user_role_requests`
+--
+ALTER TABLE `user_role_requests`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `user_settings`
 --
 ALTER TABLE `user_settings`
@@ -2553,19 +2763,19 @@ ALTER TABLE `activity_logs`
 -- AUTO_INCREMENT for table `admin_notifications`
 --
 ALTER TABLE `admin_notifications`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=50;
 
 --
 -- AUTO_INCREMENT for table `audit_logs`
 --
 ALTER TABLE `audit_logs`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=511;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=601;
 
 --
 -- AUTO_INCREMENT for table `audit_log_admin`
 --
 ALTER TABLE `audit_log_admin`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=324;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=367;
 
 --
 -- AUTO_INCREMENT for table `calendar_availability`
@@ -2577,19 +2787,19 @@ ALTER TABLE `calendar_availability`
 -- AUTO_INCREMENT for table `cases`
 --
 ALTER TABLE `cases`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `children`
 --
 ALTER TABLE `children`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
 
 --
 -- AUTO_INCREMENT for table `custom_fields`
 --
 ALTER TABLE `custom_fields`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- AUTO_INCREMENT for table `custom_field_groups`
@@ -2619,25 +2829,25 @@ ALTER TABLE `documents`
 -- AUTO_INCREMENT for table `donations`
 --
 ALTER TABLE `donations`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT for table `email_logs`
 --
 ALTER TABLE `email_logs`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `events`
 --
 ALTER TABLE `events`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=65;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=69;
 
 --
 -- AUTO_INCREMENT for table `events_gallery`
 --
 ALTER TABLE `events_gallery`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
 
 --
 -- AUTO_INCREMENT for table `event_articles`
@@ -2685,7 +2895,7 @@ ALTER TABLE `foster_documents`
 -- AUTO_INCREMENT for table `legal_actions`
 --
 ALTER TABLE `legal_actions`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `meeting_requests`
@@ -2718,6 +2928,12 @@ ALTER TABLE `role_change_requests`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
+-- AUTO_INCREMENT for table `role_change_requests_new`
+--
+ALTER TABLE `role_change_requests_new`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `role_permissions`
 --
 ALTER TABLE `role_permissions`
@@ -2727,7 +2943,7 @@ ALTER TABLE `role_permissions`
 -- AUTO_INCREMENT for table `schedule_activities`
 --
 ALTER TABLE `schedule_activities`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=142;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=153;
 
 --
 -- AUTO_INCREMENT for table `sms_contacts`
@@ -2763,6 +2979,12 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `user_notifications`
 --
 ALTER TABLE `user_notifications`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `user_role_requests`
+--
+ALTER TABLE `user_role_requests`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --

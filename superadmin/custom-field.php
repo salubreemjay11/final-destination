@@ -86,8 +86,6 @@ if (isset($_GET['action']) && in_array($_GET['action'], ['delete', 'toggle'])) {
     $fieldManager = new CustomFieldManager($pdo);
 
     $fieldId = $_GET['id'] ?? null;
-    $message = '';
-    $messageType = '';
 
     switch ($_GET['action']) {
         case 'delete':
@@ -123,11 +121,73 @@ if (isset($_GET['action']) && in_array($_GET['action'], ['delete', 'toggle'])) {
     }
 }
 
-// Now include the header and continue with normal display logic
+// Handle POST for updates (not creation) - ALSO at the top
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save_field']) && isset($_GET['id'])) {
+    require_once '../config/database.php';
+    
+    // Check if user is super admin
+    if ($_SESSION['role'] !== 'super_admin') {
+        header("Location: ../admin/access-denied.php");
+        exit();
+    }
+
+    // Ensure $pdo is available
+    if (!isset($pdo)) {
+        $database = new Database();
+        $pdo = $database->getConnection();
+    }
+
+    require_once 'includes/CustomFieldManager.php';
+    $fieldManager = new CustomFieldManager($pdo);
+
+    $fieldId = $_GET['id'];
+    $data = [
+        'field_name' => $_POST['field_name'] ?? '',
+        'field_label' => $_POST['field_label'] ?? '',
+        'field_type' => $_POST['field_type'] ?? 'text',
+        'module' => $_POST['module'] ?? '',
+        'placeholder_text' => $_POST['placeholder_text'] ?? '',
+        'default_value' => $_POST['default_value'] ?? '',
+        'help_text' => $_POST['help_text'] ?? '',
+        'is_required' => isset($_POST['is_required']) ? 1 : 0,
+        'field_order' => $_POST['field_order'] ?? 0,
+        'created_by' => $_SESSION['user_id']
+    ];
+    
+    if (in_array($_POST['field_type'], ['select', 'radio', 'checkbox'])) {
+        $options = [];
+        $optionValues = $_POST['option_values'] ?? [];
+        $optionLabels = $_POST['option_labels'] ?? [];
+        
+        foreach ($optionValues as $i => $val) {
+            if (!empty($val) && !empty($optionLabels[$i])) {
+                $options[trim($val)] = trim($optionLabels[$i]);
+            }
+        }
+        $data['field_options'] = $options;
+        
+        // DEBUG: Log the options being saved
+        error_log("Saving field options for " . $_POST['field_type'] . ": " . print_r($options, true));
+    }
+    
+    // Update field
+    $result = $fieldManager->updateField($fieldId, $data);
+    if ($result) {
+        $_SESSION['success_message'] = 'Field updated successfully!';
+        $_SESSION['message_type'] = 'success';
+    } else {
+        $_SESSION['error_message'] = 'Error updating field!';
+        $_SESSION['message_type'] = 'error';
+    }
+    header("Location: custom-field.php?action=edit&id=" . $fieldId);
+    exit();
+}
+
+// NOW include headers and continue with normal display
 require_once 'includes/superheader.php';
 require_once '../config/database.php';
 
-// Check if user is super admin
+// Check if user is super admin (again for display logic)
 if ($_SESSION['role'] !== 'super_admin') {
     header("Location: ../admin/access-denied.php");
     exit();
@@ -263,7 +323,7 @@ foreach ($fieldTypesToRemove as $type) {
         .btn-danger { background: #dc3545; color: white; padding: 6px 12px; font-size: 12px; }
         .btn-sm { padding: 6px 12px; font-size: 12px; }
         .fields-table { width: 100%; border-collapse: collapse; margin-top: 20px; background: white; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
-        .fields-table th, .fields-table td { padding: 12px; text-align: left; border-bottom: 1px solid #ddd; }
+        .fields-table th, .fields-table td { padding: 12px; text-align: left; }
         .fields-table th { background: #f8f9fa; font-weight: 600; color: #333; }
         .badge { display: inline-block; padding: 4px 8px; border-radius: 4px; font-size: 12px; }
         .badge-active { background: #d4edda; color: #155724; }
@@ -278,15 +338,23 @@ foreach ($fieldTypesToRemove as $type) {
         .action-buttons { display: flex; gap: 5px; }
         .option-preview { margin-top: 15px; padding: 10px; background: #f8f9fa; border-radius: 4px; border: 1px solid #dee2e6; }
         .option-preview h4 { margin: 0 0 10px 0; font-size: 14px; color: #495057; }
-        .option-preview-item { display: inline-block; margin: 5px; padding: 5px 10px; background: white; border: 1px solid #dee2e6; border-radius: 4px; font-size: 12px; }
+        .dark-theme .option-preview-item { display: inline-block; margin: 5px; padding: 5px 10px; background: white; border: 1px solid #dee2e6; border-radius: 4px; font-size: 12px; }
+        .light-theme ..option-preview-item { display: inline-block; margin: 5px; padding: 5px 10px; color: black;}
         .field-type-info { background: #e7f3ff; border-left: 4px solid #007bff; padding: 10px 15px; margin: 10px 0; border-radius: 4px; }
         .checkbox-info { background: #fff3cd; border-left: 4px solid #ffc107; padding: 10px 15px; margin: 10px 0; border-radius: 4px; }
+        .custom-title {
+            color: #ffffff;
+        }
+
+        .light-theme .custom-title {
+            color: black;
+        }
     </style>
 </head>
 <body>
     <div class="main-content">
         <div class="header">
-            <h1>Custom Fields Management</h1>
+            <h1 class="custom-title">Custom Fields Management</h1>
             <?php if ($action === 'list'): ?>
                 <a href="?action=add" class="btn btn-primary">+ Add New Field</a>
             <?php else: ?>
@@ -524,6 +592,10 @@ foreach ($fieldTypesToRemove as $type) {
         opacity: 1;
     }
 
+    .previewContent span{
+        color: black;
+    }
+
     .notification.success {
         border-left-color: #28a745;
         background: #d4edda;
@@ -601,7 +673,7 @@ foreach ($fieldTypesToRemove as $type) {
         .fields-table td {
             font-weight: 600;
             color: white;
-            border-bottom: 1px solid #3a3a3a;
+            
         }
 
         .custom-name {
@@ -612,6 +684,7 @@ foreach ($fieldTypesToRemove as $type) {
         .fields-table {
             background: #2a2a2a; 
             color: #ffffff;
+            box-sizing: none;
         }
 
         .fields-table th {
@@ -746,7 +819,7 @@ foreach ($fieldTypesToRemove as $type) {
                 const labelInput = row.querySelector('.option-label');
                 
                 if (valueInput && labelInput && valueInput.value && labelInput.value) {
-                    previewHtml += `<span class="option-preview-item"><strong>${valueInput.value}</strong>: ${labelInput.value}</span>`;
+                    previewHtml += `<span class="option-preview-item" style="black"><strong>${valueInput.value}</strong>: ${labelInput.value}</span>`;
                 }
             });
             

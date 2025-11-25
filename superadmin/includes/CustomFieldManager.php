@@ -384,13 +384,20 @@ class CustomFieldManager {
     // FIXED: Save field value to database column
     public function saveFieldValue($recordId, $module, $fieldName, $value) {
         try {
+            error_log("=== SAVE FIELD VALUE START ===");
+            error_log("Record ID: $recordId, Module: $module, Field: $fieldName, Value: '$value'");
+    
+            // Handle empty values
+            if ($value === '' || $value === null) {
+                $value = null;
+            }
+    
             // Handle checkbox arrays
             if (is_array($value)) {
-                // For multiple checkboxes, store as comma-separated values
                 $value = implode(',', array_filter($value));
                 error_log("Checkbox array converted to: '$value'");
             }
-            
+    
             $tableMap = $this->getModuleTableMap();
             $tableName = $tableMap[$module] ?? null;
             $idColumn = $this->getIdColumn($tableName);
@@ -401,89 +408,39 @@ class CustomFieldManager {
             }
             
             $dbColumn = 'cf_' . $fieldName;
-
-            // DEBUG: Log everything
-            error_log("=== SAVE FIELD VALUE DEBUG ===");
-            error_log("Record ID: $recordId");
-            error_log("Module: $module");
-            error_log("Field Name: $fieldName");
-            error_log("DB Column: $dbColumn");
-            error_log("Value: '$value'");
-            error_log("Table: $tableName");
-            error_log("ID Column: $idColumn");
-
+    
+            // DEBUG: Check if table and column exist
+            error_log("Table: $tableName, ID Column: $idColumn, DB Column: $dbColumn");
+    
             // Check if record exists
             $checkRecord = $this->pdo->prepare("SELECT COUNT(*) FROM `$tableName` WHERE `$idColumn` = ?");
             $checkRecord->execute([$recordId]);
             $recordExists = $checkRecord->fetchColumn();
             
             error_log("Record exists: " . ($recordExists ? 'YES' : 'NO'));
-
+    
             if (!$recordExists) {
                 error_log("ERROR: Record $recordId not found in $tableName");
                 return false;
             }
-
-            // Check if column exists
-            $checkColumn = $this->pdo->prepare("SHOW COLUMNS FROM `$tableName` LIKE ?");
-            $checkColumn->execute([$dbColumn]);
-            $columnExists = $checkColumn->fetch();
-            
-            error_log("Column exists: " . ($columnExists ? 'YES' : 'NO'));
-
-            if (!$columnExists) {
-                error_log("ERROR: Column $dbColumn not found in $tableName");
-                
-                // Try to create the column if it doesn't exist
-                $field = $this->getFieldByName($fieldName, $module);
-                if ($field) {
-                    error_log("Attempting to create missing column: $dbColumn");
-                    $createResult = $this->createFieldColumn($field);
-                    if ($createResult['success']) {
-                        error_log("Column created successfully");
-                    } else {
-                        error_log("Failed to create column: " . $createResult['error']);
-                        return false;
-                    }
-                } else {
-                    error_log("Field definition not found for: $fieldName");
-                    return false;
-                }
-            }
-
-            // Get field info to handle value processing
-            $field = $this->getFieldByName($fieldName, $module);
-            
-            // Handle different value types
-            $processedValue = $value;
-            
-            // For single checkboxes without options, convert to 1/0
-            if ($field && $field['field_type'] === 'checkbox' && empty($field['field_options'])) {
-                $processedValue = ($value == '1' || $value === true || $value === 'on') ? 1 : 0;
-                error_log("Single checkbox value processed: $value -> $processedValue");
-            }
-            
-            // For empty values, set to NULL
-            if ($processedValue === '' || $processedValue === null) {
-                $processedValue = null;
-            }
-
-            // Save the value
+    
+            // SIMPLIFIED: Direct update without checking column existence
+            // If column doesn't exist, this will fail gracefully
             $sql = "UPDATE `$tableName` SET `$dbColumn` = ? WHERE `$idColumn` = ?";
-            error_log("SQL: $sql");
-            error_log("Values: [" . $processedValue . ", " . $recordId . "]");
+            error_log("Executing SQL: $sql");
+            error_log("With values: [" . ($value ?? 'NULL') . ", $recordId]");
             
             $stmt = $this->pdo->prepare($sql);
-            $result = $stmt->execute([$processedValue, $recordId]);
+            $result = $stmt->execute([$value, $recordId]);
             
             error_log("Execute result: " . ($result ? 'SUCCESS' : 'FAILED'));
             
             if ($stmt->rowCount() > 0) {
                 error_log("Rows affected: " . $stmt->rowCount());
             } else {
-                error_log("No rows affected - value might be the same");
+                error_log("No rows affected - value might be the same or column doesn't exist");
             }
-
+    
             // Verify the save worked
             $verifyStmt = $this->pdo->prepare("SELECT `$dbColumn` FROM `$tableName` WHERE `$idColumn` = ?");
             $verifyStmt->execute([$recordId]);
@@ -491,7 +448,7 @@ class CustomFieldManager {
             
             error_log("Verified saved value: '" . $savedValue . "'");
             error_log("=== SAVE FIELD VALUE COMPLETE ===");
-
+    
             return $result;
             
         } catch (Exception $e) {

@@ -1166,10 +1166,88 @@ $canView = $permissionManager->hasPermission('child_management', 'view');
 let currentChildId = null;
 let currentChildData = null;
 let isEditMode = false;
+let isSaving = false;
 
 // Get PHP permissions from the page
 const canEdit = <?php echo $canEdit ? 'true' : 'false'; ?>;
 const canCreate = <?php echo $canCreate ? 'true' : 'false'; ?>;
+
+// Define showChildDetails FIRST so it's available when HTML is rendered
+function showChildDetails(childId) {
+    if (!canEdit) {
+        showNotification('Read-only mode - You cannot view child details', 'error');
+        return;
+    }
+    
+    // Check if modal exists
+    const childModal = document.getElementById('childModal');
+    if (!childModal) {
+        console.error('Child modal not found in DOM');
+        showNotification('Error: Cannot open child details', 'error');
+        return;
+    }
+
+    // ALWAYS reset to view mode when opening modal
+    isEditMode = false;
+    isSaving = false;
+    
+    // Reset buttons to view mode
+    const editBtn = document.querySelector('.edit-btn');
+    const caseBtn = document.querySelector('.case-btn');
+    
+    if (editBtn) {
+        editBtn.textContent = 'Edit';
+        editBtn.disabled = false;
+    }
+    if (caseBtn) {
+        caseBtn.style.display = 'inline-block';
+    }
+    
+    currentChildId = childId;
+    
+    console.log('Fetching details for child:', childId);
+    
+    // Show modal immediately
+    childModal.classList.add('active');
+    
+    // Load child details
+    loadChildDetails(childId);
+}
+
+// Utility function for safe DOM operations
+function safeQuerySelector(selector) {
+    const element = document.querySelector(selector);
+    if (!element) {
+        console.warn(`Element not found: ${selector}`);
+    }
+    return element;
+}
+
+function safeGetElement(id) {
+    const element = document.getElementById(id);
+    if (!element) {
+        console.warn(`Element not found: #${id}`);
+    }
+    return element;
+}
+
+// Reset modal state completely
+function resetModalState() {
+    isEditMode = false;
+    isSaving = false;
+    
+    // Reset buttons to view mode
+    const editBtn = document.querySelector('.edit-btn');
+    const caseBtn = document.querySelector('.case-btn');
+    
+    if (editBtn) {
+        editBtn.textContent = 'Edit';
+        editBtn.disabled = false;
+    }
+    if (caseBtn) {
+        caseBtn.style.display = 'inline-block';
+    }
+}
 
 // Notification system
 function showNotification(message, type = 'success') {
@@ -1194,31 +1272,19 @@ function showNotification(message, type = 'success') {
     }, 5000);
 }
 
-function resetModalToViewMode() {
-    // Reset all tabs to default state
-    document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-    document.querySelectorAll('.tab-pane').forEach(pane => pane.classList.remove('active'));
-    
-    // Activate basic info tab by default
-    document.querySelector('.tab-btn').classList.add('active');
-    document.getElementById('basicTab').classList.add('active');
-    
-    // Reset to view mode
-    isEditMode = false;
-    document.querySelector('.edit-btn').textContent = 'Edit';
-    document.querySelector('.case-btn').style.display = 'inline-block';
-    
-    // Remove any edit forms if they exist
-    const editForms = document.querySelectorAll('.edit-form');
-    editForms.forEach(form => form.remove());
-}
-
 function populateModal(child) {
+    // Safety check - ensure we're in view mode
+    if (isEditMode) {
+        console.warn('populateModal called while in edit mode, forcing view mode');
+        isEditMode = false;
+        resetModalState();
+    }
+
     console.log('Child data received:', child);
     currentChildData = child;
     
     try {
-        // Update basic info - with null checks (NO NAME FIELD)
+        // Update basic info - with null checks
         document.getElementById('childId').textContent = 'ID: ' + (child.child_id || 'Unknown');
         document.getElementById('childAge').textContent = child.age || 'Unknown';
         document.getElementById('childGender').textContent = child.gender || 'Unknown';
@@ -1445,7 +1511,6 @@ function displayCustomFields(fields) {
 
 // Initialize case button event listener
 document.addEventListener('DOMContentLoaded', function() {
-    // This will be called when the modal content is loaded
     const caseBtn = document.getElementById('caseActionBtn');
     if (caseBtn) {
         caseBtn.addEventListener('click', function() {
@@ -1508,24 +1573,27 @@ function enableEditMode() {
 }
 
 function createEditForms() {
+    // Store the current active tab before switching to edit mode
+    const activeTab = document.querySelector('.tab-pane.active').id;
+    
     // Basic Info Tab Edit Form
     const basicTab = document.getElementById('basicTab');
     basicTab.innerHTML = `
         <div class="edit-form">
             <div class="form-group">
-                <label class="form-label">Age</label>
-                <input type="number" id="editAge" value="${currentChildData.age || ''}" class="form-input" min="0" max="18">
+                <label class="form-label">Age *</label>
+                <input type="number" id="editAge" value="${currentChildData.age || ''}" class="form-input" min="0" max="18" required>
             </div>
             <div class="form-group">
-                <label class="form-label">Gender</label>
-                <select id="editGender" class="form-select">
+                <label class="form-label">Gender *</label>
+                <select id="editGender" class="form-select" required>
                     <option value="Male" ${currentChildData.gender === 'Male' ? 'selected' : ''}>Male</option>
                     <option value="Female" ${currentChildData.gender === 'Female' ? 'selected' : ''}>Female</option>
                 </select>
             </div>
             <div class="form-group">
-                <label class="form-label">Status</label>
-                <select id="editStatus" class="form-select">
+                <label class="form-label">Status *</label>
+                <select id="editStatus" class="form-select" required>
                     <option value="In Care" ${currentChildData.status === 'In Care' ? 'selected' : ''}>In Care</option>
                     <option value="Adoptable" ${currentChildData.status === 'Adoptable' ? 'selected' : ''}>Adoptable</option>
                     <option value="Adopted" ${currentChildData.status === 'Adopted' ? 'selected' : ''}>Adopted</option>
@@ -1580,10 +1648,68 @@ function createEditForms() {
             </div>
         </div>
     `;
+    
+    // Family Tab Edit Form
+    const familyTab = document.getElementById('familyTab');
+    familyTab.innerHTML = `
+        <div class="edit-form">
+            <div class="info-section">
+                <h4>Identifying Information</h4>
+                <div class="form-group">
+                    <label class="form-label">Civil Status</label>
+                    <input type="text" id="editCivilStatus" value="${currentChildData.civil_status || ''}" class="form-input">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Birth Place</label>
+                    <input type="text" id="editBirthPlace" value="${currentChildData.birth_place || ''}" class="form-input">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Educational Attainment</label>
+                    <input type="text" id="editEducationalAttainment" value="${currentChildData.educational_attainment || ''}" class="form-input">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Occupation</label>
+                    <input type="text" id="editOccupation" value="${currentChildData.occupation || ''}" class="form-input">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Monthly Income</label>
+                    <input type="text" id="editMonthlyIncome" value="${currentChildData.monthly_income || ''}" class="form-input">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Religion</label>
+                    <input type="text" id="editReligion" value="${currentChildData.religion || ''}" class="form-input">
+                </div>
+            </div>
+            
+            <div class="info-section" style="margin-top: 20px;">
+                <h4>Problem Presented</h4>
+                <div class="form-group">
+                    <textarea id="editProblemPresented" class="form-textarea">${currentChildData.problem_presented || ''}</textarea>
+                </div>
+            </div>
+            
+            <div class="info-section" style="margin-top: 20px;">
+                <h4>Assessment & Recommendation</h4>
+                <div class="form-group">
+                    <textarea id="editAssessmentRecommendation" class="form-textarea">${currentChildData.assessment_recommendation || ''}</textarea>
+                </div>
+            </div>
+        </div>
+    `;
+    
+    // Restore the active tab
+    setTimeout(() => {
+        document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+        document.querySelectorAll('.tab-pane').forEach(pane => pane.classList.remove('active'));
+        
+        const tabName = activeTab.replace('Tab', '');
+        document.querySelector(`[onclick="switchTab('${tabName}')"]`).classList.add('active');
+        document.getElementById(activeTab).classList.add('active');
+    }, 100);
 }
 
 function saveChildChanges() {
-    if (!currentChildData) return;
+    if (!currentChildId || isSaving) return;
     
     // Collect all edited data
     const updatedData = {
@@ -1597,7 +1723,15 @@ function saveChildChanges() {
         allergies: document.getElementById('editAllergies').value,
         emergency_contact: document.getElementById('editEmergencyContact').value,
         problem_description: document.getElementById('editProblemDescription').value,
-        notes: document.getElementById('editNotes').value
+        notes: document.getElementById('editNotes').value,
+        civil_status: document.getElementById('editCivilStatus')?.value || '',
+        birth_place: document.getElementById('editBirthPlace')?.value || '',
+        educational_attainment: document.getElementById('editEducationalAttainment')?.value || '',
+        occupation: document.getElementById('editOccupation')?.value || '',
+        monthly_income: document.getElementById('editMonthlyIncome')?.value || '',
+        religion: document.getElementById('editReligion')?.value || '',
+        problem_presented: document.getElementById('editProblemPresented')?.value || '',
+        assessment_recommendation: document.getElementById('editAssessmentRecommendation')?.value || ''
     };
     
     // Validate required fields
@@ -1611,64 +1745,58 @@ function saveChildChanges() {
         return;
     }
     
+    // Set saving flag
+    isSaving = true;
+    
     // Show loading state
     const editBtn = document.querySelector('.edit-btn');
-    const originalText = editBtn.textContent;
     editBtn.textContent = 'Saving...';
     editBtn.disabled = true;
     
-    // Add loading indicator
-    const loadingHtml = `
-        <div class="loading-indicator" style="padding: 10px;">
-            <div class="loading-spinner" style="width: 20px; height: 20px; margin: 0 auto 8px;"></div>
-            <div class="loading-text" style="font-size: 12px;">Saving changes...</div>
-        </div>
-    `;
-    editBtn.insertAdjacentHTML('beforebegin', loadingHtml);
+    // Send update request
+    const formData = new FormData();
+    formData.append('action', 'update_child');
+    formData.append('child_id', currentChildId);
     
-    // Send update request to dedicated endpoint
+    Object.keys(updatedData).forEach(key => {
+        formData.append(key, updatedData[key]);
+    });
+    
     fetch('ajax-update-child.php', {
         method: 'POST',
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
-        },
-        body: `action=update_child&child_id=${encodeURIComponent(currentChildData.child_id)}&` +
-              `age=${encodeURIComponent(updatedData.age)}&` +
-              `gender=${encodeURIComponent(updatedData.gender)}&` +
-              `status=${encodeURIComponent(updatedData.status)}&` +
-              `date_of_birth=${encodeURIComponent(updatedData.date_of_birth)}&` +
-              `address=${encodeURIComponent(updatedData.address)}&` +
-              `health_status=${encodeURIComponent(updatedData.health_status)}&` +
-              `allergies=${encodeURIComponent(updatedData.allergies)}&` +
-              `emergency_contact=${encodeURIComponent(updatedData.emergency_contact)}&` +
-              `problem_description=${encodeURIComponent(updatedData.problem_description)}&` +
-              `notes=${encodeURIComponent(updatedData.notes)}`
+        body: formData
     })
     .then(response => response.json())
     .then(data => {
-        // Remove loading indicator
-        document.querySelector('.loading-indicator')?.remove();
+        isSaving = false;
         
         if (data.success) {
             showNotification('Child information updated successfully!');
-            // Close modal and refresh page instead of trying to reload data
+            
+            // SIMPLE SOLUTION: Close modal and refresh the page after a short delay
             closeModal();
-            // Refresh the page to show updated data
             setTimeout(() => {
-                window.location.href = 'child-management.php?success=child_updated';
+                window.location.reload();
             }, 1000);
+            
         } else {
             showNotification('Error: ' + data.message, 'error');
-            editBtn.textContent = originalText;
-            editBtn.disabled = false;
+            const editBtn = document.querySelector('.edit-btn');
+            if (editBtn) {
+                editBtn.textContent = 'Save';
+                editBtn.disabled = false;
+            }
         }
     })
     .catch(error => {
         console.error('Error:', error);
-        document.querySelector('.loading-indicator')?.remove();
+        isSaving = false;
         showNotification('Error updating child information', 'error');
-        editBtn.textContent = originalText;
-        editBtn.disabled = false;
+        const editBtn = document.querySelector('.edit-btn');
+        if (editBtn) {
+            editBtn.textContent = 'Save';
+            editBtn.disabled = false;
+        }
     });
 }
 
@@ -1681,13 +1809,7 @@ function addCaseForChild() {
         return;
     }
     
-    // Better null checking
-    if (!currentChildData || !currentChildData.child_id) {
-        console.error('No child data available or missing child_id');
-        showNotification('Error: No child data available. Please try reopening the child details.', 'error');
-        return;
-    }
-    
+   
     // Check if child already has a case
     if (currentChildData.linked_case_id) {
         showNotification('This child already has a linked case', 'info');
@@ -1721,19 +1843,28 @@ function viewExistingCase(caseId) {
 function closeModal(event) {
     if (event && event.target !== event.currentTarget) return;
     
-    console.log('Closing modal, currentChildData before clear:', currentChildData);
+    const childModal = document.getElementById('childModal');
+    if (!childModal) return;
     
-    // Don't clear currentChildData immediately when modal closes
-    // We need it for the redirect
-    document.getElementById('childModal').classList.remove('active');
+    // Check if modal is actually open and we need to refresh
+    const wasModalOpen = childModal.classList.contains('active');
+    const wasInEditMode = isEditMode;
     
-    // Only clear after a delay to allow redirect to complete
-    setTimeout(() => {
-        currentChildData = null;
-        currentChildId = null;
-        isEditMode = false;
-        console.log('Modal data cleared');
-    }, 1000);
+    // Close the modal
+    childModal.classList.remove('active');
+    
+    // Refresh page if modal was open AND we were in edit mode
+    if (wasModalOpen && wasInEditMode) {
+        setTimeout(() => {
+            window.location.reload();
+        }, 300);
+    }
+    
+    // Reset states
+    isEditMode = false;
+    isSaving = false;
+    currentChildId = null;
+    currentChildData = null;
 }
 
 function switchTab(tabName) {
@@ -1746,21 +1877,15 @@ function switchTab(tabName) {
     document.getElementById(tabName + 'Tab').classList.add('active');
 }
 
-function showChildDetails(childId) {
-    if (!canEdit) {
-        showNotification('Read-only mode - You cannot view child details', 'error');
-        return;
-    }
+function loadChildDetails(childId) {
+    console.log('Loading details for child:', childId);
     
-    currentChildId = childId;
-    resetModalToViewMode();
+    // Show loading state with null checks
+    const modalLoading = document.getElementById('modalLoading');
+    const modalContent = document.getElementById('modalContent');
     
-    console.log('Fetching details for child:', childId);
-    
-    // Show loading state
-    document.getElementById('modalLoading').style.display = 'block';
-    document.getElementById('modalContent').style.display = 'none';
-    document.getElementById('childModal').classList.add('active');
+    if (modalLoading) modalLoading.style.display = 'block';
+    if (modalContent) modalContent.style.display = 'none';
     
     // Load basic child details
     fetch('ajax-child-details.php', {
@@ -1770,31 +1895,27 @@ function showChildDetails(childId) {
         },
         body: 'action=get_child_details&child_id=' + encodeURIComponent(childId)
     })
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('Network response was not ok');
-        }
-        return response.json();
-    })
+    .then(response => response.json())
     .then(data => {
-        document.getElementById('modalLoading').style.display = 'none';
-        document.getElementById('modalContent').style.display = 'block';
+        // Hide loading and show content with null checks
+        if (modalLoading) modalLoading.style.display = 'none';
+        if (modalContent) modalContent.style.display = 'block';
         
         if (data.success) {
+            // CRITICAL: Ensure we're in view mode when loading data
+            resetModalState();
             populateModal(data.child);
-            
-            // LOAD CUSTOM FIELDS
-            loadCustomFields(childId);
         } else {
             showNotification('Error: ' + data.message, 'error');
-            document.getElementById('childModal').classList.remove('active');
+            closeModal();
         }
     })
     .catch(error => {
         console.error('Fetch error:', error);
-        document.getElementById('modalLoading').style.display = 'none';
+        // Hide loading with null check
+        if (modalLoading) modalLoading.style.display = 'none';
         showNotification('Error loading child details', 'error');
-        document.getElementById('childModal').classList.remove('active');
+        closeModal();
     });
 }
 

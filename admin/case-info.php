@@ -511,10 +511,6 @@
                 <form id="editForm" method="POST" style="display: none;">
                     <input type="hidden" name="action" value="update_case">
                     <div class="form-grid">
-                        <div class="form-group">
-                            <label class="form-label">Child Name</label>
-                            <input type="text" name="childName" class="form-input" value="<?php echo htmlspecialchars($case['child_name'] ?? ''); ?>">
-                        </div>
                         
                         <div class="form-group">
                             <label class="form-label">Case Type</label>

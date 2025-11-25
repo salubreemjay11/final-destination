@@ -2,17 +2,18 @@
 $pageTitle = 'Role Change Requests - Orphanfare';
 require_once 'includes/superheader.php';
 
-// Debug: Check table structure
-echo "<!-- Debug: Checking role_change_requests table structure -->";
-$debug_sql = "DESCRIBE role_change_requests";
-$debug_result = $conn->query($debug_sql);
-if ($debug_result) {
-    echo "<!-- Table columns: ";
-    while ($debug_row = $debug_result->fetch_assoc()) {
-        echo $debug_row['Field'] . ", ";
-    }
-    echo " -->";
+// Detect actual column names
+$column_check = $conn->query("SHOW COLUMNS FROM role_change_requests");
+$columns = [];
+while ($col = $column_check->fetch_assoc()) {
+    $columns[$col['Field']] = true;
 }
+
+// Build column mappings based on actual columns
+$reviewed_by_col = isset($columns['reviewed_by_user']) ? 'reviewed_by_user' : 'reviewed_by';
+$status_col = isset($columns['request_status']) ? 'request_status' : 'status';
+$requested_role_col = isset($columns['requested_role_value']) ? 'requested_role_value' : 'requested_role';
+$reason_col = isset($columns['request_reason']) ? 'request_reason' : 'reason';
 
 // Handle request actions
 if (isset($_GET['action']) && isset($_GET['id'])) {
@@ -22,24 +23,22 @@ if (isset($_GET['action']) && isset($_GET['id'])) {
     if ($action === 'approve' || $action === 'reject') {
         $status = $action === 'approve' ? 'approved' : 'rejected';
         
-        // Update the request status
-        $sql = "UPDATE role_change_requests SET status = ?, reviewed_by = ?, reviewed_at = NOW() WHERE id = ?";
+        // Update the request status using dynamic column names
+        $sql = "UPDATE role_change_requests SET $status_col = ?, $reviewed_by_col = ?, reviewed_at_time = NOW() WHERE id = ?";
         $stmt = $conn->prepare($sql);
         $stmt->bind_param("sii", $status, $_SESSION['user_id'], $requestId);
         
         if ($stmt->execute()) {
             // If approved, update user's role
             if ($action === 'approve') {
-                // Try both possible column names
-                $getRequestSql = "SELECT user_id, requested_role, new_role FROM role_change_requests WHERE id = ?";
+                $getRequestSql = "SELECT user_id, $requested_role_col FROM role_change_requests WHERE id = ?";
                 $getStmt = $conn->prepare($getRequestSql);
                 $getStmt->bind_param("i", $requestId);
                 $getStmt->execute();
                 $result = $getStmt->get_result();
                 
                 if ($row = $result->fetch_assoc()) {
-                    // Use whichever column exists
-                    $newRole = $row['requested_role'] ?? $row['new_role'] ?? '';
+                    $newRole = $row[$requested_role_col] ?? '';
                     
                     if (!empty($newRole)) {
                         $updateUserSql = "UPDATE users SET role = ? WHERE id = ?";
@@ -63,11 +62,11 @@ if (isset($_GET['action']) && isset($_GET['id'])) {
     }
 }
 
-// Fetch all role change requests - Try both possible column names
+// Fetch all role change requests using dynamic column names
 $sql = "SELECT r.*, u.username, u.role as user_current_role, ur.username as reviewer_name 
         FROM role_change_requests r 
         JOIN users u ON r.user_id = u.id 
-        LEFT JOIN users ur ON r.reviewed_by = ur.id 
+        LEFT JOIN users ur ON r.$reviewed_by_col = ur.id 
         ORDER BY r.created_at DESC";
 
 $result = $conn->query($sql);
@@ -125,25 +124,27 @@ if ($result && $result->num_rows > 0) {
                             <td>
                                 <span class="status-badge status-progress">
                                     <?php 
-                                    // Try both possible column names
-                                    $requestedRole = $request['requested_role'] ?? $request['new_role'] ?? 'Unknown';
+                                    $requestedRole = $request[$requested_role_col] ?? 'Unknown';
                                     echo htmlspecialchars($requestedRole); 
                                     ?>
                                 </span>
                             </td>
-                            <td class="reason"><?php echo htmlspecialchars($request['reason'] ?: 'No reason provided'); ?></td>
+                            <td class="reason"><?php echo htmlspecialchars($request[$reason_col] ?: 'No reason provided'); ?></td>
                             <td>
                                 <span class="status-badge <?php 
-                                    echo $request['status'] === 'approved' ? 'status-approved' : 
-                                         ($request['status'] === 'rejected' ? 'status-urgent' : 'status-pending'); 
+                                    $currentStatus = $request[$status_col] ?? 'pending';
+                                    echo $currentStatus === 'approved' ? 'status-approved' : 
+                                         ($currentStatus === 'rejected' ? 'status-urgent' : 'status-pending'); 
                                 ?>">
-                                    <?php echo htmlspecialchars(ucfirst($request['status'])); ?>
+                                    <?php echo htmlspecialchars(ucfirst($currentStatus)); ?>
                                 </span>
                             </td>
                             <td class="requested_date"><?php echo date('M j, Y', strtotime($request['created_at'])); ?></td>
                             <td class="reviewer_name"><?php echo $request['reviewer_name'] ? htmlspecialchars($request['reviewer_name']) : 'Not reviewed'; ?></td>
                             <td class="buttons-actions">
-                                <?php if ($request['status'] === 'pending'): ?>
+                                <?php 
+                                $currentStatus = $request[$status_col] ?? 'pending';
+                                if ($currentStatus === 'pending'): ?>
                                     <a href="role-requests.php?action=approve&id=<?php echo $request['id']; ?>" 
                                        class="action-btn edit-btn" 
                                        onclick="return confirm('Approve this role change request?')">Approve</a>
@@ -169,7 +170,7 @@ if ($result && $result->num_rows > 0) {
 <style>
     .buttons-actions .action-btn {
         margin-right: 5px;
-        display: flex;
+        display: inline-block;
         margin-bottom: 5px;
     }
 

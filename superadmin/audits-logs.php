@@ -214,7 +214,7 @@ if ($action_result && $action_result->num_rows > 0) {
                             <td style="color: #047857;"><?php echo date('Y-m-d H:i:s', strtotime($log['created_at'])); ?></td>
                             <td>
                                 <?php if ($log['username']): ?>
-                                    <strong><?php echo htmlspecialchars($log['username']); ?></strong><br>
+                                    <strong class="username"><?php echo htmlspecialchars($log['username']); ?></strong><br>
                                     <small style="color: #666;"><?php echo htmlspecialchars($log['email'] ?? ''); ?></small>
                                 <?php else: ?>
                                     <span style="color: #666;">System</span>
@@ -297,6 +297,10 @@ if ($action_result && $action_result->num_rows > 0) {
     padding: 8px 12px;
     color: #ffffff;
     font-size: 14px;
+}
+
+.light-theme .username {
+    color: #000;
 }
 </style>
 

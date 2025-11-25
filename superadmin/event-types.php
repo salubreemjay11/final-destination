@@ -205,7 +205,7 @@ $available_roles = ['super_admin', 'admin', 'Social Worker', 'Social Welfare Ass
                 </div>
                 <div class="form-group">
                     <label>Icon</label>
-                    <input class="icon-event" type="text" name="icon" required placeholder="e.g., 🏠">
+                    <input class="icon-event" type="text" name="icon" required placeholder="e.g., svg">
                 </div>
             </div>
             <div class="form-group">
@@ -270,7 +270,7 @@ $available_roles = ['super_admin', 'admin', 'Social Worker', 'Social Welfare Ass
 <style>
 /* Notification Styles */
 .type-key {
-    width: 100%;
+    width: 300px;
     padding: 10px 16px;
     background-color: #2a2a2a;
     border: 1px solid #3a3a3a;
@@ -280,7 +280,7 @@ $available_roles = ['super_admin', 'admin', 'Social Worker', 'Social Welfare Ass
 }
 
 .type-name {
-    width: 100%;
+    width: 300px;
     padding: 10px 16px;
     background-color: #2a2a2a;
     border: 1px solid #3a3a3a;
@@ -290,7 +290,7 @@ $available_roles = ['super_admin', 'admin', 'Social Worker', 'Social Welfare Ass
 }
 
 .icon-event {
-    width: 100%;
+    width: 300px;
     padding: 10px 16px;
     background-color: #2a2a2a;
     border: 1px solid #3a3a3a;
@@ -451,7 +451,8 @@ $available_roles = ['super_admin', 'admin', 'Social Worker', 'Social Welfare Ass
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     gap: 15px;
-    margin-bottom: 15px;
+    right: 15px;
+    
 }
 
 @media (max-width: 768px) {

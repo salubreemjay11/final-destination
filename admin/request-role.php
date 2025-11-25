@@ -11,17 +11,17 @@ try {
     if (!$tableExists) {
         echo "<div class='alert alert-warning'>Table doesn't exist. Creating it now...</div>";
         
-        // Create table without foreign keys first to avoid issues
+        // Create table with the correct column names that match your existing structure
         $createTableSQL = "
         CREATE TABLE IF NOT EXISTS role_change_requests (
             id INT AUTO_INCREMENT PRIMARY KEY,
             user_id INT NOT NULL,
-            `current_role` VARCHAR(50) NOT NULL,
-            `requested_role` VARCHAR(50) NOT NULL,
-            reason TEXT,
-            status ENUM('pending', 'approved', 'rejected') DEFAULT 'pending',
-            reviewed_by INT NULL,
-            reviewed_at TIMESTAMP NULL,
+            current_role_value VARCHAR(50) NOT NULL,
+            requested_role_value VARCHAR(50) NOT NULL,
+            request_reason TEXT,
+            request_status ENUM('pending', 'approved', 'rejected') DEFAULT 'pending',
+            reviewed_by_user INT NULL,
+            reviewed_at_time TIMESTAMP NULL,
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
             updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
         )";
@@ -34,7 +34,7 @@ try {
             $checkUsersTable = $pdo->query("SHOW TABLES LIKE 'users'");
             if ($checkUsersTable->rowCount() > 0) {
                 $pdo->exec("ALTER TABLE role_change_requests ADD FOREIGN KEY (user_id) REFERENCES users(id)");
-                $pdo->exec("ALTER TABLE role_change_requests ADD FOREIGN KEY (reviewed_by) REFERENCES users(id)");
+                $pdo->exec("ALTER TABLE role_change_requests ADD FOREIGN KEY (reviewed_by_user) REFERENCES users(id)");
                 echo "<div class='alert alert-success'>Foreign keys added successfully!</div>";
             }
         } catch (Exception $fkError) {
@@ -55,8 +55,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     
     if (!empty($requestedRole)) {
         try {
-            // FIXED: Use correct column names that match the table structure
-            $sql = "INSERT INTO role_change_requests (user_id, current_role, requested_role, reason) VALUES (?, ?, ?, ?)";
+            // CORRECTED: Use the actual column names from your MySQL table
+            $sql = "INSERT INTO role_change_requests (user_id, current_role_value, requested_role_value, request_reason) VALUES (?, ?, ?, ?)";
             $stmt = $pdo->prepare($sql);
             $result = $stmt->execute([
                 $currentUser['id'],

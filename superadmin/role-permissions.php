@@ -23,11 +23,27 @@ if ($result && $result->num_rows > 0) {
 
 // Handle role change requests
 $pendingRequests = 0;
-$sql = "SELECT COUNT(*) as count FROM role_change_requests WHERE status = 'pending'";
-$result = $conn->query($sql);
-if ($result && $result->num_rows > 0) {
-    $row = $result->fetch_assoc();
-    $pendingRequests = $row['count'];
+$table_check = $conn->query("SHOW TABLES LIKE 'role_change_requests'");
+if ($table_check->num_rows > 0) {
+    // Check what status column name exists
+    $column_check = $conn->query("SHOW COLUMNS FROM role_change_requests LIKE 'status'");
+    if ($column_check->num_rows > 0) {
+        $sql = "SELECT COUNT(*) as count FROM role_change_requests WHERE status = 'pending'";
+    } else {
+        // Try request_status column (from your request-role.php)
+        $column_check = $conn->query("SHOW COLUMNS FROM role_change_requests LIKE 'request_status'");
+        if ($column_check->num_rows > 0) {
+            $sql = "SELECT COUNT(*) as count FROM role_change_requests WHERE request_status = 'pending'";
+        } else {
+            $sql = "SELECT COUNT(*) as count FROM role_change_requests";
+        }
+    }
+    
+    $result = $conn->query($sql);
+    if ($result && $result->num_rows > 0) {
+        $row = $result->fetch_assoc();
+        $pendingRequests = $row['count'];
+    }
 }
 ?>
 
@@ -100,8 +116,8 @@ if ($result && $result->num_rows > 0) {
         </div>
         
         <?php
-        // Get recent role change requests - CORRECTED: Use requested_role instead of new_role
-        $sql = "SELECT r.id, u.username, r.requested_role, r.status, r.created_at 
+        // Get recent role change requests - Use the correct column names from request-role.php
+        $sql = "SELECT r.id, u.username, r.requested_role_value as requested_role, r.request_status as status, r.created_at 
                 FROM role_change_requests r 
                 JOIN users u ON r.user_id = u.id 
                 ORDER BY r.created_at DESC 
@@ -151,8 +167,6 @@ if ($result && $result->num_rows > 0) {
     </div>
 </div>
 <style>
-    
-
 .card-header {
     display: flex;
     justify-content: space-between;
@@ -194,6 +208,5 @@ if ($result && $result->num_rows > 0) {
     padding: 24px;
     border: 1px solid #3a3a3a;
 }
-
 </style>
 <?php require_once 'includes/superfooter.php'; ?>

@@ -307,6 +307,31 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !isset($_POST['update_existing'])) 
                 throw new Exception('Failed to insert case record: ' . ($caseError[2] ?? 'Unknown error'));
             }
             
+            // ========== PROCESS CUSTOM FIELDS FOR CASE ==========
+            if ($fieldManager && !empty($caseCustomFields)) {
+                error_log("Processing case custom fields for new case");
+                foreach ($_POST as $key => $value) {
+                    if (strpos($key, 'custom_field_') === 0) {
+                        $fieldName = str_replace('custom_field_', '', $key);
+                        
+                        // Check if this field belongs to cases module
+                        $isCaseField = false;
+                        foreach ($caseCustomFields as $field) {
+                            if ($field['field_name'] === $fieldName) {
+                                $isCaseField = true;
+                                break;
+                            }
+                        }
+                        
+                        if ($isCaseField && !empty(trim($value))) {
+                            $saveResult = $fieldManager->saveFieldValue($caseId, 'cases', $fieldName, $value);
+                            error_log("Saved case custom field - Field: $fieldName, Value: '$value', Result: " . ($saveResult ? 'SUCCESS' : 'FAILED'));
+                        }
+                    }
+                }
+            }
+            // ========== END CUSTOM FIELD PROCESSING ==========
+            
             // Update child record with linked_case_id
             $updateChildStmt = $pdo->prepare("UPDATE children SET linked_case_id = ? WHERE child_id = ?");
             $updateChildStmt->execute([$caseId, $childId]);
@@ -411,6 +436,31 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !isset($_POST['update_existing'])) 
                 
                 error_log("Child record inserted successfully with ID: " . $unifiedId);
                 
+                // ========== PROCESS CUSTOM FIELDS FOR CHILD ==========
+                if ($fieldManager && !empty($childCustomFields)) {
+                    error_log("Processing child custom fields for new child");
+                    foreach ($_POST as $key => $value) {
+                        if (strpos($key, 'custom_field_') === 0) {
+                            $fieldName = str_replace('custom_field_', '', $key);
+                            
+                            // Check if this field belongs to children module
+                            $isChildField = false;
+                            foreach ($childCustomFields as $field) {
+                                if ($field['field_name'] === $fieldName) {
+                                    $isChildField = true;
+                                    break;
+                                }
+                            }
+                            
+                            if ($isChildField && !empty(trim($value))) {
+                                $saveResult = $fieldManager->saveFieldValue($unifiedId, 'children', $fieldName, $value);
+                                error_log("Saved child custom field - Field: $fieldName, Value: '$value', Result: " . ($saveResult ? 'SUCCESS' : 'FAILED'));
+                            }
+                        }
+                    }
+                }
+                // ========== END CUSTOM FIELD PROCESSING ==========
+                
             } catch (Exception $e) {
                 error_log("Exception in child insert: " . $e->getMessage());
                 throw $e;
@@ -460,6 +510,31 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !isset($_POST['update_existing'])) 
                     throw new Exception('Failed to insert case record: ' . ($caseError[2] ?? 'Unknown error'));
                 }
                 
+                // ========== PROCESS CUSTOM FIELDS FOR CASE ==========
+                if ($fieldManager && !empty($caseCustomFields)) {
+                    error_log("Processing case custom fields for new case");
+                    foreach ($_POST as $key => $value) {
+                        if (strpos($key, 'custom_field_') === 0) {
+                            $fieldName = str_replace('custom_field_', '', $key);
+                            
+                            // Check if this field belongs to cases module
+                            $isCaseField = false;
+                            foreach ($caseCustomFields as $field) {
+                                if ($field['field_name'] === $fieldName) {
+                                    $isCaseField = true;
+                                    break;
+                                }
+                            }
+                            
+                            if ($isCaseField && !empty(trim($value))) {
+                                $saveResult = $fieldManager->saveFieldValue($unifiedId, 'cases', $fieldName, $value);
+                                error_log("Saved case custom field - Field: $fieldName, Value: '$value', Result: " . ($saveResult ? 'SUCCESS' : 'FAILED'));
+                            }
+                        }
+                    }
+                }
+                // ========== END CUSTOM FIELD PROCESSING ==========
+                
                 // Update child record with linked_case_id only if case was created
                 $updateChildStmt = $pdo->prepare("UPDATE children SET linked_case_id = ? WHERE child_id = ?");
                 $updateChildStmt->execute([$unifiedId, $unifiedId]);
@@ -498,8 +573,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_existing'])) {
             throw new Exception("No case ID provided");
         }
         
-        $unifiedId = $_POST['case_id'];
-        error_log("Updating record: " . $unifiedId);
+        $caseId = $_POST['case_id'];
+        $childId = $existingCaseData['linked_child_id'] ?? $caseId;
+        
+        error_log("Updating record - Case ID: " . $caseId . ", Child ID: " . $childId);
         
         // Start transaction
         $pdo->beginTransaction();
@@ -507,7 +584,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_existing'])) {
         // Handle photo upload for updates
         $photoPath = null;
         if (isset($_FILES['child_photo']) && $_FILES['child_photo']['error'] === UPLOAD_ERR_OK) {
-            $photoPath = handlePhotoUpload($_FILES['child_photo'], $unifiedId);
+            $photoPath = handlePhotoUpload($_FILES['child_photo'], $childId);
             error_log("New photo uploaded: " . $photoPath);
         } else {
             // Keep existing photo if no new upload
@@ -537,15 +614,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_existing'])) {
             }
         }
         
-        // Update Child Record - REMOVED NAME FIELD
-        
+        // Update Child Record - Use CHILD ID
         $childUpdateColumns = [
             'age = ?', 'gender = ?', 'date_of_birth = ?', 'entry_date = ?', 
             'address = ?', 'health_status = ?', 'allergies = ?', 'emergency_contact = ?', 
             'contact_phone = ?', 'problem_description = ?', 'notes = ?', 'updated_at = NOW()',
             'civil_status = ?', 'birth_place = ?', 'educational_attainment = ?', 'occupation = ?',
             'monthly_income = ?', 'religion = ?', 'family_composition = ?', 'problem_presented = ?',
-            'assessment_recommendation = ?', 'status = ?'  // Add status here
+            'assessment_recommendation = ?', 'status = ?'
         ];
 
         $childUpdateValues = [
@@ -569,7 +645,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_existing'])) {
             !empty($familyComposition) ? json_encode($familyComposition) : null,
             trim($_POST['problem_presented'] ?? ''),
             trim($_POST['assessment_recommendation'] ?? ''),
-            $_POST['child_status'] ?? 'In Care'  // Add status value here
+            $_POST['child_status'] ?? 'In Care'
         ];
 
         // ADD PHOTO PATH TO UPDATE
@@ -578,8 +654,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_existing'])) {
             $childUpdateValues[] = $photoPath;
         }
 
-        // Add the WHERE clause value
-        $childUpdateValues[] = $unifiedId;
+        // Add the WHERE clause value - USE CHILD ID
+        $childUpdateValues[] = $childId;
 
         // Build the dynamic SQL
         $childUpdateSql = "UPDATE children SET " . implode(', ', $childUpdateColumns) . " WHERE child_id = ?";
@@ -587,12 +663,39 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_existing'])) {
         $childStmt = $pdo->prepare($childUpdateSql);
         $childResult = $childStmt->execute($childUpdateValues);
         
+        error_log("Child update result: " . ($childResult ? 'SUCCESS' : 'FAILED'));
+        
+        // ========== PROCESS CUSTOM FIELDS FOR CHILD UPDATE ==========
+        if ($fieldManager && !empty($childCustomFields)) {
+            error_log("Processing child custom fields for update - Child ID: " . $childId);
+            foreach ($_POST as $key => $value) {
+                if (strpos($key, 'custom_field_') === 0) {
+                    $fieldName = str_replace('custom_field_', '', $key);
+                    
+                    // Check if this field belongs to children module
+                    $isChildField = false;
+                    foreach ($childCustomFields as $field) {
+                        if ($field['field_name'] === $fieldName) {
+                            $isChildField = true;
+                            break;
+                        }
+                    }
+                    
+                    if ($isChildField) {
+                        $saveResult = $fieldManager->saveFieldValue($childId, 'children', $fieldName, $value);
+                        error_log("Updated child custom field - Child ID: $childId, Field: $fieldName, Value: '$value', Result: " . ($saveResult ? 'SUCCESS' : 'FAILED'));
+                    }
+                }
+            }
+        }
+        // ========== END CUSTOM FIELD PROCESSING ==========
+        
         // Check if case exists and update it if needed
         $caseExists = false;
         if ($existingCaseData) {
             $caseExists = true;
             
-            // Update Case Record
+            // Update Case Record - Use CASE ID
             $caseUpdateColumns = [
                 'case_type = ?', 'child_age = ?', 'child_gender = ?', 
                 'current_location = ?', 'birth_date = ?', 'contact_number = ?', 'reported_by = ?',
@@ -619,20 +722,47 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_existing'])) {
                 $_POST['status'] ?? 'Open'
             ];
 
-            // Add the WHERE clause value
-            $caseUpdateValues[] = $unifiedId;
+            // Add the WHERE clause value - USE CASE ID
+            $caseUpdateValues[] = $caseId;
 
             // Build the dynamic SQL
             $caseUpdateSql = "UPDATE cases SET " . implode(', ', $caseUpdateColumns) . " WHERE case_id = ?";
 
             $caseStmt = $pdo->prepare($caseUpdateSql);
             $caseResult = $caseStmt->execute($caseUpdateValues);
+            
+            error_log("Case update result: " . ($caseResult ? 'SUCCESS' : 'FAILED'));
+            
+            // ========== PROCESS CUSTOM FIELDS FOR CASE UPDATE ==========
+            if ($fieldManager && !empty($caseCustomFields)) {
+                error_log("Processing case custom fields for update - Case ID: " . $caseId);
+                foreach ($_POST as $key => $value) {
+                    if (strpos($key, 'custom_field_') === 0) {
+                        $fieldName = str_replace('custom_field_', '', $key);
+                        
+                        // Check if this field belongs to cases module
+                        $isCaseField = false;
+                        foreach ($caseCustomFields as $field) {
+                            if ($field['field_name'] === $fieldName) {
+                                $isCaseField = true;
+                                break;
+                            }
+                        }
+                        
+                        if ($isCaseField) {
+                            $saveResult = $fieldManager->saveFieldValue($caseId, 'cases', $fieldName, $value);
+                            error_log("Updated case custom field - Case ID: $caseId, Field: $fieldName, Value: '$value', Result: " . ($saveResult ? 'SUCCESS' : 'FAILED'));
+                        }
+                    }
+                }
+            }
+            // ========== END CUSTOM FIELD PROCESSING ==========
         }
         
         if ($childResult && (!$caseExists || $caseResult)) {
             $pdo->commit();
             $action = $caseExists ? 'Unified Record Updated' : 'Child Record Updated';
-            logActivity($currentUser['id'], $action, 'children_cases', $unifiedId);
+            logActivity($currentUser['id'], $action, 'children_cases', $caseExists ? $caseId : $childId);
             
             header('Location: child-management.php?success=' . ($caseExists ? 'unified_updated' : 'child_updated'));
             exit();
@@ -1477,7 +1607,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_existing'])) {
     padding: 8px;
     background: #2a2a2a;
     border-radius: 6px;
-    border: 1px solid #3a3a3a;
 }
 
 .checkbox-option input[type="checkbox"] {
@@ -1493,8 +1622,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_existing'])) {
 }
 
 .checkbox-option:hover {
-    background: #333333;
-    border-color: #4a4a4a;
 }
 
 .checkbox-option input[type="checkbox"]:checked + label {

@@ -162,7 +162,7 @@ try {
 
     <!-- Filters -->
     <div class="filters-section">
-        <h3>Filter Donations</h3>
+        <h3 class="donations-filter">Filter Donations</h3>
         <form method="GET" class="filters-form">
             <div class="filter-grid">
                 <div class="form-group">
@@ -669,6 +669,10 @@ try {
 .type-services {
     background: #17a2b8;
     color: white;
+}
+
+.light-theme .donations-filter{
+    color: black;
 }
 
 .type-other {

@@ -872,6 +872,11 @@ body.light-theme {
     color: #2d3748;
 }
 
+body.dark-theme {
+    background: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%);
+    color: #2d3748;
+}
+
 .light-theme .protective-action-form {
     background: #ffffff;
     border-radius: 12px;
@@ -957,8 +962,8 @@ body.light-theme {
 }
 
 .light-theme .user-status {
-    color: #5a6c8d;
-    font-weight: 500;
+    color: #b8c5ff;
+    font-size: 14px;
 }
 
 
@@ -1099,6 +1104,7 @@ body.light-theme {
 
 .light-theme .fields-table td {
     color: black;
+    
 }
 
 .light-theme .content-box {
@@ -1161,7 +1167,7 @@ body.light-theme {
 
 /* Light theme specific toggle button */
 .light-theme .theme-toggle {
-    color: #5a6c8d;
+    color: #b8c5ff;
     border: 1px solid rgba(90, 108, 141, 0.3);
 }
 
