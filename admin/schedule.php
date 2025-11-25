@@ -3252,7 +3252,7 @@ function loadGalleryPhotos() {
     .then(response => {
         console.log('Response status:', response.status);
         if (!response.ok) {
-            throw new Error('Network response was not ok: ' + response.status);
+            throw new Error('Network response was not ok: ' . response.status);
         }
         return response.json();
     })
@@ -3328,6 +3328,45 @@ function showErrorMessage(container, message) {
     `;
 }
 
+<<<<<<< HEAD
+=======
+function displayPhotos(photos, container) {
+    let html = '';
+    photos.forEach(photo => {
+        html += `
+            <div class="photo-item">
+                <img src="${photo.image_path}" alt="${photo.caption || 'Event photo'}" class="photo-image" 
+                     onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjUwIiBoZWlnaHQ9IjIwMCIgdmlld0JveD0iMCAwIDI1MCAyMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3Qgd2lkdGg9IjI1MCIgaGVpZ2h0PSIyMDAiIGZpbGw9IiMzYTNhM2EiLz48c3ZnIHg9Ijc1IiB5PSI1NSIgd2lkdGg9IjUwIiBoZWlnaHQ9IjQwIiB2aWV3Qm94PSIwIDAgMjQgMjQiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2I4YzVmZiIgc3Ryb2tlLXdpZHRoPSIyIj48cGF0aCBkPSJNMjAgMjFVMTlBMiAyIDAgMCAxIDIyIDE3SDI4QTIgMiAwIDAgMSAzMCAxOVYyMU0xNiA1QTcgNyAwIDEgMSAyIDVBMTYgMTYgMCAwIDEgMTYgNVoiLz48L3N2Zz48L3N2Zz4='">
+                <div class="photo-info">
+                    <div class="photo-caption">${photo.caption || 'No caption'}</div>
+                    <div class="photo-description">${photo.description || 'No description'}</div>
+                    <div class="photo-meta">
+                        <span class="photo-date">${new Date(photo.created_at).toLocaleDateString()}</span>
+                        <span class="photo-uploader">By: ${photo.uploaded_by_name || 'Unknown'}</span>
+                    </div>
+                </div>
+            </div>
+        `;
+    });
+    container.innerHTML = html;
+}
+
+function showNoPhotosMessage(container, message) {
+    container.innerHTML = `
+        <div class="no-photos">
+            <div style="text-align: center; padding: 40px; color: #888; grid-column: 1 / -1;">
+                <div style="font-size: 64px; margin-bottom: 16px;"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-calendar3-event" viewBox="0 0 16 16">
+                                <path d="M14 0H2a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2M1 3.857C1 3.384 1.448 3 2 3h12c.552 0 1 .384 1 .857v10.286c0 .473-.448.857-1 .857H2c-.552 0-1-.384-1-.857z"/>
+                                <path d="M12 7a1 1 0 1 0 0-2 1 1 0 0 0 0 2"/>
+                                </svg></div>
+                <p>${message}</p>
+                <small>Upload photos using the "Manage Photos" button</small>
+            </div>
+        </div>
+    `;
+}
+
+>>>>>>> 46e0a86ce4c0788de605b002b4020d9cce540d12
 function openGalleryForSelectedEvent() {
     const eventId = document.getElementById('galleryEventFilter').value;
     if (!eventId) {
@@ -3910,10 +3949,14 @@ function loadEventPhotos(eventId) {
         photosGrid.innerHTML = `
             <div class="no-photos">
                 <div style="text-align: center; padding: 40px; color: #888; grid-column: 1 / -1;">
+<<<<<<< HEAD
                     <div style="font-size: 64px; margin-bottom: 16px;"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-exclamation-triangle" viewBox="0 0 16 16">
                     <path d="M7.938 2.016A.13.13 0 0 1 8.002 2a.13.13 0 0 1 .063.016.15.15 0 0 1 .054.057l6.857 11.667c.036.06.035.124.002.183a.2.2 0 0 1-.054.06.1.1 0 0 1-.066.017H1.146a.1.1 0 0 1-.066-.017.2.2 0 0 1-.054-.06.18.18 0 0 1 .002-.183L7.884 2.073a.15.15 0 0 1 .054-.057m1.044-.45a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767z"/>
                     <path d="M7.002 12a1 1 0 1 1 2 0 1 1 0 0 1-2 0M7.1 5.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0z"/>
                     </svg></div>
+=======
+                    <div style="font-size: 64px; margin-bottom: 16px;">⚠️</div>
+>>>>>>> 46e0a86ce4c0788de605b002b4020d9cce540d12
                     <p>Gallery temporarily unavailable</p>
                     <small>Photo gallery will be available soon</small>
                 </div>

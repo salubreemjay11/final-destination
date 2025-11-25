@@ -3,7 +3,11 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
+<<<<<<< HEAD
 -- Generation Time: Nov 25, 2025 at 05:53 PM
+=======
+-- Generation Time: Nov 22, 2025 at 12:58 PM
+>>>>>>> 46e0a86ce4c0788de605b002b4020d9cce540d12
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -642,6 +646,7 @@ INSERT INTO `audit_logs` (`id`, `user_id`, `action`, `description`, `ip_address`
 (508, 8, 'logout', 'User logged out of the system', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-22 11:50:15'),
 (509, 1, 'login', 'User logged into the system', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-22 11:50:24');
 INSERT INTO `audit_logs` (`id`, `user_id`, `action`, `description`, `ip_address`, `user_agent`, `created_at`) VALUES
+<<<<<<< HEAD
 (510, 8, 'login', 'User logged into the system', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-22 11:51:16'),
 (511, 8, 'login', 'User logged into the system', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-23 01:44:47'),
 (512, 8, 'logout', 'User logged out of the system', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-23 02:51:06'),
@@ -762,6 +767,9 @@ INSERT INTO `audit_logs` (`id`, `user_id`, `action`, `description`, `ip_address`
 (627, 8, 'login', 'User logged into the system', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-25 16:49:51'),
 (628, 8, 'logout', 'User logged out of the system', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-25 16:51:10'),
 (629, 1, 'login', 'User logged into the system', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-25 16:51:15');
+=======
+(510, 8, 'login', 'User logged into the system', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-22 11:51:16');
+>>>>>>> 46e0a86ce4c0788de605b002b4020d9cce540d12
 
 -- --------------------------------------------------------
 
@@ -1107,6 +1115,7 @@ INSERT INTO `audit_log_admin` (`id`, `user_id`, `action`, `description`, `ip_add
 (320, 8, 'Event Photo Uploaded', 'Event Photo Uploaded on events_gallery (ID: EVT-2025-010)', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-22 10:36:39'),
 (321, 8, 'Event Photo Uploaded', 'Event Photo Uploaded on events_gallery (ID: EVT-2025-010)', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-22 10:36:54'),
 (322, 8, 'Event Created', 'Event Created on events (ID: EVT-2025-011)', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-22 11:22:00'),
+<<<<<<< HEAD
 (323, 8, 'Event Created', 'Event Created on events (ID: EVT-2025-012)', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-22 11:52:00'),
 (324, 8, 'Event Photo Uploaded', 'Event Photo Uploaded on events_gallery (ID: EVT-2025-011)', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-23 01:45:23'),
 (325, 8, 'Child Record Created', 'Child Record Created on children_cases (ID: UC-2025-006)', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-23 01:46:58'),
@@ -1174,6 +1183,9 @@ INSERT INTO `audit_log_admin` (`id`, `user_id`, `action`, `description`, `ip_add
 (387, 8, 'Unified Record Updated', 'Unified Record Updated on children_cases (ID: UC-2025-012)', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-25 16:31:53'),
 (388, 8, 'Unified Record Updated', 'Unified Record Updated on children_cases (ID: CASE-2025-004)', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-25 16:37:33'),
 (389, 15, 'Child Record Created', 'Child Record Created on children_cases (ID: UC-2025-013)', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-25 16:49:26');
+=======
+(323, 8, 'Event Created', 'Event Created on events (ID: EVT-2025-012)', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-22 11:52:00');
+>>>>>>> 46e0a86ce4c0788de605b002b4020d9cce540d12
 
 -- --------------------------------------------------------
 
@@ -1535,6 +1547,7 @@ CREATE TABLE `events` (
 -- Dumping data for table `events`
 --
 
+<<<<<<< HEAD
 INSERT INTO `events` (`id`, `event_id`, `title`, `description`, `event_type`, `event_date`, `event_time`, `location`, `assigned_to`, `notes`, `status`, `is_active`, `created_by`, `created_at`, `updated_at`, `cf_time_gold`, `cf_radio_buttons`, `cf_phone_number`, `cf_u_rl`, `cf_email_mail`, `cf_favorite_anime`) VALUES
 (37, 'EVT-2025-001', 'nyek', '', 'home_visit', '2025-11-19', '10:24:00', 'storage room', 'dsasdas', '', 'Completed', 0, 8, '2025-11-19 02:24:01', '2025-11-19 04:01:24', NULL, NULL, NULL, NULL, NULL, NULL),
 (54, 'EVT-2025-002', 'home', '', 'home_visit', '2025-11-21', '12:12:00', 'storage room', '', '', 'Scheduled', 0, 8, '2025-11-19 04:08:50', '2025-11-19 04:09:19', NULL, NULL, NULL, NULL, NULL, NULL),
@@ -1552,6 +1565,21 @@ INSERT INTO `events` (`id`, `event_id`, `title`, `description`, `event_type`, `e
 (66, 'EVT-2025-014', 'lah', '', 'home_visit', '2025-12-05', '13:03:00', '', '', '', 'Scheduled', 0, 8, '2025-11-25 05:59:06', '2025-11-25 05:59:32', NULL, NULL, NULL, NULL, NULL, NULL),
 (67, 'EVT-2025-015', 'lah', '', 'home_visit', '2025-12-05', '13:59:00', '', '', '', 'Scheduled', 0, 8, '2025-11-25 05:59:48', '2025-11-25 06:01:13', NULL, NULL, NULL, NULL, NULL, NULL),
 (68, 'EVT-2025-016', 'lah', 'asddasdasd', 'home_visit', '2025-12-05', '14:01:00', 'storage room', 'dsasdas', 'dasdasdasd', 'Scheduled', 1, 8, '2025-11-25 06:01:31', '2025-11-25 06:01:31', NULL, NULL, NULL, NULL, NULL, NULL);
+=======
+INSERT INTO `events` (`id`, `event_id`, `title`, `description`, `event_type`, `event_date`, `event_time`, `location`, `assigned_to`, `notes`, `status`, `is_active`, `created_by`, `created_at`, `updated_at`, `cf_time_management`, `cf_time_gold`, `cf_radio_buttons`, `cf_phone_number`, `cf_u_rl`, `cf_email_mail`, `cf_favorite_anime`) VALUES
+(37, 'EVT-2025-001', 'nyek', '', 'home_visit', '2025-11-19', '10:24:00', 'storage room', 'dsasdas', '', 'Completed', 0, 8, '2025-11-19 02:24:01', '2025-11-19 04:01:24', '', NULL, NULL, NULL, NULL, NULL, NULL),
+(54, 'EVT-2025-002', 'home', '', 'home_visit', '2025-11-21', '12:12:00', 'storage room', '', '', 'Scheduled', 0, 8, '2025-11-19 04:08:50', '2025-11-19 04:09:19', '', NULL, NULL, NULL, NULL, NULL, NULL),
+(55, 'EVT-2025-003', 'home', '', 'home_visit', '2025-11-28', '12:13:00', 'storage room', 'dsasdas', '', 'Scheduled', 1, 8, '2025-11-19 04:09:38', '2025-11-19 04:09:38', '', NULL, NULL, NULL, NULL, NULL, NULL),
+(56, 'EVT-2025-004', 'nyek ', '', 'home_visit', '2025-11-29', '12:25:00', '', '', '', 'Scheduled', 0, 8, '2025-11-19 04:22:42', '2025-11-19 04:25:07', '', NULL, NULL, NULL, NULL, NULL, NULL),
+(57, 'EVT-2025-005', 'nyek ', '', 'home_visit', '2025-11-29', '12:25:00', '', '', '', 'Scheduled', 0, 8, '2025-11-19 04:24:44', '2025-11-19 04:31:38', '', NULL, NULL, NULL, NULL, NULL, NULL),
+(58, 'EVT-2025-006', 'nyek ', '', 'home_visit', '2025-11-29', '12:25:00', '', '', '', 'Scheduled', 0, 8, '2025-11-19 04:24:49', '2025-11-19 05:21:02', '', NULL, NULL, NULL, NULL, NULL, NULL),
+(59, 'EVT-2025-007', 'yey', '', 'home_visit', '2025-11-19', '12:43:00', 'storage room', '', '', 'Completed', 1, 8, '2025-11-19 04:40:41', '2025-11-19 04:46:21', '', NULL, NULL, NULL, NULL, NULL, NULL),
+(60, 'EVT-2025-008', 'yet', '', 'home_visit', '2025-11-29', '17:00:00', '', '', '', 'Scheduled', 1, 8, '2025-11-19 04:57:00', '2025-11-19 04:57:00', '', NULL, NULL, NULL, NULL, NULL, NULL),
+(61, 'EVT-2025-009', 'hello', '', 'home_visit', '2025-11-22', '16:20:00', '', '', '', 'Completed', 1, 8, '2025-11-22 08:16:10', '2025-11-22 08:32:50', '', NULL, NULL, NULL, NULL, NULL, NULL),
+(62, 'EVT-2025-010', 'yes', '', 'home_visit', '2025-12-04', '17:40:00', '', '', '', 'Scheduled', 1, 8, '2025-11-22 09:40:24', '2025-11-22 09:40:24', '', NULL, NULL, NULL, NULL, NULL, NULL),
+(63, 'EVT-2025-011', 'dance', '', 'home_visit', '2025-12-05', '19:25:00', 'storage room', '', '', 'Scheduled', 1, 8, '2025-11-22 11:22:00', '2025-11-22 11:22:00', '', NULL, NULL, NULL, NULL, NULL, NULL),
+(64, 'EVT-2025-012', 'home', '', 'going_home', '2025-11-22', '19:55:00', '', '', '', 'Completed', 1, 8, '2025-11-22 11:52:00', '2025-11-22 11:56:06', '', NULL, NULL, NULL, NULL, NULL, NULL);
+>>>>>>> 46e0a86ce4c0788de605b002b4020d9cce540d12
 
 -- --------------------------------------------------------
 
@@ -1587,10 +1615,14 @@ INSERT INTO `events_gallery` (`id`, `event_id`, `image_path`, `caption`, `descri
 (38, 'EVT-2025-010', 'uploads/schedule/gallery/event_EVT-2025-010_1763807093.jpeg', '', '', 8, '2025-11-22 10:24:53'),
 (39, 'EVT-2025-010', 'uploads/schedule/gallery/event_EVT-2025-010_1763807434.jpg', '', '', 8, '2025-11-22 10:30:34'),
 (40, 'EVT-2025-010', 'uploads/schedule/gallery/event_EVT-2025-010_1763807799.jpeg', '', '', 8, '2025-11-22 10:36:39'),
+<<<<<<< HEAD
 (41, 'EVT-2025-010', 'uploads/schedule/gallery/event_EVT-2025-010_1763807814.jpg', 'this is meeting picture', 'dsadasdasd', 8, '2025-11-22 10:36:54'),
 (42, 'EVT-2025-011', 'uploads/schedule/gallery/event_EVT-2025-011_1763862323.png', '', '', 8, '2025-11-23 01:45:23'),
 (43, 'EVT-2025-011', 'uploads/schedule/gallery/event_EVT-2025-011_1763867738.png', '', '', 8, '2025-11-23 03:15:38'),
 (44, 'EVT-2025-013', 'uploads/schedule/gallery/event_EVT-2025-013_1763907044.jpeg', '', '', 8, '2025-11-23 14:10:44');
+=======
+(41, 'EVT-2025-010', 'uploads/schedule/gallery/event_EVT-2025-010_1763807814.jpg', 'this is meeting picture', 'dsadasdasd', 8, '2025-11-22 10:36:54');
+>>>>>>> 46e0a86ce4c0788de605b002b4020d9cce540d12
 
 -- --------------------------------------------------------
 
@@ -1635,7 +1667,12 @@ INSERT INTO `event_types` (`id`, `type_key`, `type_name`, `icon`, `is_active`, `
 (4, 'staff_training', 'Staff Training', '<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\" fill=\"currentColor\" class=\"bi bi-person-arms-up\" viewBox=\"0 0 16 16\">   <path d=\"M8 3a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3\"/>   <path d=\"m5.93 6.704-.846 8.451a.768.768 0 0 0 1.523.203l.81-4.865a.59.59 0 0 1 1.165 0l.81 4.865a.768.768 0 0 0 1.523-.203l-.845-8.451A1.5 1.5 0 0 1 10.5 5.5L13 2.284a.796.796 0 0 0-1.239-.998L9.634 3.84a.7.7 0 0 1-.33.235c-.23.074-.665.176-1.304.176-.64 0-1.074-.102-1.305-.176a.7.7 0 0 1-.329-.235L4.239 1.286a.796.796 0 0 0-1.24.998l2.5 3.216c.317.316.475.758.43 1.204Z\"/> </svg>', 1, '2025-11-18 12:14:26', '[\"super_admin\"]'),
 (5, 'financial', 'Financial Review', '<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\" fill=\"currentColor\" class=\"bi bi-bank\" viewBox=\"0 0 16 16\">   <path d=\"m8 0 6.61 3h.89a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.5.5H15v7a.5.5 0 0 1 .485.38l.5 2a.498.498 0 0 1-.485.62H.5a.498.498 0 0 1-.485-.62l.5-2A.5.5 0 0 1 1 13V6H.5a.5.5 0 0 1-.5-.5v-2A.5.5 0 0 1 .5 3h.89zM3.777 3h8.447L8 1zM2 6v7h1V6zm2 0v7h2.5V6zm3.5 0v7h1V6zm2 0v7H12V6zM13 6v7h1V6zm2-1V4H1v1zm-.39 9H1.39l-.25 1h13.72z\"/> </svg>', 1, '2025-11-18 12:14:26', '[\"super_admin\"]'),
 (6, 'orientation', 'Orientation', '<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\" fill=\"currentColor\" class=\"bi bi-megaphone\" viewBox=\"0 0 16 16\">   <path d=\"M13 2.5a1.5 1.5 0 0 1 3 0v11a1.5 1.5 0 0 1-3 0v-.214c-2.162-1.241-4.49-1.843-6.912-2.083l.405 2.712A1 1 0 0 1 5.51 15.1h-.548a1 1 0 0 1-.916-.599l-1.85-3.49-.202-.003A2.014 2.014 0 0 1 0 9V7a2.02 2.02 0 0 1 1.992-2.013 75 75 0 0 0 2.483-.075c3.043-.154 6.148-.849 8.525-2.199zm1 0v11a.5.5 0 0 0 1 0v-11a.5.5 0 0 0-1 0m-1 1.35c-2.344 1.205-5.209 1.842-8 2.033v4.233q.27.015.537.036c2.568.189 5.093.744 7.463 1.993zm-9 6.215v-4.13a95 95 0 0 1-1.992.052A1.02 1.02 0 0 0 1 7v2c0 .55.448 1.002 1.006 1.009A61 61 0 0 1 4 10.065m-.657.975 1.609 3.037.01.024h.548l-.002-.014-.443-2.966a68 68 0 0 0-1.722-.082z\"/> </svg>', 1, '2025-11-18 12:14:26', '[\"super_admin\"]'),
+<<<<<<< HEAD
 (7, 'calamity_duty', 'Calamity Duty', '<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\" fill=\"currentColor\" class=\"bi bi-tsunami\" viewBox=\"0 0 16 16\">\n  <path d=\"M.036 12.314a.5.5 0 0 1 .65-.278l1.757.703a1.5 1.5 0 0 0 1.114 0l1.014-.406a2.5 2.5 0 0 1 1.857 0l1.015.406a1.5 1.5 0 0 0 1.114 0l1.014-.406a2.5 2.5 0 0 1 1.857 0l1.015.406a1.5 1.5 0 0 0 1.114 0l1.757-.703a.5.5 0 1 1 .372.928l-1.758.703a2.5 2.5 0 0 1-1.857 0l-1.014-.406a1.5 1.5 0 0 0-1.114 0l-1.015.406a2.5 2.5 0 0 1-1.857 0l-1.014-.406a1.5 1.5 0 0 0-1.114 0l-1.015.406a2.5 2.5 0 0 1-1.857 0l-1.757-.703a.5.5 0 0 1-.278-.65m0 2a.5.5 0 0 1 .65-.278l1.757.703a1.5 1.5 0 0 0 1.114 0l1.014-.406a2.5 2.5 0 0 1 1.857 0l1.015.406a1.5 1.5 0 0 0 1.114 0l1.014-.406a2.5 2.5 0 0 1 1.857 0l1.015.406a1.5 1.5 0 0 0 1.114 0l1.757-.703a.5.5 0 1 1 .372.928l-1.758.703a2.5 2.5 0 0 1-1.857 0l-1.014-.406a1.5 1.5 0 0 0-1.114 0l-1.015.406a2.5 2.5 0 0 1-1.857 0l-1.014-.406a1.5 1.5 0 0 0-1.114 0l-1.015.406a2.5 2.5 0 0 1-1.857 0l-1.757-.703a.5.5 0 0 1-.278-.65M2.662 8.08c-.456 1.063-.994 2.098-1.842 2.804a.5.5 0 0 1-.64-.768c.652-.544 1.114-1.384 1.564-2.43.14-.328.281-.68.427-1.044.302-.754.624-1.559 1.01-2.308C3.763 3.2 4.528 2.105 5.7 1.299 6.877.49 8.418 0 10.5 0c1.463 0 2.511.4 3.179 1.058.67.66.893 1.518.819 2.302-.074.771-.441 1.516-1.02 1.965a1.88 1.88 0 0 1-1.904.27c-.65.642-.907 1.679-.71 2.614C11.076 9.215 11.784 10 13 10h2.5a.5.5 0 0 1 0 1H13c-1.784 0-2.826-1.215-3.114-2.585-.232-1.1.005-2.373.758-3.284L10.5 5.06l-.777.388a.5.5 0 0 1-.447 0l-1-.5a.5.5 0 0 1 .447-.894l.777.388.776-.388a.5.5 0 0 1 .447 0l1 .5.034.018c.44.264.81.195 1.108-.036.328-.255.586-.729.637-1.27.05-.529-.1-1.076-.525-1.495s-1.19-.77-2.477-.77c-1.918 0-3.252.448-4.232 1.123C5.283 2.8 4.61 3.738 4.07 4.79c-.365.71-.655 1.433-.945 2.16-.15.376-.301.753-.463 1.13\"/>\n</svg>', 1, '2025-11-18 12:14:26', '[\"super_admin\"]');
+=======
+(7, 'calamity_duty', 'Calamity Duty', '<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\" fill=\"currentColor\" class=\"bi bi-tsunami\" viewBox=\"0 0 16 16\">\n  <path d=\"M.036 12.314a.5.5 0 0 1 .65-.278l1.757.703a1.5 1.5 0 0 0 1.114 0l1.014-.406a2.5 2.5 0 0 1 1.857 0l1.015.406a1.5 1.5 0 0 0 1.114 0l1.014-.406a2.5 2.5 0 0 1 1.857 0l1.015.406a1.5 1.5 0 0 0 1.114 0l1.757-.703a.5.5 0 1 1 .372.928l-1.758.703a2.5 2.5 0 0 1-1.857 0l-1.014-.406a1.5 1.5 0 0 0-1.114 0l-1.015.406a2.5 2.5 0 0 1-1.857 0l-1.014-.406a1.5 1.5 0 0 0-1.114 0l-1.015.406a2.5 2.5 0 0 1-1.857 0l-1.757-.703a.5.5 0 0 1-.278-.65m0 2a.5.5 0 0 1 .65-.278l1.757.703a1.5 1.5 0 0 0 1.114 0l1.014-.406a2.5 2.5 0 0 1 1.857 0l1.015.406a1.5 1.5 0 0 0 1.114 0l1.014-.406a2.5 2.5 0 0 1 1.857 0l1.015.406a1.5 1.5 0 0 0 1.114 0l1.757-.703a.5.5 0 1 1 .372.928l-1.758.703a2.5 2.5 0 0 1-1.857 0l-1.014-.406a1.5 1.5 0 0 0-1.114 0l-1.015.406a2.5 2.5 0 0 1-1.857 0l-1.014-.406a1.5 1.5 0 0 0-1.114 0l-1.015.406a2.5 2.5 0 0 1-1.857 0l-1.757-.703a.5.5 0 0 1-.278-.65M2.662 8.08c-.456 1.063-.994 2.098-1.842 2.804a.5.5 0 0 1-.64-.768c.652-.544 1.114-1.384 1.564-2.43.14-.328.281-.68.427-1.044.302-.754.624-1.559 1.01-2.308C3.763 3.2 4.528 2.105 5.7 1.299 6.877.49 8.418 0 10.5 0c1.463 0 2.511.4 3.179 1.058.67.66.893 1.518.819 2.302-.074.771-.441 1.516-1.02 1.965a1.88 1.88 0 0 1-1.904.27c-.65.642-.907 1.679-.71 2.614C11.076 9.215 11.784 10 13 10h2.5a.5.5 0 0 1 0 1H13c-1.784 0-2.826-1.215-3.114-2.585-.232-1.1.005-2.373.758-3.284L10.5 5.06l-.777.388a.5.5 0 0 1-.447 0l-1-.5a.5.5 0 0 1 .447-.894l.777.388.776-.388a.5.5 0 0 1 .447 0l1 .5.034.018c.44.264.81.195 1.108-.036.328-.255.586-.729.637-1.27.05-.529-.1-1.076-.525-1.495s-1.19-.77-2.477-.77c-1.918 0-3.252.448-4.232 1.123C5.283 2.8 4.61 3.738 4.07 4.79c-.365.71-.655 1.433-.945 2.16-.15.376-.301.753-.463 1.13\"/>\n</svg>', 1, '2025-11-18 12:14:26', '[\"super_admin\"]'),
+(9, 'going_home', 'Home', '<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\" fill=\"currentColor\" class=\"bi bi-123\" viewBox=\"0 0 16 16\">\n  <path d=\"M2.873 11.297V4.142H1.699L0 5.379v1.137l1.64-1.18h.06v5.961zm3.213-5.09v-.063c0-.618.44-1.169 1.196-1.169.676 0 1.174.44 1.174 1.106 0 .624-.42 1.101-.807 1.526L4.99 10.553v.744h4.78v-.99H6.643v-.069L8.41 8.252c.65-.724 1.237-1.332 1.237-2.27C9.646 4.849 8.723 4 7.308 4c-1.573 0-2.36 1.064-2.36 2.15v.057zm6.559 1.883h.786c.823 0 1.374.481 1.379 1.179.01.707-.55 1.216-1.421 1.21-.77-.005-1.326-.419-1.379-.953h-1.095c.042 1.053.938 1.918 2.464 1.918 1.478 0 2.642-.839 2.62-2.144-.02-1.143-.922-1.651-1.551-1.714v-.063c.535-.09 1.347-.66 1.326-1.678-.026-1.053-.933-1.855-2.359-1.845-1.5.005-2.317.88-2.348 1.898h1.116c.032-.498.498-.944 1.206-.944.703 0 1.206.435 1.206 1.07.005.64-.504 1.106-1.2 1.106h-.75z\"/>\n</svg>', 1, '2025-11-22 11:50:59', '[\"super_admin\",\"admin\",\"Social Worker\",\"Social Welfare Assistant\",\"user\"]');
+>>>>>>> 46e0a86ce4c0788de605b002b4020d9cce540d12
 
 -- --------------------------------------------------------
 
@@ -2275,6 +2312,7 @@ INSERT INTO `schedule_activities` (`id`, `user_id`, `action_type`, `event_id`, `
 (138, 8, '', 'EVT-2025-010', 'Photo:  | Event: EVT-2025-010', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-22 10:36:39'),
 (139, 8, '', 'EVT-2025-010', 'Photo: this is meeting picture | Event: EVT-2025-010', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-22 10:36:54'),
 (140, 8, 'event_created', 'EVT-2025-011', 'Event: dance | Type: home_visit', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-22 11:22:00'),
+<<<<<<< HEAD
 (141, 8, 'event_created', 'EVT-2025-012', 'Event: home | Type: going_home', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-22 11:52:00'),
 (142, 8, '', 'EVT-2025-011', 'Photo:  | Event: EVT-2025-011', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-23 01:45:23'),
 (143, 8, '', 'EVT-2025-011', 'Photo:  | Event: EVT-2025-011', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-23 03:15:38'),
@@ -2287,6 +2325,9 @@ INSERT INTO `schedule_activities` (`id`, `user_id`, `action_type`, `event_id`, `
 (150, 8, 'event_deleted', 'EVT-2025-015', '', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-25 06:01:13'),
 (151, 8, 'event_created', 'EVT-2025-016', 'Event: lah | Type: home_visit', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-25 06:01:32'),
 (152, 8, 'email_sent', 'EVT-2025-016', 'Recipients: 1', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-25 06:01:59');
+=======
+(141, 8, 'event_created', 'EVT-2025-012', 'Event: home | Type: going_home', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-22 11:52:00');
+>>>>>>> 46e0a86ce4c0788de605b002b4020d9cce540d12
 
 -- --------------------------------------------------------
 
@@ -2413,9 +2454,15 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `username`, `email`, `password`, `role`, `status`, `created_at`, `updated_at`, `two_factor_secret`, `two_factor_enabled`, `two_factor_verified`, `two_factor_backup_codes`, `last_login`, `last_password_change`, `failed_attempts`, `account_locked`, `is_active`) VALUES
+<<<<<<< HEAD
 (1, 'superadmin', 'superadmin@orphanfare.com', '$2y$10$1ta75myHWaNw9yPDdZUcR.s6bqyJsW1dUcIabdVoT5NV4za/SIC9C', 'super_admin', 'active', '2025-10-20 15:59:41', '2025-11-25 16:51:15', NULL, 0, 0, NULL, '2025-11-25 16:51:15', '2025-11-11 08:48:40', 0, 0, 1),
 (7, 'superuser', 'superuser@orphanfare.com', '$2y$10$Nn5wIMgk6XVC0HVVG.TMCebPweQFrlp8zgfYqZlQ3BPMhY1Qr.jmu', 'super_admin', 'active', '2025-10-21 10:30:53', '2025-10-21 10:30:53', NULL, 0, 0, NULL, NULL, '2025-11-11 08:48:40', 0, 0, 1),
 (8, 'admin', 'admin@orphanfare.com', '$2y$10$td0sFX/r2hB8z/Z09C1ht.iea67Mylk1j5raSykVDpbCG9A1OnkJa', 'admin', 'active', '2025-10-21 10:36:58', '2025-11-25 16:49:51', NULL, 0, 0, NULL, '2025-11-25 16:49:51', '2025-11-11 08:48:40', 0, 0, 1),
+=======
+(1, 'superadmin', 'superadmin@orphanfare.com', '$2y$10$1ta75myHWaNw9yPDdZUcR.s6bqyJsW1dUcIabdVoT5NV4za/SIC9C', 'super_admin', 'active', '2025-10-20 15:59:41', '2025-11-22 11:50:24', NULL, 0, 0, NULL, '2025-11-22 11:50:24', '2025-11-11 08:48:40', 0, 0, 1),
+(7, 'superuser', 'superuser@orphanfare.com', '$2y$10$Nn5wIMgk6XVC0HVVG.TMCebPweQFrlp8zgfYqZlQ3BPMhY1Qr.jmu', 'super_admin', 'active', '2025-10-21 10:30:53', '2025-10-21 10:30:53', NULL, 0, 0, NULL, NULL, '2025-11-11 08:48:40', 0, 0, 1),
+(8, 'admin', 'admin@orphanfare.com', '$2y$10$td0sFX/r2hB8z/Z09C1ht.iea67Mylk1j5raSykVDpbCG9A1OnkJa', 'admin', 'active', '2025-10-21 10:36:58', '2025-11-22 11:51:16', NULL, 0, 0, NULL, '2025-11-22 11:51:16', '2025-11-11 08:48:40', 0, 0, 1),
+>>>>>>> 46e0a86ce4c0788de605b002b4020d9cce540d12
 (9, 'emjay', 'salubreemjay@gmail.com', '$2y$10$sab1GE8wxIkXiyUNK53t3egcnqPVQycNWAFnV207hWkkImzp49.1e', 'admin', 'active', '2025-10-21 11:57:40', '2025-11-17 14:14:15', NULL, 0, 0, NULL, '2025-11-17 14:14:15', '2025-11-11 08:48:40', 0, 0, 1),
 (10, 'tacs', 'admin@carwash.com', '$2y$10$yexoDibRd3rDYlucYBXdDuxZUwMXaRx6VhysyfRf0v1zDNbbwjp1m', 'user', 'active', '2025-10-21 12:02:19', '2025-11-25 14:58:37', NULL, 0, 0, NULL, '2025-11-25 14:58:37', '2025-11-11 08:48:40', 2, 0, 1),
 (11, 'luh', 'akawa@gmail.com', '$2y$10$K09DGa8DkQmH57baJrNOreddh3/vpjgOyKPNjqcLTKG2LQBTvYFOG', 'user', 'active', '2025-10-25 10:24:18', '2025-11-18 15:47:23', NULL, 0, 0, NULL, '2025-11-18 15:47:23', '2025-11-11 08:48:40', 6, 1, 1),
@@ -2799,13 +2846,21 @@ ALTER TABLE `admin_notifications`
 -- AUTO_INCREMENT for table `audit_logs`
 --
 ALTER TABLE `audit_logs`
+<<<<<<< HEAD
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=630;
+=======
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=511;
+>>>>>>> 46e0a86ce4c0788de605b002b4020d9cce540d12
 
 --
 -- AUTO_INCREMENT for table `audit_log_admin`
 --
 ALTER TABLE `audit_log_admin`
+<<<<<<< HEAD
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=390;
+=======
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=324;
+>>>>>>> 46e0a86ce4c0788de605b002b4020d9cce540d12
 
 --
 -- AUTO_INCREMENT for table `calendar_availability`
@@ -2871,13 +2926,21 @@ ALTER TABLE `email_logs`
 -- AUTO_INCREMENT for table `events`
 --
 ALTER TABLE `events`
+<<<<<<< HEAD
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=69;
+=======
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=65;
+>>>>>>> 46e0a86ce4c0788de605b002b4020d9cce540d12
 
 --
 -- AUTO_INCREMENT for table `events_gallery`
 --
 ALTER TABLE `events_gallery`
+<<<<<<< HEAD
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
+=======
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
+>>>>>>> 46e0a86ce4c0788de605b002b4020d9cce540d12
 
 --
 -- AUTO_INCREMENT for table `event_articles`
@@ -2973,7 +3036,11 @@ ALTER TABLE `role_permissions`
 -- AUTO_INCREMENT for table `schedule_activities`
 --
 ALTER TABLE `schedule_activities`
+<<<<<<< HEAD
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=153;
+=======
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=142;
+>>>>>>> 46e0a86ce4c0788de605b002b4020d9cce540d12
 
 --
 -- AUTO_INCREMENT for table `sms_contacts`
