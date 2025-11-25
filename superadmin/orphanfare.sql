@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 25, 2025 at 09:19 AM
+-- Generation Time: Nov 25, 2025 at 05:53 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -35,22 +35,6 @@ CREATE TABLE `access_requests` (
   `status` enum('pending','approved','rejected') DEFAULT 'pending',
   `reviewed_by` int(11) DEFAULT NULL,
   `reviewed_at` timestamp NULL DEFAULT NULL,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `activity_logs`
---
-
-CREATE TABLE `activity_logs` (
-  `id` int(11) NOT NULL,
-  `user_id` int(11) DEFAULT NULL,
-  `activity_type` varchar(50) NOT NULL,
-  `description` text DEFAULT NULL,
-  `ip_address` varchar(45) DEFAULT NULL,
-  `user_agent` text DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
@@ -748,7 +732,36 @@ INSERT INTO `audit_logs` (`id`, `user_id`, `action`, `description`, `ip_address`
 (597, 8, 'logout', 'User logged out of the system', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-25 07:25:41'),
 (598, 1, 'login', 'User logged into the system', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-25 07:25:53'),
 (599, 8, 'login', 'User logged into the system', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-25 07:26:16'),
-(600, 8, 'login', 'User logged into the system', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-25 08:11:07');
+(600, 8, 'login', 'User logged into the system', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-25 08:11:07'),
+(601, 8, 'login', 'User logged into the system', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-25 14:26:39'),
+(602, 8, 'login', 'User logged into the system', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-25 14:59:03'),
+(603, 8, 'login', 'User logged into the system', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-25 15:33:57'),
+(604, 8, 'logout', 'User logged out of the system', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-25 15:44:27'),
+(605, 1, 'login', 'User logged into the system', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-25 15:44:32'),
+(606, 8, 'login', 'User logged into the system', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-25 15:44:49'),
+(607, 8, 'logout', 'User logged out of the system', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-25 15:48:21'),
+(608, 1, 'login', 'User logged into the system', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-25 15:48:25'),
+(609, 8, 'login', 'User logged into the system', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-25 15:51:38'),
+(610, 8, 'logout', 'User logged out of the system', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-25 15:54:04'),
+(611, 1, 'login', 'User logged into the system', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-25 15:54:09'),
+(612, 8, 'login', 'User logged into the system', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-25 15:54:59'),
+(613, 8, 'logout', 'User logged out of the system', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-25 15:56:35'),
+(614, 1, 'login', 'User logged into the system', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-25 15:56:42'),
+(615, 8, 'login', 'User logged into the system', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-25 15:56:55'),
+(616, 8, 'logout', 'User logged out of the system', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-25 15:57:03'),
+(617, 1, 'login', 'User logged into the system', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-25 15:57:12'),
+(618, 8, 'login', 'User logged into the system', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-25 16:02:48'),
+(619, 8, 'logout', 'User logged out of the system', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-25 16:03:29'),
+(620, 1, 'login', 'User logged into the system', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-25 16:03:36'),
+(621, 8, 'login', 'User logged into the system', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-25 16:24:39'),
+(622, 8, 'logout', 'User logged out of the system', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-25 16:48:18'),
+(623, 1, 'login', 'User logged into the system', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-25 16:48:22'),
+(624, 1, 'update', 'Updated user: emjay11 (Role: Social Welfare Assistant -> Social Worker, Status: active -> active)', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-25 16:48:37'),
+(625, 15, 'login', 'User logged into the system', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-25 16:48:47'),
+(626, 15, 'logout', 'User logged out of the system', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-25 16:49:44'),
+(627, 8, 'login', 'User logged into the system', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-25 16:49:51'),
+(628, 8, 'logout', 'User logged out of the system', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-25 16:51:10'),
+(629, 1, 'login', 'User logged into the system', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-25 16:51:15');
 
 -- --------------------------------------------------------
 
@@ -1137,7 +1150,30 @@ INSERT INTO `audit_log_admin` (`id`, `user_id`, `action`, `description`, `ip_add
 (363, 8, 'Case Added to Child', 'Case Added to Child on cases (ID: CASE-2025-004)', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-25 07:52:14'),
 (364, 8, 'Unified Record Updated', 'Unified Record Updated on children_cases (ID: CASE-2025-003)', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-25 08:11:19'),
 (365, 8, 'Unified Record Updated', 'Unified Record Updated on children_cases (ID: CASE-2025-003)', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-25 08:11:49'),
-(366, 8, 'Unified Record Updated', 'Unified Record Updated on children_cases (ID: CASE-2025-003)', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-25 08:13:49');
+(366, 8, 'Unified Record Updated', 'Unified Record Updated on children_cases (ID: CASE-2025-003)', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-25 08:13:49'),
+(367, 8, 'Unified Record Updated', 'Unified Record Updated on children_cases (ID: CASE-2025-004)', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-25 14:26:53'),
+(368, 8, 'Child and Case Created', 'Child and Case Created on children_cases (ID: UC-2025-012)', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-25 14:32:02'),
+(369, 8, 'Unified Record Updated', 'Unified Record Updated on children_cases (ID: UC-2025-012)', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-25 14:35:45'),
+(370, 8, 'Unified Record Updated', 'Unified Record Updated on children_cases (ID: UC-2025-012)', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-25 14:59:19'),
+(371, 8, 'Unified Record Updated', 'Unified Record Updated on children_cases (ID: UC-2025-012)', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-25 15:16:37'),
+(372, 8, 'Unified Record Updated', 'Unified Record Updated on children_cases (ID: UC-2025-012)', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-25 15:26:44'),
+(373, 8, 'Unified Record Updated', 'Unified Record Updated on children_cases (ID: UC-2025-012)', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-25 15:27:17'),
+(374, 8, 'Unified Record Updated', 'Unified Record Updated on children_cases (ID: UC-2025-012)', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-25 15:28:31'),
+(375, 8, 'Unified Record Updated', 'Unified Record Updated on children_cases (ID: UC-2025-012)', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-25 15:28:46'),
+(376, 8, 'Unified Record Updated', 'Unified Record Updated on children_cases (ID: UC-2025-012)', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-25 15:34:10'),
+(377, 8, 'Unified Record Updated', 'Unified Record Updated on children_cases (ID: UC-2025-012)', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-25 15:34:39'),
+(378, 8, 'Unified Record Updated', 'Unified Record Updated on children_cases (ID: UC-2025-012)', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-25 15:35:05'),
+(379, 8, 'Unified Record Updated', 'Unified Record Updated on children_cases (ID: UC-2025-012)', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-25 15:35:55'),
+(380, 8, 'Unified Record Updated', 'Unified Record Updated on children_cases (ID: UC-2025-012)', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-25 15:36:53'),
+(381, 8, 'Unified Record Updated', 'Unified Record Updated on children_cases (ID: UC-2025-012)', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-25 15:43:13'),
+(382, 8, 'Unified Record Updated', 'Unified Record Updated on children_cases (ID: UC-2025-012)', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-25 15:43:27'),
+(383, 8, 'Unified Record Updated', 'Unified Record Updated on children_cases (ID: UC-2025-012)', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-25 15:44:59'),
+(384, 8, 'Foster Parent Updated', 'Foster Parent Updated on foster_parents (ID: FT-2025-002)', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-25 15:55:16'),
+(385, 8, 'Foster Parent Updated', 'Foster Parent Updated on foster_parents (ID: FT-2025-002)', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-25 15:56:16'),
+(386, 8, 'Foster Parent Updated', 'Foster Parent Updated on foster_parents (ID: FT-2025-002)', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-25 16:02:57'),
+(387, 8, 'Unified Record Updated', 'Unified Record Updated on children_cases (ID: UC-2025-012)', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-25 16:31:53'),
+(388, 8, 'Unified Record Updated', 'Unified Record Updated on children_cases (ID: CASE-2025-004)', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-25 16:37:33'),
+(389, 15, 'Child Record Created', 'Child Record Created on children_cases (ID: UC-2025-013)', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-11-25 16:49:26');
 
 -- --------------------------------------------------------
 
@@ -1206,21 +1242,21 @@ CREATE TABLE `cases` (
   `cf_risk_level` varchar(50) DEFAULT NULL,
   `cf_case_priority` varchar(50) DEFAULT NULL,
   `cf_investigation_status` varchar(100) DEFAULT NULL,
-  `cf_favorite_color` text DEFAULT NULL
+  `cf_medical_history` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `cases`
 --
 
-INSERT INTO `cases` (`id`, `case_id`, `case_type`, `child_name`, `child_age`, `child_gender`, `current_location`, `birth_date`, `birth_place`, `educational_attention`, `contact_number`, `reported_by`, `reporter_relation`, `reporter_phone`, `reporter_email`, `expected_date`, `description`, `priority`, `social_worker`, `current_status`, `status`, `created_date`, `created_by`, `created_at`, `updated_at`, `linked_child_id`, `cf_incident_date`, `cf_incident_location`, `cf_perpetrator_name`, `cf_perpetrator_relation`, `cf_evidence_notes`, `cf_risk_level`, `cf_case_priority`, `cf_investigation_status`, `cf_favorite_color`) VALUES
+INSERT INTO `cases` (`id`, `case_id`, `case_type`, `child_name`, `child_age`, `child_gender`, `current_location`, `birth_date`, `birth_place`, `educational_attention`, `contact_number`, `reported_by`, `reporter_relation`, `reporter_phone`, `reporter_email`, `expected_date`, `description`, `priority`, `social_worker`, `current_status`, `status`, `created_date`, `created_by`, `created_at`, `updated_at`, `linked_child_id`, `cf_incident_date`, `cf_incident_location`, `cf_perpetrator_name`, `cf_perpetrator_relation`, `cf_evidence_notes`, `cf_risk_level`, `cf_case_priority`, `cf_investigation_status`, `cf_medical_history`) VALUES
 (4, 'UC-2025-002', 'Physical Abuse', 'emjay', 15, 'Male', '442', '2025-10-24', NULL, NULL, 'sdasdasd', 'sdadasd', 'sdasdas', 'dasdasda', 'emjay@gamil.com', '2025-10-24', 'dasdasd', 'urgent', 'juan-cruz', NULL, 'Open', '2025-10-24 00:00:00', 8, '2025-10-24 12:13:52', '2025-11-08 13:29:55', 'UC-2025-002', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
 (5, 'UC-2025-003', 'Physical Abuse', '', 0, 'Male', '442', '2025-11-02', NULL, NULL, 'dasds', 'dsadasd', '', '', '', '2025-11-02', 'dasdasd', 'urgent', '', NULL, 'Open', '2025-11-02 00:00:00', 8, '2025-11-02 10:31:19', '2025-11-25 07:27:07', 'UC-2025-003', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
 (6, 'UC-2025-004', 'Physical Abuse', '', 5, 'Female', '44', '2025-11-09', NULL, NULL, 'dasds', 'dsadasd', 'dasd', 'dsadasdas', 'emjay@gamil.com', '2025-11-09', 'hi', 'urgent', '', NULL, 'Open', '2025-11-09 00:00:00', 1, '2025-11-09 08:43:58', '2025-11-21 02:30:22', 'UC-2025-004', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
 (7, 'CASE-2025-001', 'Sexual Abuse', '', 12, 'Male', '44', '2025-11-29', NULL, NULL, 'sdasdasd', 'dsadasd', 'dasdasd', 'dsadasdas', 'emjay@gamil.com', '2025-11-21', 'dasdasdasdasdd', 'urgent', 'juan-cruz', NULL, 'Open', '2025-11-21 00:00:00', 8, '2025-11-21 03:04:06', '2025-11-21 03:06:04', 'UC-2025-005', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
 (8, 'CASE-2025-002', 'Sexual Abuse', '', 12, 'Male', 'DASDASDASD', '2025-11-23', NULL, NULL, 'dasdasd', '', '', '', '', '2025-11-23', 'sdasdasd', 'urgent', '', NULL, 'Open', '2025-11-23 12:37:54', 8, '2025-11-23 04:37:54', '2025-11-23 05:05:12', 'UC-2025-009', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
 (9, 'CASE-2025-003', '', '', 0, '', '', NULL, NULL, NULL, '', '', '', '', '', '2025-11-25', '', '', '', NULL, 'Open', '2025-11-23 19:30:24', 8, '2025-11-23 11:30:24', '2025-11-25 08:13:49', 'UC-2025-010', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-(10, 'CASE-2025-004', '', '', 0, 'Male', 'dasdsasdas', '2025-11-25', NULL, NULL, 'dasdas', '', '', '', '', '2025-11-25', '', '', '', NULL, 'Open', '2025-11-25 15:52:14', 8, '2025-11-25 07:52:14', '2025-11-25 07:52:14', 'UC-2025-011', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+(10, 'CASE-2025-004', '', '', 0, 'Male', 'dasdsasdas', '2025-11-25', NULL, NULL, 'dasdas', '', '', '', '', '2025-11-25', '', '', '', NULL, 'Open', '2025-11-25 15:52:14', 8, '2025-11-25 07:52:14', '2025-11-25 16:37:33', 'UC-2025-011', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Kingdom');
 
 -- --------------------------------------------------------
 
@@ -1280,7 +1316,9 @@ INSERT INTO `children` (`id`, `child_id`, `name`, `age`, `gender`, `date_of_birt
 (41, 'UC-2025-008', '', 12, 'Male', '2025-11-23', '2025-11-23', 'Adopted', 'DASDASDASD', '', 'dasdasdasd', '', 'dasdasd', 'asdas', 'dasdasdas', NULL, 'dsad', 'asdasd', 'Good', 'dasdasdasd', 'asdasd', 'dasdasd', 'dasdasdasd', 'sdasdasdas', 'public/placeholder.jpg', '2025-11-23 04:34:33', '2025-11-23 04:34:33', NULL, 8, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
 (42, 'UC-2025-009', '', 12, 'Male', '2025-11-23', '2025-11-23', 'Adopted', 'DASDASDASD', '', 'dasdasdasd', '', 'dasdasd', 'asdas', 'dasdasdas', NULL, 'dsad', 'asdasd', 'Good', 'dasdasdasd', 'asdasd', 'dasdasd', 'dasdasdasd', 'sdasdasdas', 'public/placeholder.jpg', '2025-11-23 04:37:41', '2025-11-23 04:37:54', 'CASE-2025-002', 8, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
 (43, 'UC-2025-010', '', 12, 'Female', '2025-11-23', '2025-11-23', 'In Care', 'dasadasds', 'Divorced', 'dasdsdasdds', 'No Formal Education', 'dsasdasdsad', 'sadasdasdsad', 'sadasdasds', NULL, 'das', 'asdasdssads', 'Good', 'dsasdasdd', 'dasdasdds', 'dadsdasd', 'asdasdsasd', 'dasdsasds', 'public/placeholder.jpg', '2025-11-23 11:30:09', '2025-11-25 05:30:02', 'CASE-2025-003', 8, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-(44, 'UC-2025-011', '', 0, 'Male', '2025-11-25', '2025-11-25', 'In Care', 'dasdsasdas', 'Single', 'dasdasd', 'College Level', 'dasdasdas', 'sadas', 'asdasdsas', NULL, 'dasdasd', 'dassdasdasd', 'Good', 'dasdasdasd', 'sadsadsdasd', 'dasdas', 'asdasdsads', '', 'public/placeholder.jpg', '2025-11-25 05:37:03', '2025-11-25 05:52:58', NULL, 8, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+(44, 'UC-2025-011', '', 0, 'Male', '2025-11-25', '2025-11-25', 'In Care', 'dasdsasdas', 'Single', 'dasdasd', 'College Level', 'dasdasdas', 'sadas', 'asdasdsas', NULL, 'dasdasd', 'dassdasdasd', 'Good', 'dasdasdasd', 'sadsadsdasd', 'dasdas', 'asdasdsads', '', 'public/placeholder.jpg', '2025-11-25 05:37:03', '2025-11-25 16:37:33', NULL, 8, NULL, NULL, NULL, NULL, NULL, NULL, 'yellow'),
+(45, 'UC-2025-012', 'justine', 0, 'Male', '2025-11-25', '2025-11-25', 'In Care', 'dasdsasdas', '', '', '', '', '', '', NULL, '', '', 'Good', 'dasdasdasd', 'sadsadsdasd', 'dasdas', 'asdasdsads', '', 'public/placeholder.jpg', '2025-11-25 14:32:02', '2025-11-25 16:31:53', 'UC-2025-012', 8, NULL, NULL, NULL, NULL, NULL, NULL, 'green'),
+(46, 'UC-2025-013', '', 12, 'Male', '2025-11-28', '2025-11-25', 'In Care', '442', 'Single', 'pasig city', 'College Level', 'Professional', '40000', 'Catholic', NULL, 'daffdfda', 'fdadfdaafdadfd', 'Good', 'dsasadasds', 'asdasdsasds', 'sdasdasd', 'dsaddsasds', 'asdsasdassd', 'public/placeholder.jpg', '2025-11-25 16:49:26', '2025-11-25 16:49:26', NULL, 15, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -1313,7 +1351,9 @@ CREATE TABLE `custom_fields` (
 
 INSERT INTO `custom_fields` (`id`, `field_name`, `field_label`, `field_type`, `field_options`, `module`, `placeholder_text`, `default_value`, `help_text`, `is_required`, `field_order`, `display_order`, `is_active`, `created_by`, `created_at`, `updated_at`) VALUES
 (23, 'favorite_color', 'Favorite Color ', 'textarea', '[]', 'children', '', '', '', 0, 0, 0, 1, 1, '2025-11-25 06:50:33', '2025-11-25 06:50:33'),
-(24, 'favorite_color', 'Favorite Color ', 'textarea', '[]', 'cases', '', '', '', 0, 0, 0, 1, 1, '2025-11-25 07:26:07', '2025-11-25 07:26:07');
+(25, 'favorite_anime', 'anime', 'textarea', '[]', 'donations', 'Enter child\'s favorite anime', '', '', 0, 0, 0, 1, 1, '2025-11-25 15:51:31', '2025-11-25 15:51:31'),
+(26, 'favorite_anime', 'anime', 'select', '{\"RED\":\"RED\",\"Kingdom\":\"Kindom\"}', 'foster', '', '', '', 0, 0, 0, 1, 1, '2025-11-25 15:54:35', '2025-11-25 16:02:39'),
+(27, 'medical_history', 'medical', 'checkbox', '{\"RED\":\"RED\",\"Kingdom\":\"Kindom\"}', 'cases', '', '', '', 0, 0, 0, 1, 1, '2025-11-25 16:08:57', '2025-11-25 16:08:57');
 
 -- --------------------------------------------------------
 
@@ -1410,22 +1450,24 @@ CREATE TABLE `donations` (
   `cf_donation_value` decimal(10,2) DEFAULT NULL,
   `cf_receipt_number` varchar(100) DEFAULT NULL,
   `cf_purpose` varchar(255) DEFAULT NULL,
-  `cf_acknowledgement_sent` tinyint(1) DEFAULT 0
+  `cf_acknowledgement_sent` tinyint(1) DEFAULT 0,
+  `cf_favorite_anime` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `donations`
 --
 
-INSERT INTO `donations` (`id`, `donation_id`, `donor_name`, `donor_contact`, `donor_email`, `donation_type`, `description`, `date_received`, `status`, `notes`, `created_at`, `updated_at`, `cf_donation_value`, `cf_receipt_number`, `cf_purpose`, `cf_acknowledgement_sent`) VALUES
-(7, 'DON-20251031-110909-', 'jenny', '021614', 'salubreemjay@gmail.com', 'Other', 'asdasdasdasd', '2025-10-31', 'Received', 'dasdasdasd', '2025-10-31 10:09:09', '2025-11-18 16:45:22', NULL, NULL, NULL, 0),
-(8, 'DON-20251101-100551-', 'yey', '021614', 'salubreemjay@gmail.com', 'Services', 'asdasdasd', '2025-11-01', 'Received', 'dasdasdas', '2025-11-01 09:05:51', '2025-11-18 16:45:22', NULL, NULL, NULL, 0),
-(10, 'DON-20251111-030911-', 'gio', '021614', 'salubreemjay@gmail.com', 'Goods', 'sadsasds', '2025-11-11', 'Received', 'dsadassd', '2025-11-11 02:09:11', '2025-11-18 16:45:22', NULL, NULL, NULL, 0),
-(13, 'DON-20251111-121332-', 'emjay', '021614', 'salubreemjay@gmail.com', 'Goods', 'dsadasdasdasd', '2025-11-11', 'Received', 'dasdasdas', '2025-11-11 11:13:32', '2025-11-18 16:50:55', NULL, NULL, NULL, 0),
-(14, 'DON-20251115-101953-', 'Anonymous Donor', '', '', 'Goods', 'sdasdasdasd', '2025-11-15', 'Completed', 'dsadasdas', '2025-11-15 09:19:53', '2025-11-18 16:49:51', NULL, NULL, NULL, 0),
-(15, 'DON-20251119-024108-', 'Anonymous Donor', '021614', 'salubre@gmail.con', 'Goods', 'sdadad', '2025-11-19', 'Received', '', '2025-11-19 01:41:08', '2025-11-19 01:41:08', NULL, NULL, NULL, 0),
-(16, 'DON-20251123-040617-', 'tacs', '4323423423', '', 'Goods', 'asfsdfsf', '2025-11-23', 'Received', '', '2025-11-23 03:06:17', '2025-11-23 03:06:17', NULL, NULL, NULL, 0),
-(17, 'DON-20251125-065839-', 'Anonymous Donor', '', '', 'Goods', 'sadasdasddsasd', '2025-11-25', 'Received', 'dsasdasdadsdsd', '2025-11-25 05:58:39', '2025-11-25 05:58:39', NULL, NULL, NULL, 0);
+INSERT INTO `donations` (`id`, `donation_id`, `donor_name`, `donor_contact`, `donor_email`, `donation_type`, `description`, `date_received`, `status`, `notes`, `created_at`, `updated_at`, `cf_donation_value`, `cf_receipt_number`, `cf_purpose`, `cf_acknowledgement_sent`, `cf_favorite_anime`) VALUES
+(7, 'DON-20251031-110909-', 'jenny', '021614', 'salubreemjay@gmail.com', 'Other', 'asdasdasdasd', '2025-10-31', 'Received', 'dasdasdasd', '2025-10-31 10:09:09', '2025-11-18 16:45:22', NULL, NULL, NULL, 0, NULL),
+(8, 'DON-20251101-100551-', 'yey', '021614', 'salubreemjay@gmail.com', 'Services', 'asdasdasd', '2025-11-01', 'Received', 'dasdasdas', '2025-11-01 09:05:51', '2025-11-18 16:45:22', NULL, NULL, NULL, 0, NULL),
+(10, 'DON-20251111-030911-', 'gio', '021614', 'salubreemjay@gmail.com', 'Goods', 'sadsasds', '2025-11-11', 'Received', 'dsadassd', '2025-11-11 02:09:11', '2025-11-18 16:45:22', NULL, NULL, NULL, 0, NULL),
+(13, 'DON-20251111-121332-', 'emjay', '021614', 'salubreemjay@gmail.com', 'Goods', 'dsadasdasdasd', '2025-11-11', 'Received', 'dasdasdas', '2025-11-11 11:13:32', '2025-11-18 16:50:55', NULL, NULL, NULL, 0, NULL),
+(14, 'DON-20251115-101953-', 'Anonymous Donor', '', '', 'Goods', 'sdasdasdasd', '2025-11-15', 'Completed', 'dsadasdas', '2025-11-15 09:19:53', '2025-11-18 16:49:51', NULL, NULL, NULL, 0, NULL),
+(15, 'DON-20251119-024108-', 'Anonymous Donor', '021614', 'salubre@gmail.con', 'Goods', 'sdadad', '2025-11-19', 'Received', '', '2025-11-19 01:41:08', '2025-11-19 01:41:08', NULL, NULL, NULL, 0, NULL),
+(16, 'DON-20251123-040617-', 'tacs', '4323423423', '', 'Goods', 'asfsdfsf', '2025-11-23', 'Received', '', '2025-11-23 03:06:17', '2025-11-23 03:06:17', NULL, NULL, NULL, 0, NULL),
+(20, 'DON-20251125-164758-', 'Anonymous Donor', '', '', 'Services', 'fasaddasdas', '2025-11-25', 'Received', 'dasddadsdasdsasdasd', '2025-11-25 15:47:58', '2025-11-25 15:47:58', NULL, NULL, NULL, 0, NULL),
+(21, 'DON-20251125-165200-', 'Anonymous Donor', '', '', 'Goods', 'dsdasdadsdasd', '2025-11-25', 'Received', '', '2025-11-25 15:52:00', '2025-11-25 15:52:00', NULL, NULL, NULL, 0, 'anime');
 
 -- --------------------------------------------------------
 
@@ -1781,17 +1823,18 @@ CREATE TABLE `foster_parents` (
   `cf_years_at_address` int(11) DEFAULT NULL,
   `cf_previous_experience` text DEFAULT NULL,
   `cf_references` text DEFAULT NULL,
-  `cf_emergency_contact` varchar(100) DEFAULT NULL
+  `cf_emergency_contact` varchar(100) DEFAULT NULL,
+  `cf_favorite_anime` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `foster_parents`
 --
 
-INSERT INTO `foster_parents` (`id`, `foster_id`, `name`, `age`, `birth_date`, `birth_place`, `educational_attainment`, `religion`, `gender`, `civil_status`, `contact_number`, `email`, `address`, `occupation`, `salary_multiplier`, `monthly_income`, `income_source`, `status`, `family_planning`, `adoption_awareness`, `parenting_approach`, `age_preference`, `gender_preference`, `interests`, `personality_traits`, `experience_level`, `problem_presented`, `assessment_recommendation`, `family_composition`, `assessment_date`, `social_worker_name`, `psychological_evaluation`, `psychologist_notes`, `overall_assessment`, `dswd_referral_date`, `capacity`, `current_children`, `notes`, `photo_path`, `created_at`, `updated_at`, `cf_home_ownership`, `cf_years_at_address`, `cf_previous_experience`, `cf_references`, `cf_emergency_contact`) VALUES
-(0, 'FT-2025-001', 'justines', 15, '2025-10-24', 'pasig city', 'college', 'catholic', 'Male', 'Single', '215616', 'superadmin@orphanfare.com', 'sadassdasd', 'Professional', '15615', '26516', 'ghost project', 'Pending', 'dasda', 'dasdasdasd', 'asdasdas', '0-10 years', 'Male', 'music', NULL, 'First-time', 'dasdasdas', 'dasdasdsad', NULL, '2025-10-24', 'System Administrator', 'Completed', 'dasdadas', 'Recommended', '2025-10-24', 1, 0, 'asdasdas', NULL, '2025-10-24 12:57:00', '2025-11-23 03:15:05', NULL, NULL, NULL, NULL, NULL),
-(0, 'FT-2025-002', 'emjay', 54, '2025-11-23', 'pasig', 'college', 'catholic', 'Male', 'Single', '23432435', 'admin@orphanfare.com', '442', 'none', '4324', '4342', 'it', 'Pending', 'asddasd', 'dsadasdasdasd', 'dsadasdasdasd', NULL, 'No Preference', NULL, NULL, 'First-time', 'dsadasdasdsadasdas', 'dasdasdasdas', NULL, '2025-11-23', 'sdadasdasdasdas', 'Pending', 'dsadasda', 'Recommended', '2025-11-23', 1, 0, 'dasdasdas', NULL, '2025-11-23 03:13:39', '2025-11-23 03:27:09', NULL, NULL, NULL, NULL, NULL),
-(0, 'FT-2025-002', 'emjay', 19, '2025-11-23', 'pasig', 'college', 'catholic', 'Male', 'Single', '215616', 'admin@orphanfare.com', '442', 'none', '4324', '4342', 'it', 'Pending', 'asddasd', NULL, NULL, NULL, 'No Preference', NULL, NULL, 'First-time', 'dsadasdasdsadasdas', 'dasdasdasdas', NULL, '2025-11-23', 'sdadasdasdasdas', 'Pending', 'dsadasda', 'Recommended', '2025-11-23', 1, 0, 'dasdasdas', NULL, '2025-11-23 03:27:09', '2025-11-23 03:27:09', NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `foster_parents` (`id`, `foster_id`, `name`, `age`, `birth_date`, `birth_place`, `educational_attainment`, `religion`, `gender`, `civil_status`, `contact_number`, `email`, `address`, `occupation`, `salary_multiplier`, `monthly_income`, `income_source`, `status`, `family_planning`, `adoption_awareness`, `parenting_approach`, `age_preference`, `gender_preference`, `interests`, `personality_traits`, `experience_level`, `problem_presented`, `assessment_recommendation`, `family_composition`, `assessment_date`, `social_worker_name`, `psychological_evaluation`, `psychologist_notes`, `overall_assessment`, `dswd_referral_date`, `capacity`, `current_children`, `notes`, `photo_path`, `created_at`, `updated_at`, `cf_home_ownership`, `cf_years_at_address`, `cf_previous_experience`, `cf_references`, `cf_emergency_contact`, `cf_favorite_anime`) VALUES
+(0, 'FT-2025-001', 'justines', 15, '2025-10-24', 'pasig city', 'college', 'catholic', 'Male', 'Single', '215616', 'superadmin@orphanfare.com', 'sadassdasd', 'Professional', '15615', '26516', 'ghost project', 'Pending', 'dasda', 'dasdasdasd', 'asdasdas', '0-10 years', 'Male', 'music', NULL, 'First-time', 'dasdasdas', 'dasdasdsad', NULL, '2025-10-24', 'System Administrator', 'Completed', 'dasdadas', 'Recommended', '2025-10-24', 1, 0, 'asdasdas', NULL, '2025-10-24 12:57:00', '2025-11-23 03:15:05', NULL, NULL, NULL, NULL, NULL, NULL),
+(0, 'FT-2025-002', 'emjay', 54, '2025-11-23', 'pasig', 'college', 'catholic', 'Male', 'Single', '23432435', 'admin@orphanfare.com', '442', 'none', '4324', '4342', 'it', 'Pending', 'asddasd', 'dsadasdasdasd', 'dsadasdasdasd', NULL, 'No Preference', NULL, NULL, 'First-time', 'dsadasdasdsadasdas', 'dasdasdasdas', NULL, '2025-11-23', 'sdadasdasdasdas', 'Pending', 'dsadasda', 'Recommended', '2025-11-23', 1, 0, 'dasdasdas', NULL, '2025-11-23 03:13:39', '2025-11-25 16:02:57', NULL, NULL, NULL, NULL, NULL, 'RED'),
+(0, 'FT-2025-002', 'emjay', 54, '2025-11-23', 'pasig', 'college', 'catholic', 'Male', 'Single', '23432435', 'admin@orphanfare.com', '442', 'none', '4324', '4342', 'it', 'Pending', 'asddasd', 'dsadasdasdasd', 'dsadasdasdasd', NULL, 'No Preference', NULL, NULL, 'First-time', 'dsadasdasdsadasdas', 'dasdasdasdas', NULL, '2025-11-23', 'sdadasdasdasdas', 'Pending', 'dsadasda', 'Recommended', '2025-11-23', 1, 0, 'dasdasdas', NULL, '2025-11-23 03:27:09', '2025-11-25 16:02:57', NULL, NULL, NULL, NULL, NULL, 'RED');
 
 -- --------------------------------------------------------
 
@@ -2370,16 +2413,16 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `username`, `email`, `password`, `role`, `status`, `created_at`, `updated_at`, `two_factor_secret`, `two_factor_enabled`, `two_factor_verified`, `two_factor_backup_codes`, `last_login`, `last_password_change`, `failed_attempts`, `account_locked`, `is_active`) VALUES
-(1, 'superadmin', 'superadmin@orphanfare.com', '$2y$10$1ta75myHWaNw9yPDdZUcR.s6bqyJsW1dUcIabdVoT5NV4za/SIC9C', 'super_admin', 'active', '2025-10-20 15:59:41', '2025-11-25 07:25:53', NULL, 0, 0, NULL, '2025-11-25 07:25:53', '2025-11-11 08:48:40', 0, 0, 1),
+(1, 'superadmin', 'superadmin@orphanfare.com', '$2y$10$1ta75myHWaNw9yPDdZUcR.s6bqyJsW1dUcIabdVoT5NV4za/SIC9C', 'super_admin', 'active', '2025-10-20 15:59:41', '2025-11-25 16:51:15', NULL, 0, 0, NULL, '2025-11-25 16:51:15', '2025-11-11 08:48:40', 0, 0, 1),
 (7, 'superuser', 'superuser@orphanfare.com', '$2y$10$Nn5wIMgk6XVC0HVVG.TMCebPweQFrlp8zgfYqZlQ3BPMhY1Qr.jmu', 'super_admin', 'active', '2025-10-21 10:30:53', '2025-10-21 10:30:53', NULL, 0, 0, NULL, NULL, '2025-11-11 08:48:40', 0, 0, 1),
-(8, 'admin', 'admin@orphanfare.com', '$2y$10$td0sFX/r2hB8z/Z09C1ht.iea67Mylk1j5raSykVDpbCG9A1OnkJa', 'admin', 'active', '2025-10-21 10:36:58', '2025-11-25 08:11:07', NULL, 0, 0, NULL, '2025-11-25 08:11:07', '2025-11-11 08:48:40', 0, 0, 1),
+(8, 'admin', 'admin@orphanfare.com', '$2y$10$td0sFX/r2hB8z/Z09C1ht.iea67Mylk1j5raSykVDpbCG9A1OnkJa', 'admin', 'active', '2025-10-21 10:36:58', '2025-11-25 16:49:51', NULL, 0, 0, NULL, '2025-11-25 16:49:51', '2025-11-11 08:48:40', 0, 0, 1),
 (9, 'emjay', 'salubreemjay@gmail.com', '$2y$10$sab1GE8wxIkXiyUNK53t3egcnqPVQycNWAFnV207hWkkImzp49.1e', 'admin', 'active', '2025-10-21 11:57:40', '2025-11-17 14:14:15', NULL, 0, 0, NULL, '2025-11-17 14:14:15', '2025-11-11 08:48:40', 0, 0, 1),
-(10, 'tacs', 'admin@carwash.com', '$2y$10$yexoDibRd3rDYlucYBXdDuxZUwMXaRx6VhysyfRf0v1zDNbbwjp1m', 'user', 'active', '2025-10-21 12:02:19', '2025-10-21 12:02:19', NULL, 0, 0, NULL, NULL, '2025-11-11 08:48:40', 0, 0, 1),
+(10, 'tacs', 'admin@carwash.com', '$2y$10$yexoDibRd3rDYlucYBXdDuxZUwMXaRx6VhysyfRf0v1zDNbbwjp1m', 'user', 'active', '2025-10-21 12:02:19', '2025-11-25 14:58:37', NULL, 0, 0, NULL, '2025-11-25 14:58:37', '2025-11-11 08:48:40', 2, 0, 1),
 (11, 'luh', 'akawa@gmail.com', '$2y$10$K09DGa8DkQmH57baJrNOreddh3/vpjgOyKPNjqcLTKG2LQBTvYFOG', 'user', 'active', '2025-10-25 10:24:18', '2025-11-18 15:47:23', NULL, 0, 0, NULL, '2025-11-18 15:47:23', '2025-11-11 08:48:40', 6, 1, 1),
 (12, 'yey', 'emjaysalubre11@yahoo.com.ph', '$2y$10$Lpeb0tsdEnANk79KeOe3V.0DSx0l74Rt.bnoWahxfEly6geLZu9/m', 'user', 'active', '2025-10-25 11:01:50', '2025-11-17 14:11:25', NULL, 0, 0, NULL, '2025-11-17 14:11:25', '2025-11-11 08:48:40', 2, 0, 1),
 (13, 'socialworker', 'socialworker@orphanfare.com', '$2y$10$examplepasswordhash', 'Social Worker', 'active', '2025-10-25 11:04:28', '2025-10-25 11:28:34', NULL, 0, 0, NULL, NULL, '2025-11-11 08:48:40', 0, 0, 1),
 (14, 'com', 'com@gmail.com', '$2y$10$zRP/jofiYKXNjpNtOMDab.p8Eb3bnG4Qc5Ozl4O7AmqUZ5OmFGchy', 'user', 'active', '2025-10-25 11:23:40', '2025-11-23 09:20:58', NULL, 0, 0, NULL, '2025-11-23 09:20:58', '2025-11-15 10:13:48', 6, 1, 1),
-(15, 'emjay11', 'emjay@email.com', '$2y$10$8iAtDcppg/gSFw8f1hE1befT7eGafiRDdkGh7MZbZir1wALw72WVm', 'Social Welfare Assistant', 'active', '2025-11-18 15:54:27', '2025-11-25 04:46:50', NULL, 0, 0, NULL, '2025-11-25 04:46:50', '2025-11-18 15:54:27', 0, 0, 1);
+(15, 'emjay11', 'emjay@email.com', '$2y$10$8iAtDcppg/gSFw8f1hE1befT7eGafiRDdkGh7MZbZir1wALw72WVm', 'Social Worker', 'active', '2025-11-18 15:54:27', '2025-11-25 16:48:47', NULL, 0, 0, NULL, '2025-11-25 16:48:47', '2025-11-18 15:54:27', 0, 0, 1);
 
 -- --------------------------------------------------------
 
@@ -2440,13 +2483,6 @@ CREATE TABLE `user_settings` (
 -- Indexes for table `access_requests`
 --
 ALTER TABLE `access_requests`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `user_id` (`user_id`);
-
---
--- Indexes for table `activity_logs`
---
-ALTER TABLE `activity_logs`
   ADD PRIMARY KEY (`id`),
   ADD KEY `user_id` (`user_id`);
 
@@ -2754,12 +2790,6 @@ ALTER TABLE `access_requests`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `activity_logs`
---
-ALTER TABLE `activity_logs`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
 -- AUTO_INCREMENT for table `admin_notifications`
 --
 ALTER TABLE `admin_notifications`
@@ -2769,13 +2799,13 @@ ALTER TABLE `admin_notifications`
 -- AUTO_INCREMENT for table `audit_logs`
 --
 ALTER TABLE `audit_logs`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=601;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=630;
 
 --
 -- AUTO_INCREMENT for table `audit_log_admin`
 --
 ALTER TABLE `audit_log_admin`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=367;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=390;
 
 --
 -- AUTO_INCREMENT for table `calendar_availability`
@@ -2787,19 +2817,19 @@ ALTER TABLE `calendar_availability`
 -- AUTO_INCREMENT for table `cases`
 --
 ALTER TABLE `cases`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `children`
 --
 ALTER TABLE `children`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=47;
 
 --
 -- AUTO_INCREMENT for table `custom_fields`
 --
 ALTER TABLE `custom_fields`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 
 --
 -- AUTO_INCREMENT for table `custom_field_groups`
@@ -2829,7 +2859,7 @@ ALTER TABLE `documents`
 -- AUTO_INCREMENT for table `donations`
 --
 ALTER TABLE `donations`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT for table `email_logs`
@@ -3002,12 +3032,6 @@ ALTER TABLE `user_settings`
 --
 ALTER TABLE `access_requests`
   ADD CONSTRAINT `access_requests_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`);
-
---
--- Constraints for table `activity_logs`
---
-ALTER TABLE `activity_logs`
-  ADD CONSTRAINT `activity_logs_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`);
 
 --
 -- Constraints for table `admin_notifications`
