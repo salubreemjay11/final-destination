@@ -559,7 +559,7 @@ $canDelete = $permissionManager->hasPermission('donation', 'delete');
 
 
 .light-theme .section-title {
-    color: #18338c;
+    color: black;
     font-size: 18px;
     font-weight: 600;
 }
@@ -621,8 +621,15 @@ $canDelete = $permissionManager->hasPermission('donation', 'delete');
     margin-bottom: 4px;
 }
 
-.donor-meta, .donation-meta {
-    color: #475569;
+.light-theme .donor-meta, .donation-meta {
+    color: black;
+    font-size: 13px;
+    display: flex;
+    gap: 12px;
+}
+
+.dark-theme .donor-meta, .donation-meta {
+    color: white;
     font-size: 13px;
     display: flex;
     gap: 12px;

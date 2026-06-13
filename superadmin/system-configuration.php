@@ -810,9 +810,9 @@ $superadmin2FARequired = ($settings['superadmin_2fa_required'] ?? '0') == '1';
             <div class="security-status enabled">
                 <div class="status-indicator">
                     <span class="status-dot enabled"></span>
-                    <strong>Two-Factor Authentication is Enabled</strong>
+                    <strong class="enabled">Two-Factor Authentication is Enabled</strong>
                 </div>
-                <p>Your superadmin account is protected with an extra layer of security.</p>
+                <p class="description">Your superadmin account is protected with an extra layer of security.</p>
                 
                 <div class="security-actions">
                     <?php if (!$superadmin2FARequired): ?>
@@ -831,8 +831,8 @@ $superadmin2FARequired = ($settings['superadmin_2fa_required'] ?? '0') == '1';
 
                 <!-- Backup Codes -->
                 <div class="backup-codes-section">
-                    <h4>Backup Codes</h4>
-                    <p>Save these codes in a secure place. Each code can be used once if you lose access to your authenticator app.</p>
+                    <h4 class="enabled">Backup Codes</h4>
+                    <p class="description">Save these codes in a secure place. Each code can be used once if you lose access to your authenticator app.</p>
                     
                     <?php if ($newBackupCodes): ?>
                         <div class="backup-codes new-codes">
@@ -855,7 +855,7 @@ $superadmin2FARequired = ($settings['superadmin_2fa_required'] ?? '0') == '1';
         <?php elseif ($is2FASetupMode): ?>
             <!-- 2FA Setup Mode -->
             <div class="security-status setup">
-                <h4>Setup Two-Factor Authentication</h4>
+                <h4 class="setup">Setup Two-Factor Authentication</h4>
                 
                 <div class="setup-steps">
                     <div class="setup-step">
@@ -874,7 +874,7 @@ $superadmin2FARequired = ($settings['superadmin_2fa_required'] ?? '0') == '1';
                             </div>
                             <div class="form-actions">
                                 <button type="submit" name="verify_superadmin_2fa" class="btn-submit">Verify & Enable 2FA</button>
-                                <button type="button" class="btn-cancel" onclick="window.location.reload()">Cancel</button>
+                                
                             </div>
                         </form>
                     </div>
@@ -886,9 +886,9 @@ $superadmin2FARequired = ($settings['superadmin_2fa_required'] ?? '0') == '1';
             <div class="security-status disabled">
                 <div class="status-indicator">
                     <span class="status-dot disabled"></span>
-                    <strong>Two-Factor Authentication is Disabled</strong>
+                    <strong class="two-factor">Two-Factor Authentication is Disabled</strong>
                 </div>
-                <p>Add an extra layer of security to your superadmin account by enabling two-factor authentication.</p>
+                <p class="add-extra">Add an extra layer of security to your superadmin account by enabling two-factor authentication.</p>
                 
                 <?php if ($superadmin2FARequired): ?>
                     <div class="enable-warning">
@@ -1090,6 +1090,18 @@ $superadmin2FARequired = ($settings['superadmin_2fa_required'] ?? '0') == '1';
 </div>
 
 <style>
+.light-theme .enabled {
+    color: black;
+}
+.two-factor {
+    color: #ff6b6b;
+}
+
+.add-extra {
+    color: #007bff;
+    margin-bottom: 15px;
+}
+
 /* Data Management Styles */
 .download-options {
     display: flex;
@@ -1531,9 +1543,14 @@ $superadmin2FARequired = ($settings['superadmin_2fa_required'] ?? '0') == '1';
     background: white;
 }
 
-.manual-setup {
+.light-theme .setup{
+    color: black;
+}
+
+.light-theme .manual-setup {
     margin-top: 15px;
     font-size: 14px;
+    color: black;
 }
 
 .manual-setup code {
@@ -1608,12 +1625,12 @@ $superadmin2FARequired = ($settings['superadmin_2fa_required'] ?? '0') == '1';
 }
 
 .light-theme .setup-step {
-    background: rgba(0, 0, 0, 0.05);
+    background: rgba(58, 50, 50, 0.05);
 }
 
 .light-theme .manual-setup code,
 .light-theme .backup-codes code {
-    background: #f8fafc;
+    background: #929292ff;
     border-color: #e2e8f0;
 }
 

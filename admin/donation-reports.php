@@ -992,12 +992,12 @@ body.light-theme .chart-container canvas {
 }
 
 .dark-theme .summary-label {
-    color: #b8c5ff;
+    color: white;
     font-size: 14px;
 }
 
 .light-theme .summary-label {
-    color: #0E7490;
+    color: black;
     font-size: 14px;
 }
 

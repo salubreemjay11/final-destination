@@ -8,6 +8,7 @@
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     background-color: #1a1a1a;
     min-height: 100vh;
+    color: white;
   }
   
   
@@ -187,7 +188,7 @@
     border-radius: 6px;
     cursor: pointer;
     font-size: 14px;
-    font-weight: 500;
+    font-weight: 600;
     text-decoration: none;
     display: inline-block;
     transition: all 0.2s;
@@ -203,6 +204,12 @@
       background-color: #ffffff;
       color: #334155;
   }
+
+  .dark-theme .form-group input{
+    
+    color: black;
+  }
+
 
   .light-theme .btn-primary {
     background: linear-gradient(135deg, #3b82f6, #2563eb)   ;
@@ -314,6 +321,7 @@
     background-color: #ffc107;
     color: #000;
   }
+
   
   .status-approved {
     background-color: #28a745;
@@ -361,6 +369,7 @@
     border-radius: 6px;
     color: #ffffff;
     font-size: 14px;
+    margin-top: 0%;
   }
   
   .search-input::placeholder {
@@ -407,6 +416,11 @@
   .filter-select option {
     background-color: #2a2a2a;
     color: #ffffff;
+  }
+
+  .light-theme .filter-select option {
+    background-color: #ffffff;
+    color: #334155;
   }
   
   /* Modal styles */
@@ -601,6 +615,11 @@
   .form-select option {
     background-color: #2a2a2a;
     color: #ffffff;
+  }
+
+  .light-theme .form-select option {
+    background-color: #ffffff;
+    color: #334155;
   }
   
   /* Enhanced modal and info row styling */

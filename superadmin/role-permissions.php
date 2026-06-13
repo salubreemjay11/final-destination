@@ -68,7 +68,7 @@ if ($table_check->num_rows > 0) {
                 <span class="status-badge status-urgent">System Role</span>
             </div>
             <p style="color:rgb(134, 132, 132); margin-bottom: 12px;">Full system access with all permissions</p>
-            <p style="color: #666666; font-size: 14px;"><?php echo $roles['super_admin']; ?> users assigned to this role</p>
+            <p class="user-ass"><?php echo $roles['super_admin']; ?> users assigned to this role</p>
         </div>
         
         <div class="dashboard-card">
@@ -77,7 +77,7 @@ if ($table_check->num_rows > 0) {
                 <a href="edit-permissions.php?role=admin" class="btn btn-primary">Edit Permissions</a>
             </div>
             <p style="color: rgb(134, 132, 132); margin-bottom: 12px;">Administrative access to user management and system configuration</p>
-            <p style="color: #666666; font-size: 14px;"><?php echo $roles['admin']; ?> users assigned to this role</p>
+            <p class="user-ass"><?php echo $roles['admin']; ?> users assigned to this role</p>
         </div>
         
         <div class="dashboard-card">
@@ -86,7 +86,7 @@ if ($table_check->num_rows > 0) {
                 <a href="edit-permissions.php?role=Social Worker" class="btn btn-primary">Edit Permissions</a>
             </div>
             <p style="color: rgb(134, 132, 132); margin-bottom: 12px;">Access to child records, case management, and reporting</p>
-            <p style="color: #666666; font-size: 14px;"><?php echo $roles['Social Worker']; ?> users assigned to this role</p>
+            <p class="user-ass"><?php echo $roles['Social Worker']; ?> users assigned to this role</p>
         </div>
         
         <div class="dashboard-card">
@@ -95,7 +95,7 @@ if ($table_check->num_rows > 0) {
                 <a href="edit-permissions.php?role=Social Welfare Assistant" class="btn btn-primary">Edit Permissions</a>
             </div>
             <p style="color: rgb(134, 132, 132); margin-bottom: 12px;">Basic access to view and update assigned cases</p>
-            <p style="color: #666666; font-size: 14px;"><?php echo $roles['Social Welfare Assistant']; ?> users assigned to this role</p>
+            <p class="user-ass"><?php echo $roles['Social Welfare Assistant']; ?> users assigned to this role</p>
         </div>
         
         <div class="dashboard-card">
@@ -104,7 +104,7 @@ if ($table_check->num_rows > 0) {
                 <a href="edit-permissions.php?role=user" class="btn btn-primary">Edit Permissions</a>
             </div>
             <p style="color: rgb(134, 132, 132); margin-bottom: 12px;">Basic access with limited permissions</p>
-            <p style="color: #666666; font-size: 14px;"><?php echo $roles['user']; ?> users assigned to this role</p>
+            <p class="user-ass"><?php echo $roles['user']; ?> users assigned to this role</p>
         </div>
     </div>
 
@@ -138,7 +138,7 @@ if ($table_check->num_rows > 0) {
                 <tbody>
                     <?php while ($row = $result->fetch_assoc()): ?>
                         <tr>
-                            <td style="color: #047857"><?php echo htmlspecialchars($row['username']); ?></td>
+                            <td class="user"><?php echo htmlspecialchars($row['username']); ?></td>
                             <td class="requested_role"><?php echo htmlspecialchars($row['requested_role']); ?></td>
                             <td>
                                 <span class="status-badge <?php 
@@ -154,7 +154,7 @@ if ($table_check->num_rows > 0) {
                                     <a href="role-requests.php?action=approve&id=<?php echo $row['id']; ?>" class="action-btn edit-btn">Approve</a>
                                     <a href="role-requests.php?action=reject&id=<?php echo $row['id']; ?>" class="action-btn delete-btn">Reject</a>
                                 <?php else: ?>
-                                    <span style="color: #666; font-size: 12px;">Completed</span>
+                                    <span class="completed">Completed</span>
                                 <?php endif; ?>
                             </td>
                         </tr>
@@ -167,6 +167,18 @@ if ($table_check->num_rows > 0) {
     </div>
 </div>
 <style>
+.light-theme .user-ass {
+    color: black;
+    font-size: 14px;
+}
+
+.light-theme .completed {
+    color: black;
+}
+
+.light-theme .user {
+    color: black;
+}
 .card-header {
     display: flex;
     justify-content: space-between;

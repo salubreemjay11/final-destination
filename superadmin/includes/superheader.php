@@ -225,7 +225,7 @@ function getActionBadgeClass($action) {
                         <path d="M22 21v-2a4 4 0 0 0-3-3.87"/>
                         <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
                     </svg>
-                    User management
+                    User Management
                 </a>
                 <a href="role-permissions.php" class="nav-item <?php echo basename($_SERVER['PHP_SELF']) == 'role-permissions.php' ? 'active' : ''; ?>">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 8px;">

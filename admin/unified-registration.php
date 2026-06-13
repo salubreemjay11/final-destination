@@ -9,7 +9,6 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-
 $pageTitle = 'Unified Child & Case Registration - Orphanfare';
 require_once 'includes/header.php';
 
@@ -120,10 +119,20 @@ if (isset($_GET['case_id']) && isset($_GET['mode']) && $_GET['mode'] === 'view')
             
             $unifiedId = $caseId;
             
-            // Load existing custom field values
+            // Load existing custom field values - FIXED: Use correct IDs
             if ($fieldManager) {
-                $existingChildCustomValues = $fieldManager->getFieldValues($unifiedId, 'children');
-                $existingCaseCustomValues = $fieldManager->getFieldValues($unifiedId, 'cases');
+                $existingChildCustomValues = $fieldManager->getFieldValues($childId, 'children');
+                $existingCaseCustomValues = $fieldManager->getFieldValues($caseId, 'cases');
+                
+                // DEBUG: Log custom field loading
+                error_log("=== CUSTOM FIELD DEBUG ===");
+                error_log("Child ID for custom fields: " . $childId);
+                error_log("Case ID for custom fields: " . $caseId);
+                error_log("Child custom fields count: " . count($childCustomFields));
+                error_log("Case custom fields count: " . count($caseCustomFields));
+                error_log("Loaded child custom values: " . print_r($existingChildCustomValues, true));
+                error_log("Loaded case custom values: " . print_r($existingCaseCustomValues, true));
+                error_log("=== END CUSTOM FIELD DEBUG ===");
             }
         }
     } catch (Exception $e) {
@@ -260,6 +269,55 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !isset($_POST['update_existing'])) 
                 throw new Exception("This child already has a case: " . $existingCase['case_id']);
             }
             
+            // Check if case information is provided - FIXED: Proper validation
+            $hasCaseInfo = !empty(trim($_POST['case_type'] ?? '')) || 
+                          !empty(trim($_POST['case_description'] ?? '')) || 
+                          !empty(trim($_POST['reported_by'] ?? '')) ||
+                          !empty(trim($_POST['reporter_relation'] ?? '')) ||
+                          !empty(trim($_POST['reporter_phone'] ?? '')) ||
+                          !empty(trim($_POST['reporter_email'] ?? '')) ||
+                          (!empty($_POST['priority'] ?? '') && $_POST['priority'] !== 'common') ||
+                          (!empty($_POST['status'] ?? '') && $_POST['status'] !== 'Open');
+            
+            error_log("Case information provided: " . ($hasCaseInfo ? 'YES' : 'NO'));
+            
+            if (!$hasCaseInfo) {
+                // No case information provided, just update child custom fields and redirect
+                error_log("No case information provided, only updating child custom fields");
+                
+                // ========== PROCESS CUSTOM FIELDS FOR CHILD IN ADD CASE MODE ==========
+                if ($fieldManager && !empty($childCustomFields)) {
+                    error_log("Processing child custom fields in add case mode - Child ID: " . $childId);
+                    foreach ($_POST as $key => $value) {
+                        if (strpos($key, 'custom_field_') === 0) {
+                            $fieldName = str_replace('custom_field_', '', $key);
+                            
+                            // Check if this field belongs to children module
+                            $isChildField = false;
+                            foreach ($childCustomFields as $field) {
+                                if ($field['field_name'] === $fieldName) {
+                                    $isChildField = true;
+                                    break;
+                                }
+                            }
+                            
+                            // Only save if it's a CHILD field and has value
+                            if ($isChildField && !empty(trim($value))) {
+                                $saveResult = $fieldManager->saveFieldValue($childId, 'children', $fieldName, $value);
+                                error_log("Saved child custom field in add case mode - Child ID: $childId, Field: $fieldName, Value: '$value', Result: " . ($saveResult ? 'SUCCESS' : 'FAILED'));
+                            }
+                        }
+                    }
+                }
+                // ========== END CHILD CUSTOM FIELD PROCESSING ==========
+                
+                // Redirect back to child management with success message
+                $_SESSION['success_message'] = 'Child information updated successfully! No case was created as no case information was provided.';
+                header('Location: child-management.php?success=child_updated');
+                exit();
+            }
+            
+            // Case information is provided, proceed with creating case
             // Generate case ID
             $caseId = generateCaseId();
             error_log("Generated case ID: " . $caseId);
@@ -323,14 +381,41 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !isset($_POST['update_existing'])) 
                             }
                         }
                         
+                        // Only save if it's a CASE field and has value
                         if ($isCaseField && !empty(trim($value))) {
                             $saveResult = $fieldManager->saveFieldValue($caseId, 'cases', $fieldName, $value);
-                            error_log("Saved case custom field - Field: $fieldName, Value: '$value', Result: " . ($saveResult ? 'SUCCESS' : 'FAILED'));
+                            error_log("Saved case custom field - Case ID: $caseId, Field: $fieldName, Value: '$value', Result: " . ($saveResult ? 'SUCCESS' : 'FAILED'));
                         }
                     }
                 }
             }
             // ========== END CUSTOM FIELD PROCESSING ==========
+            
+            // ========== PROCESS CUSTOM FIELDS FOR CHILD IN ADD CASE MODE ==========
+            if ($fieldManager && !empty($childCustomFields)) {
+                error_log("Processing child custom fields in add case mode - Child ID: " . $childId);
+                foreach ($_POST as $key => $value) {
+                    if (strpos($key, 'custom_field_') === 0) {
+                        $fieldName = str_replace('custom_field_', '', $key);
+                        
+                        // Check if this field belongs to children module
+                        $isChildField = false;
+                        foreach ($childCustomFields as $field) {
+                            if ($field['field_name'] === $fieldName) {
+                                $isChildField = true;
+                                break;
+                            }
+                        }
+                        
+                        // Only save if it's a CHILD field and has value
+                        if ($isChildField && !empty(trim($value))) {
+                            $saveResult = $fieldManager->saveFieldValue($childId, 'children', $fieldName, $value);
+                            error_log("Saved child custom field in add case mode - Child ID: $childId, Field: $fieldName, Value: '$value', Result: " . ($saveResult ? 'SUCCESS' : 'FAILED'));
+                        }
+                    }
+                }
+            }
+            // ========== END CHILD CUSTOM FIELD PROCESSING ==========
             
             // Update child record with linked_case_id
             $updateChildStmt = $pdo->prepare("UPDATE children SET linked_case_id = ? WHERE child_id = ?");
@@ -385,16 +470,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !isset($_POST['update_existing'])) 
                 }
             }
             
-            // Insert Child Record - REMOVED NAME FIELD
             $childInsertSql = "INSERT INTO children (
                 child_id, age, gender, date_of_birth, entry_date, address, 
                 health_status, allergies, emergency_contact, contact_phone, 
                 problem_description, notes, photo_path, created_by,
                 civil_status, birth_place, educational_attainment, occupation,
                 monthly_income, religion, family_composition, problem_presented,
-                assessment_recommendation, status
-            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-
+                assessment_recommendation, status, vaccine_bcg, vaccine_hepb, 
+                vaccine_dtap, vaccine_polio, vaccine_pcv, vaccine_rota, 
+                vaccine_measles, vaccine_varicella, vaccine_hepa, vaccine_mmr,
+                vaccine_other, vaccine_notes, previous_family_env
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            
             $childInsertValues = [
                 $unifiedId,
                 intval($_POST['child_age'] ?? 0),
@@ -419,7 +506,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !isset($_POST['update_existing'])) 
                 !empty($familyComposition) ? json_encode($familyComposition) : null,
                 trim($_POST['problem_presented'] ?? ''),
                 trim($_POST['assessment_recommendation'] ?? ''),
-                $_POST['child_status'] ?? 'In Care'  // Add status here
+                $_POST['child_status'] ?? 'In Care',
+                isset($_POST['vaccine_bcg']) ? 1 : 0,
+                isset($_POST['vaccine_hepb']) ? 1 : 0,
+                isset($_POST['vaccine_dtap']) ? 1 : 0,
+                isset($_POST['vaccine_polio']) ? 1 : 0,
+                isset($_POST['vaccine_pcv']) ? 1 : 0,
+                isset($_POST['vaccine_rota']) ? 1 : 0,
+                isset($_POST['vaccine_measles']) ? 1 : 0,
+                isset($_POST['vaccine_varicella']) ? 1 : 0,
+                isset($_POST['vaccine_hepa']) ? 1 : 0,
+                isset($_POST['vaccine_mmr']) ? 1 : 0,
+                trim($_POST['vaccine_other'] ?? ''),
+                trim($_POST['vaccine_notes'] ?? ''),
+                trim($_POST['previous_family_env'] ?? '')
             ];
 
             error_log("Child insert values: " . print_r($childInsertValues, true));
@@ -454,7 +554,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !isset($_POST['update_existing'])) 
                             
                             if ($isChildField && !empty(trim($value))) {
                                 $saveResult = $fieldManager->saveFieldValue($unifiedId, 'children', $fieldName, $value);
-                                error_log("Saved child custom field - Field: $fieldName, Value: '$value', Result: " . ($saveResult ? 'SUCCESS' : 'FAILED'));
+                                error_log("Saved child custom field - Child ID: $unifiedId, Field: $fieldName, Value: '$value', Result: " . ($saveResult ? 'SUCCESS' : 'FAILED'));
                             }
                         }
                     }
@@ -528,7 +628,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !isset($_POST['update_existing'])) 
                             
                             if ($isCaseField && !empty(trim($value))) {
                                 $saveResult = $fieldManager->saveFieldValue($unifiedId, 'cases', $fieldName, $value);
-                                error_log("Saved case custom field - Field: $fieldName, Value: '$value', Result: " . ($saveResult ? 'SUCCESS' : 'FAILED'));
+                                error_log("Saved case custom field - Case ID: $unifiedId, Field: $fieldName, Value: '$value', Result: " . ($saveResult ? 'SUCCESS' : 'FAILED'));
                             }
                         }
                     }
@@ -621,7 +721,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_existing'])) {
             'contact_phone = ?', 'problem_description = ?', 'notes = ?', 'updated_at = NOW()',
             'civil_status = ?', 'birth_place = ?', 'educational_attainment = ?', 'occupation = ?',
             'monthly_income = ?', 'religion = ?', 'family_composition = ?', 'problem_presented = ?',
-            'assessment_recommendation = ?', 'status = ?'
+            'assessment_recommendation = ?', 'status = ?', 'vaccine_bcg = ?', 'vaccine_hepb = ?', 'vaccine_dtap = ?', 'vaccine_polio = ?', 'vaccine_pcv = ?','vaccine_rota = ?', 'vaccine_measles = ?', 'vaccine_varicella = ?', 'vaccine_hepa = ?', 'vaccine_mmr = ?', 'vaccine_other = ?', 'vaccine_notes = ?', 'previous_family_env = ?'
         ];
 
         $childUpdateValues = [
@@ -645,7 +745,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_existing'])) {
             !empty($familyComposition) ? json_encode($familyComposition) : null,
             trim($_POST['problem_presented'] ?? ''),
             trim($_POST['assessment_recommendation'] ?? ''),
-            $_POST['child_status'] ?? 'In Care'
+            $_POST['child_status'] ?? 'In Care',
+            isset($_POST['vaccine_bcg']) ? 1 : 0,
+            isset($_POST['vaccine_hepb']) ? 1 : 0,
+            isset($_POST['vaccine_dtap']) ? 1 : 0,
+            isset($_POST['vaccine_polio']) ? 1 : 0,
+            isset($_POST['vaccine_pcv']) ? 1 : 0,
+            isset($_POST['vaccine_rota']) ? 1 : 0,
+            isset($_POST['vaccine_measles']) ? 1 : 0,
+            isset($_POST['vaccine_varicella']) ? 1 : 0,
+            isset($_POST['vaccine_hepa']) ? 1 : 0,
+            isset($_POST['vaccine_mmr']) ? 1 : 0,
+            trim($_POST['vaccine_other'] ?? ''),
+            trim($_POST['vaccine_notes'] ?? ''),
+            trim($_POST['previous_family_env'] ?? '')
         ];
 
         // ADD PHOTO PATH TO UPDATE
@@ -1028,6 +1141,93 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_existing'])) {
                            value="<?php echo htmlspecialchars($existingChildData['emergency_contact'] ?? ''); ?>"
                            <?php echo $isAddCaseMode ? 'readonly' : ''; ?>>
                 </div>
+                
+                <!-- Vaccine Information Section -->
+                <div class="form-section">
+                    <h4 class="section-title">VACCINATION RECORD</h4>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Vaccines Received:</label>
+                        <div class="vaccine-checkboxes">
+                            <div class="checkbox-option">
+                                <input type="checkbox" name="vaccine_bcg" id="vaccine_bcg" value="1" 
+                                    <?php echo ($existingChildData['vaccine_bcg'] ?? 0) ? 'checked' : ''; ?>>
+                                <label for="vaccine_bcg">BCG (Tuberculosis)</label>
+                            </div>
+                            <div class="checkbox-option">
+                                <input type="checkbox" name="vaccine_hepb" id="vaccine_hepb" value="1"
+                                    <?php echo ($existingChildData['vaccine_hepb'] ?? 0) ? 'checked' : ''; ?>>
+                                <label for="vaccine_hepb">Hepatitis B</label>
+                            </div>
+                            <div class="checkbox-option">
+                                <input type="checkbox" name="vaccine_dtap" id="vaccine_dtap" value="1"
+                                    <?php echo ($existingChildData['vaccine_dtap'] ?? 0) ? 'checked' : ''; ?>>
+                                <label for="vaccine_dtap">DTaP (Diphtheria, Tetanus, Pertussis)</label>
+                            </div>
+                            <div class="checkbox-option">
+                                <input type="checkbox" name="vaccine_polio" id="vaccine_polio" value="1"
+                                    <?php echo ($existingChildData['vaccine_polio'] ?? 0) ? 'checked' : ''; ?>>
+                                <label for="vaccine_polio">Polio (IPV/OPV)</label>
+                            </div>
+                            <div class="checkbox-option">
+                                <input type="checkbox" name="vaccine_pcv" id="vaccine_pcv" value="1"
+                                    <?php echo ($existingChildData['vaccine_pcv'] ?? 0) ? 'checked' : ''; ?>>
+                                <label for="vaccine_pcv">PCV (Pneumococcal)</label>
+                            </div>
+                            <div class="checkbox-option">
+                                <input type="checkbox" name="vaccine_rota" id="vaccine_rota" value="1"
+                                    <?php echo ($existingChildData['vaccine_rota'] ?? 0) ? 'checked' : ''; ?>>
+                                <label for="vaccine_rota">Rotavirus</label>
+                            </div>
+                            <div class="checkbox-option">
+                                <input type="checkbox" name="vaccine_measles" id="vaccine_measles" value="1"
+                                    <?php echo ($existingChildData['vaccine_measles'] ?? 0) ? 'checked' : ''; ?>>
+                                <label for="vaccine_measles">Measles</label>
+                            </div>
+                            <div class="checkbox-option">
+                                <input type="checkbox" name="vaccine_varicella" id="vaccine_varicella" value="1"
+                                    <?php echo ($existingChildData['vaccine_varicella'] ?? 0) ? 'checked' : ''; ?>>
+                                <label for="vaccine_varicella">Varicella (Chickenpox)</label>
+                            </div>
+                            <div class="checkbox-option">
+                                <input type="checkbox" name="vaccine_hepa" id="vaccine_hepa" value="1"
+                                    <?php echo ($existingChildData['vaccine_hepa'] ?? 0) ? 'checked' : ''; ?>>
+                                <label for="vaccine_hepa">Hepatitis A</label>
+                            </div>
+                            <div class="checkbox-option">
+                                <input type="checkbox" name="vaccine_mmr" id="vaccine_mmr" value="1"
+                                    <?php echo ($existingChildData['vaccine_mmr'] ?? 0) ? 'checked' : ''; ?>>
+                                <label for="vaccine_mmr">MMR (Measles, Mumps, Rubella)</label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label class="form-label">Other Vaccines</label>
+                            <input type="text" class="form-input" name="vaccine_other" 
+                                value="<?php echo htmlspecialchars($existingChildData['vaccine_other'] ?? ''); ?>"
+                                placeholder="e.g., Influenza, Typhoid, etc.">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Vaccination Notes</label>
+                        <textarea name="vaccine_notes" class="form-input" rows="3" 
+                                placeholder="Any notes about vaccination schedule, reactions, or special requirements..."><?php echo htmlspecialchars($existingChildData['vaccine_notes'] ?? ''); ?></textarea>
+                    </div>
+                </div>
+
+                <!-- Previous Family Environment Section -->
+                <div class="form-section">
+                    <h4 class="section-title">PREVIOUS FAMILY ENVIRONMENT</h4>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Description of Previous Family Environment</label>
+                        <textarea name="previous_family_env" class="form-input" rows="6" 
+                                placeholder="Describe the child's previous family environment, living conditions, relationships with family members, any abuse or neglect history, and circumstances that led to being in care..."><?php echo htmlspecialchars($existingChildData['previous_family_env'] ?? ''); ?></textarea>
+                    </div>
+                </div>
 
                 <div class="form-group">
                     <label class="form-label">Problem Description / Reason for Care</label>
@@ -1303,40 +1503,40 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_existing'])) {
                     <h3>Additional Custom Fields</h3>
                     <p class="help-text">These are additional fields that can be configured by the system administrator.</p>
                     
-                    <!-- Children Module Custom Fields -->
-                    <?php if (!empty($childCustomFields) && !$isAddCaseMode): ?>
-                    <div class="custom-fields-section">
-                        <h4>Child Additional Information</h4>
-                        <div class="form-grid">
-                            <?php foreach ($childCustomFields as $field): 
-                                $existingValue = $existingChildCustomValues[$field['field_name']] ?? '';
-                                // Use underscore format for field names to match the processing logic
-                                echo str_replace(
-                                    'name="custom_field[' . $field['field_name'] . ']"',
-                                    'name="custom_field_' . $field['field_name'] . '"',
-                                    $fieldManager->renderField($field, $existingValue)
-                                );
-                            endforeach; ?>
+                    <!-- Children Module Custom Fields - ONLY show for child information -->
+                    <?php if (!$isAddCaseMode && !empty($childCustomFields)): ?>
+                        <div class="custom-fields-section">
+                            <h4>Child Additional Information</h4>
+                            <p class="help-text">These fields only apply to child records and will not appear in case information.</p>
+                            <div class="form-grid">
+                                <?php foreach ($childCustomFields as $field): 
+                                    $existingValue = $existingChildCustomValues[$field['field_name']] ?? '';
+                                    echo str_replace(
+                                        'name="custom_field[' . $field['field_name'] . ']"',
+                                        'name="custom_field_' . $field['field_name'] . '"',
+                                        $fieldManager->renderField($field, $existingValue)
+                                    );
+                                endforeach; ?>
+                            </div>
                         </div>
-                    </div>
                     <?php endif; ?>
                     
-                    <!-- Cases Module Custom Fields -->
+                    <!-- Cases Module Custom Fields - ONLY show for case information -->
                     <?php if (!empty($caseCustomFields)): ?>
-                    <div class="custom-fields-section">
-                        <h4>Case Additional Information</h4>
-                        <div class="form-grid">
-                            <?php foreach ($caseCustomFields as $field): 
-                                $existingValue = $existingCaseCustomValues[$field['field_name']] ?? '';
-                                // Use underscore format for field names to match the processing logic
-                                echo str_replace(
-                                    'name="custom_field[' . $field['field_name'] . ']"',
-                                    'name="custom_field_' . $field['field_name'] . '"',
-                                    $fieldManager->renderField($field, $existingValue)
-                                );
-                            endforeach; ?>
+                        <div class="custom-fields-section">
+                            <h4>Case Additional Information</h4>
+                            <p class="help-text">These fields only apply to case records and will not appear in child information.</p>
+                            <div class="form-grid">
+                                <?php foreach ($caseCustomFields as $field): 
+                                    $existingValue = $existingCaseCustomValues[$field['field_name']] ?? '';
+                                    echo str_replace(
+                                        'name="custom_field[' . $field['field_name'] . ']"',
+                                        'name="custom_field_' . $field['field_name'] . '"',
+                                        $fieldManager->renderField($field, $existingValue)
+                                    );
+                                endforeach; ?>
+                            </div>
                         </div>
-                    </div>
                     <?php endif; ?>
                 </div>
             </div>
@@ -2179,6 +2379,47 @@ document.getElementById('unifiedForm').addEventListener('submit', function(e) {
         console.log(key + ': ' + value);
     }
 });
+
+// Family Composition Functions
+function addFamilyMember() {
+    const tbody = document.getElementById('familyMembers');
+    const rowCount = tbody.children.length;
+    
+    const newRow = document.createElement('tr');
+    newRow.innerHTML = `
+        <td><input type="text" name="family_members[${rowCount}][name]"></td>
+        <td><input type="text" name="family_members[${rowCount}][relationship]"></td>
+        <td><input type="text" name="family_members[${rowCount}][age]"></td>
+        <td><input type="text" name="family_members[${rowCount}][sex]"></td>
+        <td><input type="text" name="family_members[${rowCount}][civil_status]"></td>
+        <td><input type="text" name="family_members[${rowCount}][educational_attainment]"></td>
+        <td><input type="text" name="family_members[${rowCount}][occupation_income]"></td>
+        <td><button type="button" onclick="removeFamilyMember(this)" class="btn-delete">Remove</button></td>
+    `;
+    
+    tbody.appendChild(newRow);
+}
+
+function removeFamilyMember(button) {
+    const row = button.closest('tr');
+    if (row) {
+        row.remove();
+    }
+    
+    // Re-index the remaining rows
+    const tbody = document.getElementById('familyMembers');
+    const rows = tbody.querySelectorAll('tr');
+    rows.forEach((row, index) => {
+        const inputs = row.querySelectorAll('input');
+        inputs[0].name = `family_members[${index}][name]`;
+        inputs[1].name = `family_members[${index}][relationship]`;
+        inputs[2].name = `family_members[${index}][age]`;
+        inputs[3].name = `family_members[${index}][sex]`;
+        inputs[4].name = `family_members[${index}][civil_status]`;
+        inputs[5].name = `family_members[${index}][educational_attainment]`;
+        inputs[6].name = `family_members[${index}][occupation_income]`;
+    });
+}
 </script>
 
 <?php require_once 'includes/footer.php'; ?>

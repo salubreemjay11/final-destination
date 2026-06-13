@@ -214,6 +214,11 @@ if ($caseId) {
     border: 1px solid #3a3a3a;
 }
 
+.light-theme .case-details-container {
+    background: #ffffff;
+    border: 1px solid #dddddd;
+}
+
 .case-header {
     display: flex;
     justify-content: space-between;
@@ -239,6 +244,7 @@ if ($caseId) {
     font-size: 14px;
 }
 
+
 .status-open { background: #d4edda; color: #155724; }
 .status-under-investigation { background: #fff3cd; color: #856404; }
 .status-court-action-pending { background: #f8d7da; color: #721c24; }
@@ -259,6 +265,10 @@ if ($caseId) {
     font-size: 20px;
     font-weight: 600;
     margin-bottom: 20px;
+}
+
+.light-theme .section-title {
+    color: #333333;
 }
 
 .details-grid {
@@ -283,9 +293,17 @@ if ($caseId) {
     font-size: 14px;
 }
 
+.light-theme .detail-item label {
+    color: #555555;
+}
+
 .detail-item span {
     color: #ffffff;
     font-size: 16px;
+}
+
+.light-theme .detail-item span {
+    color: #333333;
 }
 
 .detail-content {
@@ -295,6 +313,12 @@ if ($caseId) {
     border: 1px solid #3a3a3a;
     color: #cccccc;
     line-height: 1.5;
+}
+
+.light-theme .detail-content{
+    background: #f9f9f9;
+    border: 1px solid #dddddd;
+    color: #333333;
 }
 
 .priority-badge {

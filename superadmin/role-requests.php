@@ -1,4 +1,5 @@
 <?php
+ob_start();
 $pageTitle = 'Role Change Requests - Orphanfare';
 require_once 'includes/superheader.php';
 
@@ -191,4 +192,4 @@ if ($result && $result->num_rows > 0) {
     }
 </style>
 
-<?php require_once 'includes/superfooter.php'; ?>
+<?php ob_end_flush(); require_once 'includes/superfooter.php'; ?>

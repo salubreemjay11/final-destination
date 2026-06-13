@@ -234,7 +234,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     margin-bottom: 20px;
 }
 
-.form-group label {
+.light-theme .form-group label {
     display: block;
     margin-bottom: 5px;
     font-weight: 600;
@@ -258,6 +258,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 .form-input[readonly] {
     background-color: #f8f9fa;
     cursor: not-allowed;
+    color: black;
 }
 
 .form-help {

@@ -102,7 +102,7 @@ $pendingRoleRequests = getPendingRoleRequests($conn);
                 <tbody>
                     <?php while ($row = $result->fetch_assoc()): ?>
                         <tr>
-                            <td style="font-size: 12px; color: #047857">
+                            <td class="time">
                                 <?php echo date('M j, g:i A', strtotime($row['created_at'])); ?>
                             </td>
                             <td>
@@ -115,7 +115,7 @@ $pendingRoleRequests = getPendingRoleRequests($conn);
                                     <?php echo htmlspecialchars($row['action']); ?>
                                 </span>
                             </td>
-                            <td style="font-size: 13px; color: #0E7490;">
+                            <td class="description">
                                 <?php echo htmlspecialchars($row['description'] ?? 'No description'); ?>
                             </td>
                         </tr>
@@ -132,7 +132,15 @@ $pendingRoleRequests = getPendingRoleRequests($conn);
 </div>
 
 <style> 
-    .dashboard-card {
+.light-theme .time {
+    color: black;
+}
+
+.light-theme .description {
+    color: #3a3a3a;
+}
+
+.dashboard-card {
     background-color: #2a2a2a;
     border-radius: 8px;
     padding: 24px;

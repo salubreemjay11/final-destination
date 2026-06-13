@@ -211,7 +211,7 @@ if ($action_result && $action_result->num_rows > 0) {
                 <?php if (count($audit_logs) > 0): ?>
                     <?php foreach ($audit_logs as $log): ?>
                         <tr>
-                            <td style="color: #047857;"><?php echo date('Y-m-d H:i:s', strtotime($log['created_at'])); ?></td>
+                            <td class="timestamp"><?php echo date('Y-m-d H:i:s', strtotime($log['created_at'])); ?></td>
                             <td>
                                 <?php if ($log['username']): ?>
                                     <strong class="username"><?php echo htmlspecialchars($log['username']); ?></strong><br>
@@ -261,6 +261,9 @@ if ($action_result && $action_result->num_rows > 0) {
 </div>
 
 <style>
+.light-theme .timestamp {
+    color: #000;
+}
 .light-theme .description {
     color: #000;
 }

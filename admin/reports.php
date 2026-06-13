@@ -1003,7 +1003,7 @@ $whereClause = $whereConditions ? "WHERE " . implode(" AND ", $whereConditions) 
         <input type="text" class="search-input" id="reportSearch" placeholder="Search reports...">
         
         <!-- Filter Button -->
-        <button class="btn btn-primary" onclick="toggleFilters()">Filters</button>
+        
         
         <?php if ($canPrint): ?>
             <button class="btn btn-primary" onclick="printReport()">Print</button>
@@ -1104,7 +1104,7 @@ $whereClause = $whereConditions ? "WHERE " . implode(" AND ", $whereConditions) 
                 <tbody id="childReportTableBody">
                     <?php foreach ($recentChildren as $child): ?>
                     <tr>
-                        <td style="color: #2d5f8d;"><?php echo htmlspecialchars($child['child_id']); ?></td>
+                        <td class="child-id"><?php echo htmlspecialchars($child['child_id']); ?></td>
                         <td><?php echo htmlspecialchars($child['age']); ?></td>
                         <td><?php echo htmlspecialchars($child['gender']); ?></td>
                         <td>
@@ -1284,7 +1284,7 @@ $whereClause = $whereConditions ? "WHERE " . implode(" AND ", $whereConditions) 
                     <tbody id="caseReportTableBody">
                         <?php foreach ($recentCases as $case): ?>
                         <tr>
-                            <td style="color: #2d5f8d;"><?php echo htmlspecialchars($case['case_id']); ?></td>
+                            <td class="child-id"><?php echo htmlspecialchars($case['case_id']); ?></td>
                             <td><?php echo htmlspecialchars($case['case_type']); ?></td>
                             <td><?php echo htmlspecialchars($socialWorkers[$case['social_worker']] ?? 'Unassigned'); ?></td>
                             <td>
@@ -1453,7 +1453,7 @@ $whereClause = $whereConditions ? "WHERE " . implode(" AND ", $whereConditions) 
                     <tbody id="donationReportTableBody">
                         <?php foreach ($recentDonations as $donation): ?>
                         <tr>
-                            <td style="color: #2d5f8d;"><?php echo htmlspecialchars($donation['donation_id']); ?></td>
+                            <td class="child-id"><?php echo htmlspecialchars($donation['donation_id']); ?></td>
                             <td><?php echo htmlspecialchars($donation['donor_name']); ?></td>
                             <td><?php echo htmlspecialchars($donation['donation_type']); ?></td>
                             <td>
@@ -1583,7 +1583,7 @@ $whereClause = $whereConditions ? "WHERE " . implode(" AND ", $whereConditions) 
                 <tbody id="fosterReportTableBody">
                     <?php foreach ($recentFosterFamilies as $family): ?>
                     <tr>
-                        <td style="color:#2d5f8d;"><?php echo htmlspecialchars($family['foster_id']); ?></td>
+                        <td class="child-id"><?php echo htmlspecialchars($family['foster_id']); ?></td>
                         <td><?php echo htmlspecialchars($family['name']); ?></td>
                         <td>
                             <span class="badge badge-<?php 
@@ -1785,7 +1785,7 @@ $whereClause = $whereConditions ? "WHERE " . implode(" AND ", $whereConditions) 
                             $typeLabel = $eventTypeLabels[$event['event_type']] ?? ucfirst(str_replace('_', ' ', $event['event_type']));
                     ?>
                     <tr>
-                        <td class="event-id" style="color: #2d5f8d"><?php echo htmlspecialchars($event['event_id']); ?></td>
+                        <td class="event-id" ><?php echo htmlspecialchars($event['event_id']); ?></td>
                         <td class="event-name">
                             <span class="event-icon"><?php echo $icon; ?></span>
                             <?php echo htmlspecialchars($event['title']); ?>
@@ -1861,8 +1861,10 @@ $whereClause = $whereConditions ? "WHERE " . implode(" AND ", $whereConditions) 
 </main>
 
 <style>
-/* Existing styles from your reports.php */
-/* Filter Panel Styles */
+.light-theme .child-id {
+    color: #000;
+}
+
 .filter-panel {
     background: #2a2a2a;
     padding: 25px;
@@ -2299,7 +2301,7 @@ $whereClause = $whereConditions ? "WHERE " . implode(" AND ", $whereConditions) 
     background: #ef4444;
 }
 
-,.dark-theme .table-section {
+.dark-theme .table-section {
     background: #2a2a2a;
     padding: 25px;
     border-radius: 8px;
@@ -2469,10 +2471,9 @@ tbody tr:hover {
     color: black;
     font-size: 18px;
     font-weight: 600;
-
+    margin-bottom: 80px;
 }
 
-.
 
 .entry-reasons {
     display: flex;
@@ -3000,12 +3001,13 @@ canvas {
 .dark-theme .event-id {
     font-family: 'Courier New', monospace;
     font-size: 12px;
-    color: #b8c5ff;
+    color: white;
 }
 
 .light-theme .event-id {
     font-family: 'Courier New', monospace;
     font-size: 12px;
+    color: black;
 }
 
 .light-theme #scheduleReportTableBody td {

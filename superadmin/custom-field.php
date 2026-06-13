@@ -303,6 +303,12 @@ foreach ($fieldTypesToRemove as $type) {
     <link rel="stylesheet" href="../css/superadmin.css">
     <link rel="stylesheet" href="../css/common.css">
     <style>
+        body {
+            color: black;
+        }
+        .content-title {
+            color: #007bff;
+        }
         .main-content { max-width: 1200px; margin-left: 150px; margin-top: -50px;}
         .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; padding-bottom: 15px; border-bottom: 1px solid #ddd; }
         .field-form { background: white; padding: 30px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); margin-bottom: 20px; }
@@ -339,7 +345,7 @@ foreach ($fieldTypesToRemove as $type) {
         .option-preview { margin-top: 15px; padding: 10px; background: #f8f9fa; border-radius: 4px; border: 1px solid #dee2e6; }
         .option-preview h4 { margin: 0 0 10px 0; font-size: 14px; color: #495057; }
         .dark-theme .option-preview-item { display: inline-block; margin: 5px; padding: 5px 10px; background: white; border: 1px solid #dee2e6; border-radius: 4px; font-size: 12px; }
-        .light-theme ..option-preview-item { display: inline-block; margin: 5px; padding: 5px 10px; color: black;}
+        .light-theme .option-preview-item { display: inline-block; margin: 5px; padding: 5px 10px; color: black;}
         .field-type-info { background: #e7f3ff; border-left: 4px solid #007bff; padding: 10px 15px; margin: 10px 0; border-radius: 4px; }
         .checkbox-info { background: #fff3cd; border-left: 4px solid #ffc107; padding: 10px 15px; margin: 10px 0; border-radius: 4px; }
         .custom-title {
@@ -376,7 +382,7 @@ foreach ($fieldTypesToRemove as $type) {
         <?php if ($action === 'list'): ?>
             <!-- List View -->
             <div class="content-box">
-                <h2>All Custom Fields</h2>
+                <h2 class="content-title">All Custom Fields</h2>
                 <?php $fields = $fieldManager->getAllFields(); ?>
                 <?php if (empty($fields)): ?>
                     <p style="text-align: center; padding: 40px; color: #666;">No custom fields found. <a href="?action=add">Create your first field</a></p>
@@ -693,7 +699,7 @@ foreach ($fieldTypesToRemove as $type) {
             color: #b8c5ff;
         }
 
-        th, td {}
+        
     </style>
 
     <script>

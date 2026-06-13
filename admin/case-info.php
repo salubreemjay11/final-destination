@@ -70,17 +70,54 @@
     error_log("DEBUG: Loading case with ID: " . $caseId);
 
     // Load existing custom field values for this case AFTER we have the caseId
-    if ($caseId && $fieldManager) {
-        $existingCaseCustomValues = $fieldManager->getFieldValues($caseId, 'cases');
+if ($caseId && $fieldManager) {
+    $existingCaseCustomValues = $fieldManager->getFieldValues($caseId, 'cases');
+    
+    // DEBUG: Log what we found
+    error_log("DEBUG: Loading custom fields for case: " . $caseId);
+    error_log("DEBUG: Custom fields found: " . count($caseCustomFields));
+    error_log("DEBUG: Existing values found: " . count($existingCaseCustomValues));
+    
+    // Check if we're getting values from database columns
+    if (empty($existingCaseCustomValues)) {
+        error_log("DEBUG: No custom field values found via getFieldValues, checking database directly");
         
-        // DEBUG: Log what we found
-        error_log("DEBUG: Loading custom fields for case: " . $caseId);
-        error_log("DEBUG: Custom fields found: " . count($caseCustomFields));
-        error_log("DEBUG: Existing values found: " . count($existingCaseCustomValues));
-        foreach ($existingCaseCustomValues as $key => $value) {
-            error_log("DEBUG: Field '$key' = '$value'");
+        // Try to get values directly from the cases table columns
+        try {
+            $stmt = $pdo->prepare("SHOW COLUMNS FROM cases LIKE 'cf_%'");
+            $stmt->execute();
+            $customColumns = $stmt->fetchAll(PDO::FETCH_COLUMN);
+            
+            if (!empty($customColumns)) {
+                $selectColumns = [];
+                foreach ($customColumns as $column) {
+                    $selectColumns[] = "`$column`";
+                }
+                
+                $columnList = implode(', ', $selectColumns);
+                $stmt = $pdo->prepare("SELECT $columnList FROM cases WHERE case_id = ?");
+                $stmt->execute([$caseId]);
+                $customData = $stmt->fetch(PDO::FETCH_ASSOC);
+                
+                if ($customData) {
+                    foreach ($customData as $column => $value) {
+                        if (strpos($column, 'cf_') === 0) {
+                            $fieldName = str_replace('cf_', '', $column);
+                            $existingCaseCustomValues[$fieldName] = $value;
+                            error_log("DEBUG: Found direct column value for '$fieldName': '$value'");
+                        }
+                    }
+                }
+            }
+        } catch (Exception $e) {
+            error_log("ERROR checking custom columns: " . $e->getMessage());
         }
     }
+    
+    foreach ($existingCaseCustomValues as $key => $value) {
+        error_log("DEBUG: Final field '$key' = '$value'");
+    }
+}
 
     // Get case information with better error handling
     try {
@@ -406,6 +443,7 @@
         </div>
         <?php endif; ?>
 
+
         <!-- Tab Navigation -->
         <div class="tab-navigation">
             <button class="tab active" data-tab="investigation">Investigation</button>
@@ -459,7 +497,7 @@
                         </div>
                     </div>
 
-                    <!-- Display Custom Fields in Investigation Tab (View Mode) -->
+                   <!-- Display Custom Fields in Investigation Tab (View Mode) -->
                     <?php if ($fieldManager && !empty($caseCustomFields)): ?>
                         <?php 
                         $displayedInInvestigation = false;
@@ -469,8 +507,8 @@
                             $fieldLabel = $field['field_label'];
                             $fieldType = $field['field_type'];
                             
-                            // Skip empty values in investigation tab to avoid clutter
-                            if (empty($existingValue) && $existingValue !== '0' && $existingValue !== 0) {
+                            // Only skip truly empty values
+                            if ($existingValue === '' || $existingValue === null) {
                                 continue;
                             }
                             
@@ -480,13 +518,15 @@
                             <div class="info-label"><?php echo htmlspecialchars($fieldLabel); ?></div>
                             <div class="info-value">
                                 <?php 
-                                if ($fieldType === 'checkbox'):
-                                    echo ($existingValue == '1' || $existingValue === true || $existingValue === 1) ? 'Yes' : 'No';
-                                elseif ($fieldType === 'textarea'):
+                                if ($fieldType === 'textarea'):
                                     echo '<div style="white-space: pre-wrap;">' . htmlspecialchars($existingValue) . '</div>';
-                                elseif (($fieldType === 'select' || $fieldType === 'radio') && !empty($field['field_options'])):
+                                elseif (($fieldType === 'select' || $fieldType === 'radio' || $fieldType === 'checkbox') && !empty($field['field_options'])):
                                     $options = is_array($field['field_options']) ? $field['field_options'] : json_decode($field['field_options'], true);
-                                    echo htmlspecialchars($options[$existingValue] ?? $existingValue);
+                                    if (is_array($options) && isset($options[$existingValue])) {
+                                        echo htmlspecialchars($options[$existingValue]);
+                                    } else {
+                                        echo htmlspecialchars($existingValue);
+                                    }
                                 else:
                                     echo htmlspecialchars($existingValue);
                                 endif;
@@ -846,30 +886,36 @@
             <div class="custom-fields-display">
                 <?php 
                 $hasAnyCustomFieldValue = false;
+                
+                error_log("DEBUG: Processing " . count($caseCustomFields) . " case custom fields for display");
+                
                 foreach ($caseCustomFields as $field): 
                     $fieldName = $field['field_name'];
                     $existingValue = $existingCaseCustomValues[$fieldName] ?? '';
                     $fieldLabel = $field['field_label'];
                     $fieldType = $field['field_type'];
                     
-                    // Skip if no value and we're not in debug mode
-                    if (empty($existingValue) && $existingValue !== '0' && $existingValue !== 0) {
-                        continue;
-                    }
+                    error_log("DEBUG: Displaying field '$fieldName' = '$existingValue' (type: $fieldType)");
                     
+                    // Show ALL fields regardless of whether they have values
                     $hasAnyCustomFieldValue = true;
                 ?>
                 <div class="info-item">
                     <div class="info-label"><?php echo htmlspecialchars($fieldLabel); ?></div>
                     <div class="info-value">
                         <?php 
-                        if ($fieldType === 'checkbox'):
-                            echo ($existingValue == '1' || $existingValue === true || $existingValue === 1) ? 'Yes' : 'No';
+                        // Check if value is empty or null
+                        if ($existingValue === '' || $existingValue === null):
+                            echo '<span style="color: #888; font-style: italic;">Not set</span>';
                         elseif ($fieldType === 'textarea'):
                             echo '<div style="white-space: pre-wrap;">' . htmlspecialchars($existingValue) . '</div>';
-                        elseif (($fieldType === 'select' || $fieldType === 'radio') && !empty($field['field_options'])):
+                        elseif (($fieldType === 'select' || $fieldType === 'radio' || $fieldType === 'checkbox') && !empty($field['field_options'])):
                             $options = is_array($field['field_options']) ? $field['field_options'] : json_decode($field['field_options'], true);
-                            echo htmlspecialchars($options[$existingValue] ?? $existingValue);
+                            if (is_array($options) && isset($options[$existingValue])) {
+                                echo htmlspecialchars($options[$existingValue]);
+                            } else {
+                                echo htmlspecialchars($existingValue);
+                            }
                         else:
                             echo htmlspecialchars($existingValue);
                         endif;
@@ -880,8 +926,7 @@
                 
                 <?php if (!$hasAnyCustomFieldValue): ?>
                     <p style="color: #888; text-align: center; padding: 40px;">
-                        No additional information available. 
-                        Click "Edit Case" to add information.
+                        No custom fields configured for cases.
                     </p>
                 <?php endif; ?>
             </div>
@@ -921,7 +966,7 @@
     .dark-theme .tab {
         background: none;
         border: none;
-        color: #b8c5ff;
+        color: white   ;
         padding: 12px 24px;
         cursor: pointer;
         font-size: 17px;
@@ -935,7 +980,7 @@
     .light-theme .tab {
         background: none;
         border: none;
-        color: #2d5f8d;
+        color: black;
         padding: 12px 24px;
         cursor: pointer;
         font-size: 17px;
@@ -948,7 +993,14 @@
     
 
     .tab.active {
-        color:rgb(33, 111, 236);
+        color:white;
+        border-bottom-color: #3b82f6;
+        border-bottom: 2px solid #3b82f6;
+        background: rgba(59, 130, 246, 0.1);
+    }
+
+    .light-theme .tab.active {
+        color: black;
         border-bottom-color: #3b82f6;
         border-bottom: 2px solid #3b82f6;
         background: rgba(59, 130, 246, 0.1);
@@ -997,9 +1049,7 @@
     .custom-fields-section .form-group {
         margin-bottom: 20px;
         padding: 15px;
-        background: #333;
         border-radius: 6px;
-        border: 1px solid #3a3a3a;
     }
 
     .custom-fields-section .form-label {
@@ -1037,7 +1087,7 @@
     }
 
     .custom-fields-section .radio-option,
-    .custom-fields-section .checkbox-option {
+    .custom-fields-section .light-theme.checkbox-option {
         display: flex;
         align-items: center;
         margin-bottom: 8px;
@@ -1047,11 +1097,12 @@
     .custom-fields-section .radio-option input,
     .custom-fields-section .checkbox-option input {
         margin-right: 8px;
+        
     }
 
-    .custom-fields-section .radio-option label,
-    .custom-fields-section .checkbox-option label {
-        color: #ccc;
+    .light-theme.custom-fields-section .light-theme.radio-option label,
+    .light-theme.custom-fields-section .light-theme.checkbox-option label {
+        color: black;
         margin-bottom: 0;
         font-size: 14px;
     }
@@ -1181,9 +1232,11 @@
     /* Documents Grid */
     .documents-grid {
         display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
         gap: 20px;
+        width: 50px;
     }
+
 
     .dark-theme .document-card {
         background: #333;
@@ -1201,7 +1254,7 @@
         padding: 16px;
         display: flex;
         align-items: center;
-        width: 90vh;
+        width: 100%;
         gap: 12px;
         transition: all 0.2s;
         background-color: rgba(63, 61, 61, 0.1);

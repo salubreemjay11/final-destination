@@ -53,6 +53,10 @@
     color: #1e293b;
 }
 
+.light-theme .user-created{
+    color: #1e293b;
+}
+
 .page-title {
     font-size: 28px;
     font-weight: 600;
@@ -184,7 +188,7 @@
 .light-theme .card-title {
     font-size: 18px;
     font-weight: 600;
-    color: #64748b;
+    color: black;
 }
 
 .card-stat {
@@ -194,7 +198,7 @@
 }
 
 .light-theme .stat-label {
-    color: #0E7490;
+    color: #3a3a3a;
     font-size: 14px;
 }
 
@@ -316,9 +320,10 @@
 .light-theme .filter-dropdown {
     background-color: white;
     border-radius: 6px;
-    padding: 8px 12px;
+    
     color: black;
     font-size: 14px;
+    
 }
 
 table {

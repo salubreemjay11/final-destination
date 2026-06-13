@@ -41,6 +41,7 @@ if (empty($_POST['age']) || empty($_POST['gender']) || empty($_POST['status'])) 
     exit();
 }
 
+// Collect all data including vaccine fields
 $data = [
     'age' => $_POST['age'],
     'gender' => $_POST['gender'],
@@ -60,28 +61,61 @@ $data = [
     'monthly_income' => $_POST['monthly_income'] ?? '',
     'religion' => $_POST['religion'] ?? '',
     'problem_presented' => $_POST['problem_presented'] ?? '',
-    'assessment_recommendation' => $_POST['assessment_recommendation'] ?? ''
+    'assessment_recommendation' => $_POST['assessment_recommendation'] ?? '',
+    
+    // Vaccine fields - handle checkboxes properly
+   'vaccine_bcg' => isset($_POST['vaccine_bcg']) && $_POST['vaccine_bcg'] === '1' ? 1 : 0,
+    'vaccine_hepb' => isset($_POST['vaccine_hepb']) && $_POST['vaccine_hepb'] === '1' ? 1 : 0,
+    'vaccine_dtap' => isset($_POST['vaccine_dtap']) && $_POST['vaccine_dtap'] === '1' ? 1 : 0,
+    'vaccine_polio' => isset($_POST['vaccine_polio']) && $_POST['vaccine_polio'] === '1' ? 1 : 0,
+    'vaccine_pcv' => isset($_POST['vaccine_pcv']) && $_POST['vaccine_pcv'] === '1' ? 1 : 0,
+    'vaccine_rota' => isset($_POST['vaccine_rota']) && $_POST['vaccine_rota'] === '1' ? 1 : 0,
+    'vaccine_measles' => isset($_POST['vaccine_measles']) && $_POST['vaccine_measles'] === '1' ? 1 : 0,
+    'vaccine_varicella' => isset($_POST['vaccine_varicella']) && $_POST['vaccine_varicella'] === '1' ? 1 : 0,
+    'vaccine_hepa' => isset($_POST['vaccine_hepa']) && $_POST['vaccine_hepa'] === '1' ? 1 : 0,
+    'vaccine_mmr' => isset($_POST['vaccine_mmr']) && $_POST['vaccine_mmr'] === '1' ? 1 : 0,
+    'vaccine_other' => $_POST['vaccine_other'] ?? '',
+    'vaccine_notes' => $_POST['vaccine_notes'] ?? '',
+    'previous_family_env' => $_POST['previous_family_env'] ?? '',
+    'vaccination_status' => $_POST['vaccination_status'] ?? '',
+    'cf_medical_history' => $_POST['cf_medical_history'] ?? '',
+    'cf_educational_level' => $_POST['cf_educational_level'] ?? '',
+    'cf_special_needs' => $_POST['cf_special_needs'] ?? '',
+    'cf_hobbies' => $_POST['cf_hobbies'] ?? '',
+    'cf_school_name' => $_POST['cf_school_name'] ?? '',
+    'cf_grade_level' => $_POST['cf_grade_level'] ?? '',
+    'contact_phone' => $_POST['contact_phone'] ?? ''
 ];
 
 try {
+    // Update children table with vaccine fields
     $stmt = $pdo->prepare("
         UPDATE children SET 
         age = ?, gender = ?, status = ?, date_of_birth = ?, entry_date = ?, address = ?, 
-        health_status = ?, allergies = ?, emergency_contact = ?, 
+        health_status = ?, allergies = ?, emergency_contact = ?, contact_phone = ?,
         problem_description = ?, notes = ?, 
         civil_status = ?, birth_place = ?, educational_attainment = ?, occupation = ?, 
         monthly_income = ?, religion = ?, problem_presented = ?, assessment_recommendation = ?,
-        updated_at = NOW()
+        vaccine_bcg = ?, vaccine_hepb = ?, vaccine_dtap = ?, vaccine_polio = ?, vaccine_pcv = ?,
+        vaccine_rota = ?, vaccine_measles = ?, vaccine_varicella = ?, vaccine_hepa = ?, vaccine_mmr = ?,
+        vaccine_other = ?, vaccine_notes = ?, previous_family_env = ?, vaccination_status = ?,
+        cf_medical_history = ?, cf_educational_level = ?, cf_special_needs = ?, cf_hobbies = ?,
+        cf_school_name = ?, cf_grade_level = ?, updated_at = NOW()
         WHERE child_id = ?
     ");
     
     $result = $stmt->execute([
         $data['age'], $data['gender'], $data['status'], $data['date_of_birth'], 
         $data['entry_date'], $data['address'], $data['health_status'], $data['allergies'], 
-        $data['emergency_contact'], $data['problem_description'], $data['notes'],
-        $data['civil_status'], $data['birth_place'], $data['educational_attainment'], $data['occupation'],
-        $data['monthly_income'], $data['religion'], $data['problem_presented'], $data['assessment_recommendation'],
-        $childId
+        $data['emergency_contact'], $data['contact_phone'], $data['problem_description'], 
+        $data['notes'], $data['civil_status'], $data['birth_place'], $data['educational_attainment'], 
+        $data['occupation'], $data['monthly_income'], $data['religion'], $data['problem_presented'], 
+        $data['assessment_recommendation'], $data['vaccine_bcg'], $data['vaccine_hepb'], 
+        $data['vaccine_dtap'], $data['vaccine_polio'], $data['vaccine_pcv'], $data['vaccine_rota'], 
+        $data['vaccine_measles'], $data['vaccine_varicella'], $data['vaccine_hepa'], $data['vaccine_mmr'], 
+        $data['vaccine_other'], $data['vaccine_notes'], $data['previous_family_env'], $data['vaccination_status'],
+        $data['cf_medical_history'], $data['cf_educational_level'], $data['cf_special_needs'], 
+        $data['cf_hobbies'], $data['cf_school_name'], $data['cf_grade_level'], $childId
     ]);
     
     if ($result) {

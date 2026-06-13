@@ -70,8 +70,14 @@
     font-weight: 500;
   }
   
-  .clickable-name {
-    color: #3b82f6 !important;
+  .light-theme .clickable-name {
+    color: black !important;
+    cursor: pointer;
+    text-decoration: none;
+  }
+
+  .dark-theme .clickable-name {
+    color: white !important;
     cursor: pointer;
     text-decoration: none;
   }
@@ -410,7 +416,7 @@ body.dark-theme {
 }
 
 .dark-theme .stat-header {
-    color: #b8c5ff;
+    color: white;
 }
 
 .dark-theme .stat-value {
@@ -423,7 +429,7 @@ body.dark-theme {
 
 .dark-theme th {
     background: #333333;
-    color: #b8c5ff;
+    color: white;
     font-size: 15px;
 }
 
@@ -494,6 +500,7 @@ body.light-theme {
   font-weight: 600;
   font-size: 15px;
   margin-bottom: 8px;
+  margin-right: 12px;
 }
 
 .light-theme .priority-btn {
@@ -549,8 +556,9 @@ body.light-theme {
 }
 
 .light-theme .total-count {
-    color: #18338c;
-    font-size: 14px;
+    color: black;
+    font-size: 15px;
+    font-weight: 600;
 }
 
 .light-theme .top-header {
@@ -684,7 +692,7 @@ body.light-theme {
 }
 
 .light-theme .stat-value {
-    color: #18338c;
+    color: black;
     font-weight: 800;
     font-size: 36px;
     text-shadow: 0 2px 4px rgba(0,0,0,0.05);
@@ -704,7 +712,6 @@ body.light-theme {
 }
 
 .light-theme td {
-  font-size: 15px;
     border-bottom: 1px solid #f1f5f9;
 }
 

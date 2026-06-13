@@ -469,24 +469,6 @@ if ($foster['family_composition']) {
         </div>
         
 
-        <!-- Main Content - Foster Edit Form -->
-        <div class="foster-edit-content" >
-            <!-- Page Header -->
-            <div class="page-header">
-                <h1 class="page-title">Edit Foster: <?php echo htmlspecialchars($foster['name']); ?></h1>
-                <div class="header-actions">
-                    <button class="btn-matchmaking" onclick="openMatchmaking('<?php echo $fosterId; ?>')">
-                        Matchmaking
-                    </button>
-                    <span class="current-status">
-                        Current Status: 
-                        <span class="status-badge <?php echo getStatusBadgeClass($foster['status']); ?>">
-                            <?php echo htmlspecialchars(getStatusDisplay($foster['status'])); ?>
-                        </span>
-                    </span>
-                </div>
-            </div>
-
             <!-- Success/Error Notifications -->
             <?php if ($success): ?>
                 <div class="notification success show">
@@ -947,6 +929,9 @@ if ($foster['family_composition']) {
                                 <button class="btn-primary" onclick="enableEditMode()">Edit Foster</button>
                             <?php endif; ?>
                             <button class="btn-secondary" onclick="window.location.href='foster-info.php'">Back to List</button>
+                            <button class="btn-matchmaking" onclick="openMatchmaking('<?php echo $fosterId; ?>')">
+                                Matchmaking
+                            </button>
                         </div>
                     </div>
 
@@ -1265,7 +1250,7 @@ if ($foster['family_composition']) {
 .info-table td {
     padding: 10px 8px;
     border: 1px solid #3a3a3a;
-    color: #cccccc;
+    color: black;
     font-size: 13px;
 }
 
@@ -1540,11 +1525,13 @@ if ($foster['family_composition']) {
     border-radius: 16px;
     padding: 12px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    margin-top: 12vh;
 }
 
 .light-theme .form-container {
     background: #ffffff;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    margin-top: 12vh;
 }
 
 .form-grid {
@@ -1975,7 +1962,7 @@ table td {
 }
 
 .btn-secondary {
-    padding: 14px 32px;
+    padding: 10px 20px;
     background: #6c757d;
     color: white;
     border: none;

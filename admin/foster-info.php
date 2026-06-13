@@ -199,7 +199,7 @@ function getStatusBadgeClass($status) {
                     <?php foreach ($fosterParents as $foster): ?>
                     <tr>
                         <td class="foster-id clickable-id" 
-                            <?php if ($canEdit): ?>onclick="showFosterDetails('<?php echo htmlspecialchars($foster['foster_id']); ?>')" style="cursor: pointer; color: #047857;"<?php else: ?>style="cursor: not-allowed; color: #cccccc;"<?php endif; ?>>
+                            <?php if ($canEdit): ?>onclick="showFosterDetails('<?php echo htmlspecialchars($foster['foster_id']); ?>')"<?php else: ?>style="cursor: not-allowed; color: #cccccc;"<?php endif; ?>>
                             <?php echo htmlspecialchars($foster['foster_id'] ?? 'N/A'); ?>
                         </td>
                         <td>
@@ -481,7 +481,11 @@ function getStatusBadgeClass($status) {
 </div>
 
 <style>
-/* Add these styles to your existing CSS */
+.light-theme .foster-id {
+    color: #1e40af;
+    cursor: pointer;
+    text-decoration: underline;
+}
 .dark-theme .btn-update{
     padding: 6px 12px;
     background: #3b82f6;

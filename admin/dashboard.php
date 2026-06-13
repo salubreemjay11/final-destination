@@ -1025,8 +1025,8 @@ body.light-theme .chartjs-tick-text {
     font-size: 15px;
 }
 
-.record-id {
-    color: #2d5f8d !important;
+.light-theme.record-id {
+    color: black ;
     font-weight: 600;
 }
 
@@ -1040,6 +1040,7 @@ body.light-theme .chartjs-tick-text {
 .status-completed {
     background: rgba(39, 174, 96, 0.2);
     color: #27ae60;
+    font-weight: bold;
 }
 
 /* Formal Chart Styles */

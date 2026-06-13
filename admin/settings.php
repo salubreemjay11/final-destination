@@ -363,10 +363,10 @@ $newBackupCodes = $_SESSION['2fa_new_backup_codes'] ?? null;
         <?php elseif ($is2FASetupMode): ?>
             <!-- 2FA Setup Mode -->
             <div class="security-status setup">
-                <h4>Setup Two-Factor Authentication</h4>
+                <h4 class="factor">Setup Two-Factor Authentication</h4>
                 
                 <!-- DEBUG INFO - REMOVE IN PRODUCTION -->
-                <div style="background:rgba(39, 174, 96, 0.2); color: #27ae60; padding: 10px; border-radius: 4px; margin-bottom: 15px; font-size: 12px;">
+                <div style="background:rgba(39, 174, 96, 0.2); color: #007bff; padding: 10px; border-radius: 4px; margin-bottom: 15px; font-size: 12px;">
                     <strong>Debug Information:</strong><br>
                     Secret: <?php echo $setupSecret; ?><br>
                     Current TOTP Code: <?php echo $twoFactorAuth->getCurrentCode($setupSecret); ?><br>
@@ -376,8 +376,8 @@ $newBackupCodes = $_SESSION['2fa_new_backup_codes'] ?? null;
                 <div class="setup-steps">
 
                     <div class="setup-step">
-                        <h5>Step 1: Enter Verification Code</h5>
-                        <p>Enter the 6-digit code from your authenticator app to verify setup:</p>
+                        <h5 class="step-one">Step 1: Enter Verification Code</h5>
+                        <p class="digit-code">Enter the 6-digit code from your authenticator app to verify setup:</p>
                         
                         <form method="POST" class="verification-form">
                             <div class="form-group">
@@ -469,8 +469,17 @@ $newBackupCodes = $_SESSION['2fa_new_backup_codes'] ?? null;
     </div>
 </main>
 <style>
+.light-theme .factor {
+    color: black;
+}
 
+.light-theme .step-one {
+    color: #007bff;
+}
 
+.light-theme .digit-code {
+    color: black;
+}
 .toggle-group {
     display: flex;
     justify-content: space-between;

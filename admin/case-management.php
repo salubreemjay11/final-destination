@@ -504,7 +504,7 @@ $canView = $permissionManager->hasPermission('case_management', 'view');
                         <tr <?php if ($canEdit): ?>onclick="viewCaseDetails('<?php echo htmlspecialchars($caseId); ?>')" style="cursor: pointer;"<?php else: ?>style="cursor: not-allowed;"<?php endif; ?>>
                             <td class="foster-id"><?php echo htmlspecialchars($caseId); ?>
                                 <?php if ($case['linked_child_id']): ?>
-                                    <br><small style="color: #0E7490;">Child: <?php echo htmlspecialchars($case['linked_child_id']); ?></small>
+                                    <br><small class="case-id">Child: <?php echo htmlspecialchars($case['linked_child_id']); ?></small>
                                 <?php endif; ?>
                             </td>
                             
@@ -600,7 +600,7 @@ $canView = $permissionManager->hasPermission('case_management', 'view');
                                 <?php else: ?>
                                     No cases found. 
                                     <?php if ($canCreate): ?>
-                                        <a href="case-registration.php">Create your first case</a>
+                                        <a href="unified-registration.php">Create your first case</a>
                                     <?php else: ?>
                                         No cases available for viewing.
                                     <?php endif; ?>
@@ -641,9 +641,16 @@ $canView = $permissionManager->hasPermission('case_management', 'view');
 </main>
 
 <style>
-/* ... (previous CSS remains the same) ... */
+.case-id {
+    font-size: 12px;
+    color: white;
+    text-decoration: underline
+}
 
-/* Actions and Services Dropdown Styles */
+.light-theme .case-id {
+    font-size: 12px;
+    color: black;
+}
 .actions-dropdown, .services-dropdown {
     position: relative;
     display: inline-block;
@@ -857,7 +864,7 @@ $canView = $permissionManager->hasPermission('case_management', 'view');
 }
 
 .dark-theme .filter-group label {
-    color: #b8c5ff;
+    color: white;
     font-size: 14px;
     font-weight: 500;
     white-space: nowrap;
@@ -1020,20 +1027,20 @@ $canView = $permissionManager->hasPermission('case_management', 'view');
 }
 
 .trial-case {
-    color: #b8c5ff;
-    font-size: 13px;
+    color: white;
+    font-size: 15px;
     font-weight: 500;
 }
 
 .light-theme .trial-case {
-    color: #2d5f8d;
+    color: black;
     font-size: 15px;
     font-weight: 500;
 }
 
 .trial-type {
     color: #ffffff;
-    font-size: 12px;
+    font-size: 14px;
     margin: 2px 0;
 }
 
@@ -1044,12 +1051,12 @@ $canView = $permissionManager->hasPermission('case_management', 'view');
 }
 
 .trial-child {
-    color: #888;
+    color: white;
     font-size: 11px;
 }
 
 .light-theme .trial-child {
-    color: #0E7490;
+    color: black;
     font-size: 13px;
 }
 
@@ -1126,19 +1133,23 @@ $canView = $permissionManager->hasPermission('case_management', 'view');
 }
 
 .stat-number {
-    color: #2d5f8d;
+    color: white;
     font-size: 32px;
     font-weight: 700;
     margin-bottom: 4px;
 }
 
+.light-theme .stat-number{
+    color: black;
+}
+
 .dark-theme .stat-label {
-    color: #b8c5ff;
+    color: white;
     font-size: 14px;
 }
 
 .light-theme .stat-label {
-    color: #0E7490;
+    color: black;
     font-size: 14px;
 }
 
@@ -1163,8 +1174,9 @@ $canView = $permissionManager->hasPermission('case_management', 'view');
 }
 
 .total-count {
-    color: #b8c5ff;
-    font-size: 14px;
+    color: white;
+    font-size: 15px;
+    font-weight: 600;
 }
 
 .foster-table {
@@ -1174,7 +1186,7 @@ $canView = $permissionManager->hasPermission('case_management', 'view');
 
 .dark-theme .foster-table th {
     background: #333;
-    color: #b8c5ff;
+    color: white;
     padding: 12px;
     text-align: left;
     font-weight: 600;
@@ -1182,7 +1194,7 @@ $canView = $permissionManager->hasPermission('case_management', 'view');
 }
 
 .light-theme .foster-table th {
-    color: #b8c5ff;
+    color: white;
     padding: 12px;
     text-align: left;
     font-weight: bold;

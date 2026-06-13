@@ -14,7 +14,20 @@ try {
         'religion' => 'VARCHAR(100) NULL',
         'family_composition' => 'TEXT NULL',
         'problem_presented' => 'TEXT NULL',
-        'assessment_recommendation' => 'TEXT NULL'
+        'assessment_recommendation' => 'TEXT NULL',
+        'vaccine_bcg' => 'BOOLEAN DEFAULT FALSE',
+        'vaccine_hepb' => 'BOOLEAN DEFAULT FALSE',
+        'vaccine_dtap' => 'BOOLEAN DEFAULT FALSE',
+        'vaccine_polio' => 'BOOLEAN DEFAULT FALSE',
+        'vaccine_pcv' => 'BOOLEAN DEFAULT FALSE',
+        'vaccine_rota' => 'BOOLEAN DEFAULT FALSE',
+        'vaccine_measles' => 'BOOLEAN DEFAULT FALSE',
+        'vaccine_varicella' => 'BOOLEAN DEFAULT FALSE',
+        'vaccine_hepa' => 'BOOLEAN DEFAULT FALSE',
+        'vaccine_mmr' => 'BOOLEAN DEFAULT FALSE',
+        'vaccine_other' => 'VARCHAR(255) NULL',
+        'vaccine_notes' => 'TEXT NULL',
+        'previous_family_env' => 'TEXT NULL'
     ];
     
     foreach ($checkColumns as $columnName => $columnDefinition) {
@@ -251,10 +264,10 @@ $canView = $permissionManager->hasPermission('child_management', 'view');
                 <?php foreach ($children as $child): ?>
                 <tr>
                     <td class="foster-id clickable-id" 
-                        <?php if ($canEdit): ?>onclick="showChildDetails('<?php echo htmlspecialchars($child['child_id']); ?>')" style="cursor: pointer; color: #2d5f8d;"<?php else: ?>style="cursor: not-allowed; color: #cccccc;"<?php endif; ?>>
+                        <?php if ($canEdit): ?>onclick="showChildDetails('<?php echo htmlspecialchars($child['child_id']); ?>')"<?php else: ?>style="cursor: not-allowed; color: #cccccc;"<?php endif; ?>>
                         <?php echo htmlspecialchars($child['child_id']); ?>
                         <?php if ($child['linked_case_id']): ?>
-                        <br><small style="color: #0E7490;">Case: <?php echo htmlspecialchars($child['linked_case_id']); ?></small>
+                        <br><small class="case-id">Case: <?php echo htmlspecialchars($child['linked_case_id']); ?></small>
                         <?php endif; ?>
                     </td>
                     <td><?php echo htmlspecialchars($child['age']); ?></td>
@@ -300,11 +313,12 @@ $canView = $permissionManager->hasPermission('child_management', 'view');
                 </div>
                 
                 <div class="modal-tabs">
-                    <button class="tab-btn active" onclick="switchTab('basic')">Basic info</button>
-                    <button class="tab-btn" onclick="switchTab('family')">Family Intake</button>
-                    <button class="tab-btn" onclick="switchTab('health')">Health Records</button>
-                    <button class="tab-btn" onclick="switchTab('educational')">Educational</button>
-                    <button class="tab-btn" onclick="switchTab('custom')">Additional Information</button>
+                    <button class="tab-btn active" onclick="switchTab('basic', event)">Basic info</button>
+                    <button class="tab-btn" onclick="switchTab('family', event)">Family Intake</button>
+                    <button class="tab-btn" onclick="switchTab('health', event)">Health Records</button>
+                    <button class="tab-btn" onclick="switchTab('vaccine', event)">Vaccination</button>
+                    <button class="tab-btn" onclick="switchTab('familyEnv', event)">Family Environment</button>
+                    <button class="tab-btn" onclick="switchTab('custom', event)">Additional Information</button>
                 </div>
                 
                 <div class="tab-content">
@@ -410,6 +424,78 @@ $canView = $permissionManager->hasPermission('child_management', 'view');
                             <p id="healthNotes"></p>
                         </div>
                     </div>
+
+                    <!-- Vaccine Tab -->
+                    <div id="vaccineTab" class="tab-pane">
+                        <div class="info-section">
+                            <h4>Vaccination Record</h4>
+                            
+                            <div class="vaccine-status-grid">
+                                <div class="vaccine-status">
+                                    <span class="vaccine-label">BCG (Tuberculosis):</span>
+                                    <span class="vaccine-value" id="vaccineBcg">Not Recorded</span>
+                                </div>
+                                <div class="vaccine-status">
+                                    <span class="vaccine-label">Hepatitis B:</span>
+                                    <span class="vaccine-value" id="vaccineHepb">Not Recorded</span>
+                                </div>
+                                <div class="vaccine-status">
+                                    <span class="vaccine-label">DTaP:</span>
+                                    <span class="vaccine-value" id="vaccineDtap">Not Recorded</span>
+                                </div>
+                                <div class="vaccine-status">
+                                    <span class="vaccine-label">Polio:</span>
+                                    <span class="vaccine-value" id="vaccinePolio">Not Recorded</span>
+                                </div>
+                                <div class="vaccine-status">
+                                    <span class="vaccine-label">PCV (Pneumococcal):</span>
+                                    <span class="vaccine-value" id="vaccinePcv">Not Recorded</span>
+                                </div>
+                                <div class="vaccine-status">
+                                    <span class="vaccine-label">Rotavirus:</span>
+                                    <span class="vaccine-value" id="vaccineRota">Not Recorded</span>
+                                </div>
+                                <div class="vaccine-status">
+                                    <span class="vaccine-label">Measles:</span>
+                                    <span class="vaccine-value" id="vaccineMeasles">Not Recorded</span>
+                                </div>
+                                <div class="vaccine-status">
+                                    <span class="vaccine-label">Varicella (Chickenpox):</span>
+                                    <span class="vaccine-value" id="vaccineVaricella">Not Recorded</span>
+                                </div>
+                                <div class="vaccine-status">
+                                    <span class="vaccine-label">Hepatitis A:</span>
+                                    <span class="vaccine-value" id="vaccineHepa">Not Recorded</span>
+                                </div>
+                                <div class="vaccine-status">
+                                    <span class="vaccine-label">MMR:</span>
+                                    <span class="vaccine-value" id="vaccineMmr">Not Recorded</span>
+                                </div>
+                            </div>
+                            
+                            <div class="info-row" style="margin-top: 20px;">
+                                <span class="info-label">Other Vaccines:</span>
+                                <span class="info-value" id="vaccineOther">None recorded</span>
+                            </div>
+                            
+                            <div class="info-section" style="margin-top: 20px;">
+                                <h5>Vaccination Notes</h5>
+                                <div class="info-content" id="vaccineNotes">
+                                    No vaccination notes available.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Previous Family Environment Tab -->
+                    <div id="familyEnvTab" class="tab-pane">
+                        <div class="info-section">
+                            <h4>Previous Family Environment</h4>
+                            <div class="info-content" id="previousFamilyEnv">
+                                No information recorded about previous family environment.
+                            </div>
+                        </div>
+                    </div>
                     
                     <div id="educationalTab" class="tab-pane">
                         <div class="info-row">
@@ -463,8 +549,18 @@ $canView = $permissionManager->hasPermission('child_management', 'view');
 </div>
 
 <style>
-/* ... your existing CSS styles remain exactly the same ... */
-/* Improved Filter Styles */
+.foster-id {
+    text-decoration: underline;
+}
+.light-theme .case-id {
+    color: #3a3a3a;
+    font-size: 12px;
+}
+
+.light-theme .foster-id{
+    color: black;
+}
+
 .search-filters-container {
     padding: 20px;
     border-radius: 8px;
@@ -825,8 +921,9 @@ $canView = $permissionManager->hasPermission('child_management', 'view');
 }
 
 .total-count {
-    color: #b8c5ff;
-    font-size: 14px;
+    color: white;
+    font-size: 15px;
+    font-weight: 600;
 }
 
 .foster-table {
@@ -1159,6 +1256,40 @@ $canView = $permissionManager->hasPermission('child_management', 'view');
     text-align: right;
 }
 
+/* Add to the CSS section */
+.vaccine-status-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.vaccine-status {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 12px;
+    background: #1a1a1a;
+    border-radius: 6px;
+    border: 1px solid #3a3a3a;
+}
+
+.light-theme .vaccine-status {
+    background: #f8f9fa;
+    border: 1px solid #dee2e6;
+}
+
+.vaccine-label {
+    color: #b8c5ff;
+    font-weight: 500;
+}
+
+.light-theme .vaccine-label {
+    color: #495057;
+}
+
+.vaccine-value {
+    font-weight: 500;
+}
 
 </style>
 
@@ -1387,6 +1518,83 @@ function populateModal(child) {
                 familyCompositionBody.innerHTML = '<tr><td colspan="7" style="text-align: center;">No family composition data available</td></tr>';
             }
         }
+
+        // In populateModal() function - Vaccine Information section
+        const vaccines = {
+            'Bcg': currentChildData.vaccine_bcg,
+            'Hepb': currentChildData.vaccine_hepb,
+            'Dtap': currentChildData.vaccine_dtap,
+            'Polio': currentChildData.vaccine_polio,
+            'Pcv': currentChildData.vaccine_pcv,
+            'Rota': currentChildData.vaccine_rota,
+            'Measles': currentChildData.vaccine_measles,
+            'Varicella': currentChildData.vaccine_varicella,
+            'Hepa': currentChildData.vaccine_hepa,
+            'Mmr': currentChildData.vaccine_mmr
+        };
+
+        Object.keys(vaccines).forEach(vaccine => {
+            const element = document.getElementById(`vaccine${vaccine}`);
+            if (element) {
+                const value = vaccines[vaccine];
+                console.log(`Vaccine ${vaccine} raw value:`, value, 'Type:', typeof value);
+                
+                // Better check for truthy values
+                const isCompleted = value == 1 || 
+                                value === true || 
+                                value === '1' ||
+                                (typeof value === 'string' && value.toLowerCase() === 'true');
+                
+                if (isCompleted) {
+                    element.textContent = '✓ Completed';
+                    element.style.color = '#28a745';
+                    element.style.fontWeight = 'bold';
+                } else if (value == 0 || value === false || value === '0' || 
+                        (typeof value === 'string' && value.toLowerCase() === 'false')) {
+                    element.textContent = 'Not Completed';
+                    element.style.color = '#dc3545';
+                } else {
+                    element.textContent = 'Not Recorded';
+                    element.style.color = '#6c757d';
+                }
+            }
+        });
+
+        const vaccineOther = document.getElementById('vaccineOther');
+        if (vaccineOther) {
+            // Only show if there's actual content
+            const otherValue = child.vaccine_other || '';
+            vaccineOther.textContent = otherValue.trim() ? otherValue : 'None recorded';
+            if (otherValue.trim()) {
+                vaccineOther.style.color = '#28a745';
+                vaccineOther.style.fontWeight = '500';
+            }
+        }
+
+        const vaccineNotes = document.getElementById('vaccineNotes');
+        if (vaccineNotes) {
+            const notesValue = child.vaccine_notes || '';
+            vaccineNotes.textContent = notesValue.trim() ? notesValue : 'No vaccination notes available.';
+            // Preserve line breaks
+            if (notesValue.trim()) {
+                vaccineNotes.innerHTML = notesValue.replace(/\n/g, '<br>');
+            }
+        }
+
+        // Previous Family Environment - FIXED: Proper display
+        const previousFamilyEnv = document.getElementById('previousFamilyEnv');
+        if (previousFamilyEnv) {
+            const envValue = child.previous_family_env || '';
+            if (envValue.trim()) {
+                // Preserve line breaks in the content
+                previousFamilyEnv.innerHTML = envValue.replace(/\n/g, '<br>');
+                previousFamilyEnv.style.color = '#333'; // Darker color for readability
+                previousFamilyEnv.style.whiteSpace = 'pre-line'; // Preserve line breaks
+            } else {
+                previousFamilyEnv.textContent = 'No information recorded about previous family environment.';
+                previousFamilyEnv.style.color = '#6c757d'; // Gray color for placeholder
+            }
+        }
         
         // Handle photo
         const childPhoto = document.getElementById('childPhoto');
@@ -1574,144 +1782,285 @@ function enableEditMode() {
 
 function createEditForms() {
     // Store the current active tab before switching to edit mode
-    const activeTab = document.querySelector('.tab-pane.active').id;
+    const activeTab = document.querySelector('.tab-pane.active');
+    const activeTabName = activeTab ? activeTab.id.replace('Tab', '') : 'basic';
     
-    // Basic Info Tab Edit Form
+    // Create edit forms for EACH tab separately
+    // Don't replace all tabs at once
+    
+    // 1. Basic Info Tab Edit Form
     const basicTab = document.getElementById('basicTab');
-    basicTab.innerHTML = `
-        <div class="edit-form">
-            <div class="form-group">
-                <label class="form-label">Age *</label>
-                <input type="number" id="editAge" value="${currentChildData.age || ''}" class="form-input" min="0" max="18" required>
+    if (basicTab) {
+        basicTab.innerHTML = `
+            <div class="edit-form">
+                <div class="form-group">
+                    <label class="form-label">Age *</label>
+                    <input type="number" id="editAge" name="editAge" value="${currentChildData.age || ''}" class="form-input" min="0" max="18" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Gender *</label>
+                    <select id="editGender" name="editGender" class="form-select" required>
+                        <option value="Male" ${currentChildData.gender === 'Male' ? 'selected' : ''}>Male</option>
+                        <option value="Female" ${currentChildData.gender === 'Female' ? 'selected' : ''}>Female</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Status *</label>
+                    <select id="editStatus" name="editStatus" class="form-select" required>
+                        <option value="In Care" ${currentChildData.status === 'In Care' ? 'selected' : ''}>In Care</option>
+                        <option value="Adoptable" ${currentChildData.status === 'Adoptable' ? 'selected' : ''}>Adoptable</option>
+                        <option value="Adopted" ${currentChildData.status === 'Adopted' ? 'selected' : ''}>Adopted</option>
+                        <option value="Reintegrated" ${currentChildData.status === 'Reintegrated' ? 'selected' : ''}>Reintegrated</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Date of Birth</label>
+                    <input type="date" id="editBirthDate" name="editBirthDate" value="${currentChildData.date_of_birth || ''}" class="form-input">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Entry Date</label>
+                    <input type="date" id="editEntryDate" name="editEntryDate" value="${currentChildData.entry_date || ''}" class="form-input">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Address</label>
+                    <textarea id="editAddress" name="editAddress" class="form-textarea">${currentChildData.address || ''}</textarea>
+                </div>
             </div>
-            <div class="form-group">
-                <label class="form-label">Gender *</label>
-                <select id="editGender" class="form-select" required>
-                    <option value="Male" ${currentChildData.gender === 'Male' ? 'selected' : ''}>Male</option>
-                    <option value="Female" ${currentChildData.gender === 'Female' ? 'selected' : ''}>Female</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label class="form-label">Status *</label>
-                <select id="editStatus" class="form-select" required>
-                    <option value="In Care" ${currentChildData.status === 'In Care' ? 'selected' : ''}>In Care</option>
-                    <option value="Adoptable" ${currentChildData.status === 'Adoptable' ? 'selected' : ''}>Adoptable</option>
-                    <option value="Adopted" ${currentChildData.status === 'Adopted' ? 'selected' : ''}>Adopted</option>
-                    <option value="Reintegrated" ${currentChildData.status === 'Reintegrated' ? 'selected' : ''}>Reintegrated</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label class="form-label">Date of Birth</label>
-                <input type="date" id="editBirthDate" value="${currentChildData.date_of_birth || ''}" class="form-input">
-            </div>
-            <div class="form-group">
-                <label class="form-label">Entry Date</label>
-                <input type="date" id="editEntryDate" value="${currentChildData.entry_date || ''}" class="form-input">
-            </div>
-            <div class="form-group">
-                <label class="form-label">Address</label>
-                <textarea id="editAddress" class="form-textarea">${currentChildData.address || ''}</textarea>
-            </div>
-        </div>
-    `;
+        `;
+    }
     
-    // Health Tab Edit Form
+    // 2. Health Tab Edit Form
     const healthTab = document.getElementById('healthTab');
-    healthTab.innerHTML = `
-        <div class="edit-form">
-            <div class="form-group">
-                <label class="form-label">Health Status</label>
-                <input type="text" id="editHealthStatus" value="${currentChildData.health_status || ''}" class="form-input">
+    if (healthTab) {
+        healthTab.innerHTML = `
+            <div class="edit-form">
+                <div class="form-group">
+                    <label class="form-label">Health Status</label>
+                    <input type="text" id="editHealthStatus" name="editHealthStatus" value="${currentChildData.health_status || ''}" class="form-input">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Allergies</label>
+                    <textarea id="editAllergies" name="editAllergies" class="form-textarea">${currentChildData.allergies || ''}</textarea>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Emergency Contact</label>
+                    <input type="text" id="editEmergencyContact" name="editEmergencyContact" value="${currentChildData.emergency_contact || ''}" class="form-input">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Problem Description</label>
+                    <textarea id="editProblemDescription" name="editProblemDescription" class="form-textarea">${currentChildData.problem_description || ''}</textarea>
+                </div>
             </div>
-            <div class="form-group">
-                <label class="form-label">Allergies</label>
-                <textarea id="editAllergies" class="form-textarea">${currentChildData.allergies || ''}</textarea>
+        `;
+    }
+
+        // 3. Vaccine Tab Edit Form
+    const vaccineTab = document.getElementById('vaccineTab');
+    if (vaccineTab) {
+        // Helper function to check if vaccine is marked as completed
+        const isVaccineCompleted = (vaccineField) => {
+            if (!currentChildData[vaccineField]) return false;
+            
+            const value = currentChildData[vaccineField];
+            // Check for multiple possible true values
+            return value == 1 || 
+                value === true || 
+                value === '1' ||
+                value === 1 ||
+                (typeof value === 'string' && value.toLowerCase() === 'true');
+        };
+        
+        vaccineTab.innerHTML = `
+            <div class="edit-form">
+                <h4 style="color: #3b82f6; margin-bottom: 15px; padding-bottom: 8px; border-bottom: 1px solid #3a3a3a;">Vaccination Records</h4>
+                
+                <div class="form-group">
+                    <label class="form-label" style="margin-bottom: 10px;">Vaccines Received:</label>
+                    <div class="vaccine-checkboxes" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px;">
+                        <div class="checkbox-option" style="display: flex; align-items: center; margin-bottom: 8px;">
+                            <input type="checkbox" id="editVaccineBcg" ${isVaccineCompleted('vaccine_bcg') ? 'checked' : ''} style="margin-right: 8px;">
+                            <label for="editVaccineBcg" style="margin: 0;">BCG (Tuberculosis)</label>
+                        </div>
+                        <div class="checkbox-option" style="display: flex; align-items: center; margin-bottom: 8px;">
+                            <input type="checkbox" id="editVaccineHepb" ${isVaccineCompleted('vaccine_hepb') ? 'checked' : ''} style="margin-right: 8px;">
+                            <label for="editVaccineHepb" style="margin: 0;">Hepatitis B</label>
+                        </div>
+                        <div class="checkbox-option" style="display: flex; align-items: center; margin-bottom: 8px;">
+                            <input type="checkbox" id="editVaccineDtap" ${isVaccineCompleted('vaccine_dtap') ? 'checked' : ''} style="margin-right: 8px;">
+                            <label for="editVaccineDtap" style="margin: 0;">DTaP (Diphtheria, Tetanus, Pertussis)</label>
+                        </div>
+                        <div class="checkbox-option" style="display: flex; align-items: center; margin-bottom: 8px;">
+                            <input type="checkbox" id="editVaccinePolio" ${isVaccineCompleted('vaccine_polio') ? 'checked' : ''} style="margin-right: 8px;">
+                            <label for="editVaccinePolio" style="margin: 0;">Polio (IPV/OPV)</label>
+                        </div>
+                        <div class="checkbox-option" style="display: flex; align-items: center; margin-bottom: 8px;">
+                            <input type="checkbox" id="editVaccinePcv" ${isVaccineCompleted('vaccine_pcv') ? 'checked' : ''} style="margin-right: 8px;">
+                            <label for="editVaccinePcv" style="margin: 0;">PCV (Pneumococcal)</label>
+                        </div>
+                        <div class="checkbox-option" style="display: flex; align-items: center; margin-bottom: 8px;">
+                            <input type="checkbox" id="editVaccineRota" ${isVaccineCompleted('vaccine_rota') ? 'checked' : ''} style="margin-right: 8px;">
+                            <label for="editVaccineRota" style="margin: 0;">Rotavirus</label>
+                        </div>
+                        <div class="checkbox-option" style="display: flex; align-items: center; margin-bottom: 8px;">
+                            <input type="checkbox" id="editVaccineMeasles" ${isVaccineCompleted('vaccine_measles') ? 'checked' : ''} style="margin-right: 8px;">
+                            <label for="editVaccineMeasles" style="margin: 0;">Measles</label>
+                        </div>
+                        <div class="checkbox-option" style="display: flex; align-items: center; margin-bottom: 8px;">
+                            <input type="checkbox" id="editVaccineVaricella" ${isVaccineCompleted('vaccine_varicella') ? 'checked' : ''} style="margin-right: 8px;">
+                            <label for="editVaccineVaricella" style="margin: 0;">Varicella (Chickenpox)</label>
+                        </div>
+                        <div class="checkbox-option" style="display: flex; align-items: center; margin-bottom: 8px;">
+                            <input type="checkbox" id="editVaccineHepa" ${isVaccineCompleted('vaccine_hepa') ? 'checked' : ''} style="margin-right: 8px;">
+                            <label for="editVaccineHepa" style="margin: 0;">Hepatitis A</label>
+                        </div>
+                        <div class="checkbox-option" style="display: flex; align-items: center; margin-bottom: 8px;">
+                            <input type="checkbox" id="editVaccineMmr" ${isVaccineCompleted('vaccine_mmr') ? 'checked' : ''} style="margin-right: 8px;">
+                            <label for="editVaccineMmr" style="margin: 0;">MMR (Measles, Mumps, Rubella)</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Other Vaccines (not listed above)</label>
+                    <input type="text" id="editVaccineOther" class="form-input" 
+                        value="${currentChildData.vaccine_other || ''}" placeholder="List other vaccines here...">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Vaccination Notes</label>
+                    <textarea id="editVaccineNotes" class="form-textarea" rows="3" placeholder="Additional notes about vaccination...">${currentChildData.vaccine_notes || ''}</textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Overall Vaccination Status</label>
+                    <select id="editVaccinationStatus" class="form-select">
+                        <option value="">Select Status</option>
+                        <option value="Up to Date" ${currentChildData.vaccination_status === 'Up to Date' ? 'selected' : ''}>Up to Date</option>
+                        <option value="Partially Vaccinated" ${currentChildData.vaccination_status === 'Partially Vaccinated' ? 'selected' : ''}>Partially Vaccinated</option>
+                        <option value="Not Vaccinated" ${currentChildData.vaccination_status === 'Not Vaccinated' ? 'selected' : ''}>Not Vaccinated</option>
+                        <option value="Unknown" ${currentChildData.vaccination_status === 'Unknown' ? 'selected' : ''}>Unknown</option>
+                    </select>
+                </div>
             </div>
-            <div class="form-group">
-                <label class="form-label">Emergency Contact</label>
-                <input type="text" id="editEmergencyContact" value="${currentChildData.emergency_contact || ''}" class="form-input">
+        `;
+    }
+
+    // 4. Family Environment Tab Edit Form
+    const familyEnvTab = document.getElementById('familyEnvTab');
+    if (familyEnvTab) {
+        familyEnvTab.innerHTML = `
+            <div class="edit-form">
+                <div class="form-group">
+                    <label class="form-label">Previous Family Environment</label>
+                    <textarea id="editPreviousFamilyEnv" name="editPreviousFamilyEnv" class="form-textarea" rows="10">${currentChildData.previous_family_env || ''}</textarea>
+                </div>
             </div>
-            <div class="form-group">
-                <label class="form-label">Problem Description</label>
-                <textarea id="editProblemDescription" class="form-textarea">${currentChildData.problem_description || ''}</textarea>
-            </div>
-        </div>
-    `;
+        `;
+    }
     
-    // Educational Tab Edit Form
+    // 5. Educational Tab Edit Form
     const educationalTab = document.getElementById('educationalTab');
-    educationalTab.innerHTML = `
-        <div class="edit-form">
-            <div class="form-group">
-                <label class="form-label">Additional Notes</label>
-                <textarea id="editNotes" class="form-textarea">${currentChildData.notes || ''}</textarea>
+    if (educationalTab) {
+        educationalTab.innerHTML = `
+            <div class="edit-form">
+                <div class="form-group">
+                    <label class="form-label">Additional Notes</label>
+                    <textarea id="editNotes" name="editNotes" class="form-textarea">${currentChildData.notes || ''}</textarea>
+                </div>
             </div>
-        </div>
-    `;
+        `;
+    }
     
-    // Family Tab Edit Form
+    // 6. Family Tab Edit Form
     const familyTab = document.getElementById('familyTab');
-    familyTab.innerHTML = `
-        <div class="edit-form">
-            <div class="info-section">
-                <h4>Identifying Information</h4>
-                <div class="form-group">
-                    <label class="form-label">Civil Status</label>
-                    <input type="text" id="editCivilStatus" value="${currentChildData.civil_status || ''}" class="form-input">
+    if (familyTab) {
+        familyTab.innerHTML = `
+            <div class="edit-form">
+                <div class="info-section">
+                    <h4>Identifying Information</h4>
+                    <div class="form-group">
+                        <label class="form-label">Civil Status</label>
+                        <input type="text" id="editCivilStatus" name="editCivilStatus" value="${currentChildData.civil_status || ''}" class="form-input">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Birth Place</label>
+                        <input type="text" id="editBirthPlace" name="editBirthPlace" value="${currentChildData.birth_place || ''}" class="form-input">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Educational Attainment</label>
+                        <input type="text" id="editEducationalAttainment" name="editEducationalAttainment" value="${currentChildData.educational_attainment || ''}" class="form-input">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Occupation</label>
+                        <input type="text" id="editOccupation" name="editOccupation" value="${currentChildData.occupation || ''}" class="form-input">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Monthly Income</label>
+                        <input type="text" id="editMonthlyIncome" name="editMonthlyIncome" value="${currentChildData.monthly_income || ''}" class="form-input">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Religion</label>
+                        <input type="text" id="editReligion" name="editReligion" value="${currentChildData.religion || ''}" class="form-input">
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label class="form-label">Birth Place</label>
-                    <input type="text" id="editBirthPlace" value="${currentChildData.birth_place || ''}" class="form-input">
+                
+                <div class="info-section" style="margin-top: 20px;">
+                    <h4>Problem Presented</h4>
+                    <div class="form-group">
+                        <textarea id="editProblemPresented" name="editProblemPresented" class="form-textarea">${currentChildData.problem_presented || ''}</textarea>
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label class="form-label">Educational Attainment</label>
-                    <input type="text" id="editEducationalAttainment" value="${currentChildData.educational_attainment || ''}" class="form-input">
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Occupation</label>
-                    <input type="text" id="editOccupation" value="${currentChildData.occupation || ''}" class="form-input">
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Monthly Income</label>
-                    <input type="text" id="editMonthlyIncome" value="${currentChildData.monthly_income || ''}" class="form-input">
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Religion</label>
-                    <input type="text" id="editReligion" value="${currentChildData.religion || ''}" class="form-input">
+                
+                <div class="info-section" style="margin-top: 20px;">
+                    <h4>Assessment & Recommendation</h4>
+                    <div class="form-group">
+                        <textarea id="editAssessmentRecommendation" name="editAssessmentRecommendation" class="form-textarea">${currentChildData.assessment_recommendation || ''}</textarea>
+                    </div>
                 </div>
             </div>
-            
-            <div class="info-section" style="margin-top: 20px;">
-                <h4>Problem Presented</h4>
-                <div class="form-group">
-                    <textarea id="editProblemPresented" class="form-textarea">${currentChildData.problem_presented || ''}</textarea>
-                </div>
-            </div>
-            
-            <div class="info-section" style="margin-top: 20px;">
-                <h4>Assessment & Recommendation</h4>
-                <div class="form-group">
-                    <textarea id="editAssessmentRecommendation" class="form-textarea">${currentChildData.assessment_recommendation || ''}</textarea>
-                </div>
-            </div>
-        </div>
-    `;
+        `;
+    }
+    
+    // 7. Custom Tab Edit Form (if applicable)
+    const customTab = document.getElementById('customTab');
+    if (customTab && currentChildData.custom_fields) {
+        // You would need to implement custom field editing here
+        customTab.innerHTML = `<div class="edit-form"><p>Custom fields editing not yet implemented</p></div>`;
+    }
     
     // Restore the active tab
     setTimeout(() => {
+        // First deactivate all
         document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
         document.querySelectorAll('.tab-pane').forEach(pane => pane.classList.remove('active'));
         
-        const tabName = activeTab.replace('Tab', '');
-        document.querySelector(`[onclick="switchTab('${tabName}')"]`).classList.add('active');
-        document.getElementById(activeTab).classList.add('active');
+        // Find and activate the tab button for the active tab
+        const tabButton = document.querySelector(`[onclick*="switchTab('${activeTabName}')"], [onclick*='switchTab("${activeTabName}")']`);
+        if (tabButton) {
+            tabButton.classList.add('active');
+        } else {
+            // Fallback to first tab button
+            document.querySelector('.tab-btn').classList.add('active');
+        }
+        
+        // Activate the correct tab content
+        const activeTabContent = document.getElementById(activeTabName + 'Tab');
+        if (activeTabContent) {
+            activeTabContent.classList.add('active');
+        } else {
+            // Fallback to first tab content
+            document.querySelector('.tab-pane').classList.add('active');
+        }
+        
+        // DEBUG: Check if all form elements are created
+        checkFormElements();
     }, 100);
 }
 
 function saveChildChanges() {
     if (!currentChildId || isSaving) return;
     
-    // Collect all edited data
+    // Collect all edited data - FIXED: Correct field names that match the AJAX endpoint
     const updatedData = {
         age: document.getElementById('editAge').value,
         gender: document.getElementById('editGender').value,
@@ -1731,8 +2080,28 @@ function saveChildChanges() {
         monthly_income: document.getElementById('editMonthlyIncome')?.value || '',
         religion: document.getElementById('editReligion')?.value || '',
         problem_presented: document.getElementById('editProblemPresented')?.value || '',
-        assessment_recommendation: document.getElementById('editAssessmentRecommendation')?.value || ''
+        assessment_recommendation: document.getElementById('editAssessmentRecommendation')?.value || '',
+        // Vaccine fields - FIXED: These names must match what the AJAX endpoint expects
+        vaccine_bcg: document.getElementById('editVaccineBcg')?.checked ? 1 : 0,
+        vaccine_hepb: document.getElementById('editVaccineHepb')?.checked ? 1 : 0,
+        vaccine_dtap: document.getElementById('editVaccineDtap')?.checked ? 1 : 0,
+        vaccine_polio: document.getElementById('editVaccinePolio')?.checked ? 1 : 0,
+        vaccine_pcv: document.getElementById('editVaccinePcv')?.checked ? 1 : 0,
+        vaccine_rota: document.getElementById('editVaccineRota')?.checked ? 1 : 0,
+        vaccine_measles: document.getElementById('editVaccineMeasles')?.checked ? 1 : 0,
+        vaccine_varicella: document.getElementById('editVaccineVaricella')?.checked ? 1 : 0,
+        vaccine_hepa: document.getElementById('editVaccineHepa')?.checked ? 1 : 0,
+        vaccine_mmr: document.getElementById('editVaccineMmr')?.checked ? 1 : 0,
+        vaccine_other: document.getElementById('editVaccineOther')?.value || '',
+        vaccine_notes: document.getElementById('editVaccineNotes')?.value || '',
+        // Family Environment field - FIXED: This name must match the AJAX endpoint
+        previous_family_env: document.getElementById('editPreviousFamilyEnv')?.value || ''
     };
+    
+    // Debug: Log the data being sent
+    console.log('Data to save:', updatedData);
+    console.log('Vaccine BCG value:', updatedData.vaccine_bcg);
+    console.log('Family Environment value:', updatedData.previous_family_env);
     
     // Validate required fields
     if (!updatedData.age || updatedData.age < 0 || updatedData.age > 18) {
@@ -1758,9 +2127,16 @@ function saveChildChanges() {
     formData.append('action', 'update_child');
     formData.append('child_id', currentChildId);
     
+    // Add all fields to FormData
     Object.keys(updatedData).forEach(key => {
         formData.append(key, updatedData[key]);
     });
+    
+    // Debug: Log FormData contents
+    console.log('FormData entries:');
+    for (let pair of formData.entries()) {
+        console.log(pair[0] + ': ' + pair[1]);
+    }
     
     fetch('ajax-update-child.php', {
         method: 'POST',
@@ -1768,12 +2144,13 @@ function saveChildChanges() {
     })
     .then(response => response.json())
     .then(data => {
+        console.log('Save response:', data);
         isSaving = false;
         
         if (data.success) {
             showNotification('Child information updated successfully!');
             
-            // SIMPLE SOLUTION: Close modal and refresh the page after a short delay
+            // Close modal and refresh the page after a short delay
             closeModal();
             setTimeout(() => {
                 window.location.reload();
@@ -1809,7 +2186,6 @@ function addCaseForChild() {
         return;
     }
     
-   
     // Check if child already has a case
     if (currentChildData.linked_case_id) {
         showNotification('This child already has a linked case', 'info');
@@ -1827,7 +2203,8 @@ function addCaseForChild() {
     
     // Then redirect to unified registration
     setTimeout(() => {
-        window.location.href = 'unified-registration.php?child_id=' + encodeURIComponent(childId) + '&source=child_management';
+        window.location.href = 'unified-registration.php?child_id=' + encodeURIComponent(childId);
+        // Remove the &source=child_management parameter so the mode check works correctly
     }, 100);
 }
 
@@ -1867,14 +2244,48 @@ function closeModal(event) {
     currentChildData = null;
 }
 
-function switchTab(tabName) {
+function switchTab(tabName, event = null) {
     // Remove active class from all tabs and panes
     document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
     document.querySelectorAll('.tab-pane').forEach(pane => pane.classList.remove('active'));
     
-    // Add active class to clicked tab and corresponding pane
-    event.target.classList.add('active');
-    document.getElementById(tabName + 'Tab').classList.add('active');
+    // Add active class to clicked tab (if event exists)
+    if (event && event.target) {
+        event.target.classList.add('active');
+    } else {
+        // Find the tab button and activate it
+        const tabButton = document.querySelector(`[onclick*="switchTab('${tabName}')"], [onclick*='switchTab("${tabName}")']`);
+        if (tabButton) {
+            tabButton.classList.add('active');
+        }
+    }
+    
+    // In edit mode, tab IDs might have 'Tab' suffix or be edit forms
+    // Try multiple possible element IDs
+    let tabElement = null;
+    
+    // First try the regular tab ID (for view mode)
+    tabElement = document.getElementById(tabName + 'Tab');
+    
+    // If not found, check if we're in edit mode and try to find any active content
+    if (!tabElement) {
+        // Look for any tab pane that's visible (in edit mode, content might be different)
+        const visiblePane = document.querySelector('.tab-pane');
+        if (visiblePane) {
+            tabElement = visiblePane;
+        }
+    }
+    
+    if (tabElement) {
+        tabElement.classList.add('active');
+    } else {
+        console.error('Tab content not found for:', tabName);
+        // Fallback: show the basic info tab
+        const basicTab = document.getElementById('basicTab') || document.querySelector('.tab-pane');
+        if (basicTab) {
+            basicTab.classList.add('active');
+        }
+    }
 }
 
 function loadChildDetails(childId) {
@@ -1939,6 +2350,35 @@ window.enableEditMode = enableEditMode;
 window.addCaseForChild = addCaseForChild;
 window.closeModal = closeModal;
 window.showNotification = showNotification;
+
+// Debug function to check edit form elements
+function debugEditForm() {
+    console.group('=== EDIT FORM DEBUG ===');
+    
+    // Check vaccine checkboxes
+    console.log('Vaccine BCG checkbox:', document.getElementById('editVaccineBcg'));
+    console.log('Vaccine HepB checkbox:', document.getElementById('editVaccineHepb'));
+    console.log('Vaccine BCG checked:', document.getElementById('editVaccineBcg')?.checked);
+    console.log('Vaccine HepB checked:', document.getElementById('editVaccineHepb')?.checked);
+    
+    // Check Family Environment textarea
+    const familyEnvTextarea = document.getElementById('editPreviousFamilyEnv');
+    console.log('Family Environment textarea:', familyEnvTextarea);
+    if (familyEnvTextarea) {
+        console.log('Family Environment value:', familyEnvTextarea.value);
+        console.log('Family Environment length:', familyEnvTextarea.value.length);
+    }
+    
+    // Test getting values
+    const testData = {
+        vaccine_bcg: document.getElementById('editVaccineBcg')?.checked ? 1 : 0,
+        vaccine_hepb: document.getElementById('editVaccineHepb')?.checked ? 1 : 0,
+        previous_family_env: document.getElementById('editPreviousFamilyEnv')?.value || ''
+    };
+    console.log('Test data:', testData);
+    
+    console.groupEnd();
+}
 </script>
 
 <?php require_once 'includes/footer.php'; ?>
